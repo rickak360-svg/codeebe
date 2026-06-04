@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LeadStatus {
+  new
+  contacted
+  meeting_scheduled
+  proposal_sent
+  converted
+  lost
+}
+
+enum LeadSource {
+  estimate
+  contact
+}
+
+enum ServiceKind {
+  card
+  badge
+}
+
+model Lead {
+  id          String      @id @default(uuid())
+  fullName    String
+  email       String
+  phone       String
+  companyName String?
+  projectType String
+  description String
+  features    String[]
+  timeline    String
+  budgetRange String?
+  source      LeadSource?
+  status      LeadStatus  @default(new)
+  createdAt   DateTime    @default(now())
+  estimate    Json?
+
+  @@index([createdAt(sort: Desc)])
+  @@index([email])
+}
+
+model ShowcaseProject {
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  name             String
+  category         String
+  shortDescription String
+  techStack        String[]
+  overview         String
+  problemSolved    String
+  keyFeatures      String[]
+  businessValue    String
+  costRange        String
+  published        Boolean  @default(true)
+  sortOrder        Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([published, sortOrder])
+  @@index([sortOrder])
+}
+
+model TeamMember {
+  id          String   @id @default(uuid())
+  name        String
+  role        String
+  bio         String
+  imageUrl    String?
+  linkedInUrl String?
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, sortOrder])
+  @@index([sortOrder])
+}
+
+model ServiceItem {
+  id          String      @id @default(uuid())
+  kind        ServiceKind @default(card)
+  title       String
+  description String      @default("")
+  published   Boolean     @default(true)
+  sortOrder   Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([kind, published, sortOrder])
+  @@index([sortOrder])
+}

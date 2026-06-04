@@ -1,0 +1,31 @@
+{
+  "name": "codeebe",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Codeebe monorepo — Next.js web, React admin, NestJS API",
+  "scripts": {
+    "predev": "pnpm --filter @codeebe/queue build",
+    "dev": "pnpm run --parallel dev",
+    "dev:web": "pnpm --filter @codeebe/web dev",
+    "dev:admin": "pnpm --filter @codeebe/admin dev",
+    "dev:api": "pnpm --filter @codeebe/api dev",
+    "dev:worker": "pnpm --filter @codeebe/worker dev",
+    "build": "pnpm --filter @codeebe/queue build && pnpm run -r --filter !@codeebe/queue build",
+    "build:web": "pnpm --filter @codeebe/web build",
+    "build:admin": "pnpm --filter @codeebe/admin build",
+    "build:api": "pnpm --filter @codeebe/api build",
+    "build:worker": "pnpm --filter @codeebe/worker build",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose stop postgres",
+    "db:migrate": "pnpm --filter @codeebe/api prisma:migrate",
+    "db:seed": "pnpm --filter @codeebe/api prisma:seed",
+    "redis:up": "docker compose up -d redis",
+    "redis:down": "docker compose down",
+    "env:setup": "node scripts/setup-env.mjs",
+    "lint": "pnpm run -r lint"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.8.0"
+}

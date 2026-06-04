@@ -1,0 +1,22 @@
+{
+  "name": "@codeebe/worker",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@codeebe/queue": "workspace:*",
+    "bullmq": "^5.40.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  }
+}
