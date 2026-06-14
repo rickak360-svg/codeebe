@@ -588,17 +588,7 @@ details.landing-faq > summary::-webkit-details-marker {
 
 .landing-page .landing-trust-strip {
   border-color: var(--landing-border);
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--landing-surface) 80%, transparent),
-    transparent
-  );
-}
-
-.landing-page .landing-trust-badge {
-  border-color: var(--landing-border);
   background: var(--landing-card-bg);
-  color: var(--landing-on-surface-variant);
 }
 
 .landing-page .landing-btn-ghost {

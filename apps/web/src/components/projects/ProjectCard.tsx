@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import type { Project } from "@/lib/projects";
+import { ProjectCardActions } from "./ProjectCardActions";
 
 
 
@@ -44,17 +43,12 @@ export function ProjectCard({ project }: { project: Project }) {
 
       </div>
 
-      <Link
-
-        href={`/projects/${project.slug}`}
-
-        className="mt-5 text-sm font-medium text-[#ff6600] transition group-hover:text-[#ff8533]"
-
-      >
-
-        View Case Study →
-
-      </Link>
+      <ProjectCardActions
+        slug={project.slug}
+        name={project.name}
+        screenshots={project.screenshots}
+        variant="default"
+      />
 
     </article>
 

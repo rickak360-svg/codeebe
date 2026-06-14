@@ -220,7 +220,7 @@ function SectionHeader() {
         Services at a glance
       </h2>
       <p className="landing-lead mt-4 opacity-70">
-        From MVPs to enterprise platforms — pick a surface, we'll engineer it right.
+        From MVPs to enterprise platforms. Pick a surface, we&apos;ll engineer it right.
       </p>
     </Reveal>
   );

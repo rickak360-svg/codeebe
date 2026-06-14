@@ -7,6 +7,20 @@ import {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
+const staticScreenshotsBySlug = Object.fromEntries(
+  staticProjects
+    .filter((p) => p.screenshots && p.screenshots.length > 0)
+    .map((p) => [p.slug, p.screenshots!]),
+) as Record<string, string[]>;
+
+function withStaticScreenshots(project: Project): Project {
+  const screenshots = project.screenshots?.length
+    ? project.screenshots
+    : staticScreenshotsBySlug[project.slug];
+
+  return screenshots ? { ...project, screenshots } : project;
+}
+
 export type Project = PublicShowcaseProject;
 
 async function fetchFromApi<T>(path: string): Promise<T | null> {
@@ -23,13 +37,13 @@ async function fetchFromApi<T>(path: string): Promise<T | null> {
 
 export async function getProjects(): Promise<Project[]> {
   const fromApi = await fetchFromApi<Project[]>("/projects");
-  if (fromApi && fromApi.length > 0) return fromApi;
+  if (fromApi && fromApi.length > 0) return fromApi.map(withStaticScreenshots);
   return staticProjects;
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
   const fromApi = await fetchFromApi<Project>(`/projects/${slug}`);
-  if (fromApi) return fromApi;
+  if (fromApi) return withStaticScreenshots(fromApi);
   return getStaticProject(slug);
 }
 

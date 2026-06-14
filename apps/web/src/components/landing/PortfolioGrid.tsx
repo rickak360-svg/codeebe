@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Project } from "@/lib/projects";
+import { ProjectCardActions } from "@/components/projects/ProjectCardActions";
 import { MaterialIcon } from "@/components/home/MaterialIcon";
 import { GlassCard } from "./GlassCard";
 import { Reveal } from "./Reveal";
@@ -55,13 +56,12 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
                       </span>
                     ))}
                   </div>
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="mt-5 inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-[#ff6b00] hover:gap-2 transition-all"
-                  >
-                    View case study
-                    <MaterialIcon name="arrow_forward" className="text-sm" />
-                  </Link>
+                  <ProjectCardActions
+                    slug={project.slug}
+                    name={project.name}
+                    screenshots={project.screenshots}
+                    variant="landing"
+                  />
                 </GlassCard>
               </motion.div>
             </StaggerItem>

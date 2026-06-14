@@ -91,6 +91,8 @@ export type PublicShowcaseProject = {
   keyFeatures: string[];
   businessValue: string;
   costRange: string;
+  /** Public URLs for project UI screenshots shown in the portfolio gallery. */
+  screenshots?: string[];
 };
 
 export type ShowcaseProject = PublicShowcaseProject & {

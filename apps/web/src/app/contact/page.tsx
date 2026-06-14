@@ -15,7 +15,6 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Let's"
         titleAccent="talk"
-        description="Tell us about your project or book a call — we typically respond within one business day."
       />
 
       <div className="mt-12 grid gap-12 lg:grid-cols-2">
@@ -50,7 +49,7 @@ export default function ContactPage() {
           <div className="card-surface p-6">
             <h3 className="font-semibold text-white">WhatsApp</h3>
             <p className="mt-2 text-sm text-zinc-400">
-              Chat with us on WhatsApp (update number in env).
+              Chat with us on WhatsApp for quick project questions.
             </p>
             <a
               href={siteConfig.whatsappUrl}

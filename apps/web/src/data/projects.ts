@@ -9,6 +9,7 @@ export type Project = {
   keyFeatures: string[];
   businessValue: string;
   costRange: string;
+  screenshots?: string[];
 };
 
 export const projects: Project[] = [
@@ -33,6 +34,16 @@ export const projects: Project[] = [
     businessValue:
       "Increased session time and repeat visits through structured engagement loops around cricket events.",
     costRange: "₹3,00,000 – ₹8,00,000",
+    screenshots: [
+      "/projects/cricrumble/01-homepage-match-feed.png",
+      "/projects/cricrumble/02-choose-champion-onboarding.png",
+      "/projects/cricrumble/03-forge-identity-onboarding.png",
+      "/projects/cricrumble/04-dashboard-arena-festival.png",
+      "/projects/cricrumble/05-battles-lobby.png",
+      "/projects/cricrumble/06-community-dashboard.png",
+      "/projects/cricrumble/07-live-match-scorecard.png",
+      "/projects/cricrumble/08-live-scoreboard.png",
+    ],
   },
   {
     slug: "influventure",
@@ -55,6 +66,16 @@ export const projects: Project[] = [
     businessValue:
       "Faster campaign launches and clearer ROI visibility for marketing teams.",
     costRange: "₹2,50,000 – ₹7,00,000",
+    screenshots: [
+      "/projects/influventure/01-homepage-hero.png",
+      "/projects/influventure/02-campaign-visuals-hero.png",
+      "/projects/influventure/03-authenticity-signals.png",
+      "/projects/influventure/04-platform-infrastructure.png",
+      "/projects/influventure/05-trust-payments-compliance.png",
+      "/projects/influventure/06-create-account.png",
+      "/projects/influventure/07-buyer-dashboard.png",
+      "/projects/influventure/08-category-marketplace.png",
+    ],
   },
   {
     slug: "scanpubs",
@@ -99,6 +120,16 @@ export const projects: Project[] = [
     businessValue:
       "More qualified inbound leads and 24/7 visibility for rental services.",
     costRange: "₹60,000 – ₹2,00,000",
+    screenshots: [
+      "/projects/shubh-safar-car-rental/01-homepage-booking-hero.png",
+      "/projects/shubh-safar-car-rental/02-fleet-page.png",
+      "/projects/shubh-safar-car-rental/03-fleet-grid.png",
+      "/projects/shubh-safar-car-rental/04-travel-comfort-hero.png",
+      "/projects/shubh-safar-car-rental/05-how-it-works.png",
+      "/projects/shubh-safar-car-rental/06-book-now-contact.png",
+      "/projects/shubh-safar-car-rental/07-car-owner-partnership.png",
+      "/projects/shubh-safar-car-rental/08-partnership-steps.png",
+    ],
   },
   {
     slug: "weboku-agency",
@@ -121,6 +152,16 @@ export const projects: Project[] = [
     businessValue:
       "Stronger inbound pipeline and improved trust during sales conversations.",
     costRange: "₹25,000 – ₹80,000",
+    screenshots: [
+      "/projects/weboku-agency/01-homepage-hero.png",
+      "/projects/weboku-agency/02-meta-google-ads-hero.png",
+      "/projects/weboku-agency/03-proven-results-case-study.png",
+      "/projects/weboku-agency/04-case-studies-section.png",
+      "/projects/weboku-agency/05-digital-marketing-process.png",
+      "/projects/weboku-agency/06-growth-strategy-engine.png",
+      "/projects/weboku-agency/07-portfolio-page.png",
+      "/projects/weboku-agency/08-blog-page.png",
+    ],
   },
   {
     slug: "sthulas-ecommerce",
@@ -143,6 +184,16 @@ export const projects: Project[] = [
     businessValue:
       "Expanded sales channels and easier inventory presentation for customers.",
     costRange: "₹50,000 – ₹1,50,000",
+    screenshots: [
+      "/projects/sthulas-ecommerce/01-homepage-hero.png",
+      "/projects/sthulas-ecommerce/02-collections-grid.png",
+      "/projects/sthulas-ecommerce/03-finest-handicrafts.png",
+      "/projects/sthulas-ecommerce/04-trend-wear-hero.png",
+      "/projects/sthulas-ecommerce/05-bamboo-craft.png",
+      "/projects/sthulas-ecommerce/06-featured-products.png",
+      "/projects/sthulas-ecommerce/07-sale-subscribe.png",
+      "/projects/sthulas-ecommerce/08-new-arrivals.png",
+    ],
   },
   {
     slug: "leatherkart-ecommerce",
@@ -165,6 +216,16 @@ export const projects: Project[] = [
     businessValue:
       "Higher perceived brand value and improved conversion on high-ticket items.",
     costRange: "₹80,000 – ₹2,00,000",
+    screenshots: [
+      "/projects/leatherkart-ecommerce/01-homepage-hero.png",
+      "/projects/leatherkart-ecommerce/02-home-decor-categories.png",
+      "/projects/leatherkart-ecommerce/03-promotional-banners.png",
+      "/projects/leatherkart-ecommerce/04-australian-owned-banner.png",
+      "/projects/leatherkart-ecommerce/05-kids-footwear-hero.png",
+      "/projects/leatherkart-ecommerce/06-product-categories-grid.png",
+      "/projects/leatherkart-ecommerce/07-womens-tote-new-arrivals.png",
+      "/projects/leatherkart-ecommerce/08-our-products-carousel.png",
+    ],
   },
   {
     slug: "dream-drive-car-rental",

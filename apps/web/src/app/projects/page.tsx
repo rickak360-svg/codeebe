@@ -18,7 +18,7 @@ export default async function ProjectsPage() {
         eyebrow="Portfolio"
         title="Our"
         titleAccent="projects"
-        description="Explore platforms, stores, and tools we've delivered — synced from the Codeebe API."
+        description="Explore platforms, stores, and tools we've delivered, synced from the Codeebe API."
       />
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (

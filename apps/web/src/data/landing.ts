@@ -5,30 +5,6 @@ export const heroTrustBadges = [
   { icon: "handshake", label: "Consultation ready" },
 ] as const;
 
-/** Hero collage — /public/hero (2×2 bento grid) */
-export const heroShowcaseImages = [
-  {
-    src: "/hero/showcase-top-left.png",
-    alt: "Website design on desktop monitor",
-    slot: "top-left",
-  },
-  {
-    src: "/hero/showcase-top-right.png",
-    alt: "Client dashboard on laptop",
-    slot: "top-right",
-  },
-  {
-    src: "/hero/showcase-bottom-left.png",
-    alt: "Portfolio website on laptop",
-    slot: "bottom-left",
-  },
-  {
-    src: "/hero/showcase-bottom-right.png",
-    alt: "SRS and quotation workflow on tablet",
-    slot: "bottom-right",
-  },
-] as const;
-
 export const trustMarqueeItems = [
   "React",
   "Next.js",
