@@ -1,5 +1,6 @@
 import { HeroPremium } from "@/components/landing/HeroPremium";
 import { TrustMarquee } from "@/components/landing/TrustMarquee";
+import { BentoGrid } from "@/components/landing/BentoGrid";
 import { ExpertiseSection } from "@/components/landing/ExpertiseSection";
 import { WhyCodeebeSection } from "@/components/landing/WhyCodeebeSection";
 import { ProcessTimeline } from "@/components/landing/ProcessTimeline";
@@ -26,6 +27,7 @@ export default async function HomePage() {
     <div className="landing-page font-[family-name:var(--font-family-body)] selection:bg-[#ff6b00] selection:text-[#1a0a00]">
       <HeroPremium />
       <TrustMarquee />
+      <BentoGrid />
       <ExpertiseSection />
       <WhyCodeebeSection />
       <ProcessTimeline />
