@@ -15,7 +15,10 @@ export function HeroPremium() {
   const [briefOpen, setBriefOpen] = useState(false);
 
   return (
-    <section className="relative isolate overflow-hidden border-b border-[var(--landing-border-subtle)] bg-[var(--landing-surface-lowest)] pt-[7.5rem] sm:pt-[8.75rem]">
+    <section
+      id="hero"
+      className="relative isolate overflow-hidden border-b border-[var(--landing-border-subtle)] bg-[var(--landing-surface-lowest)] pt-[7.5rem] sm:pt-[8.75rem]"
+    >
       <LandingBackdrop glowRight subtle />
 
       <SiteContainer className="relative z-10 pb-12 pt-5 md:pb-16 md:pt-9 lg:pb-20 lg:pt-11">

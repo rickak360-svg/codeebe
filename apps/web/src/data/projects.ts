@@ -164,6 +164,170 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "era-digiti",
+    name: "Era Digiti",
+    category: "Digital Marketing Agency",
+    shortDescription:
+      "Digital marketing agency portfolio showcasing services, case work, and lead capture.",
+    techStack: ["WordPress", "Custom Theme", "PHP", "SEO"],
+    overview:
+      "Era Digiti is a digital marketing agency portfolio built to present services, credibility signals, and completed work in a polished brand experience.",
+    problemSolved:
+      "The agency needed a professional web presence that communicates expertise across SEO, social, and design while converting visitors into inquiries.",
+    keyFeatures: [
+      "Service & solutions pages",
+      "About and trust metrics",
+      "Project portfolio grid",
+      "Newsletter signup",
+      "Mobile-responsive UI",
+    ],
+    businessValue:
+      "Stronger brand positioning and a clearer path from discovery to consultation requests.",
+    costRange: "₹25,000 – ₹80,000",
+    screenshots: [
+      "/projects/era-digiti/01-homepage-hero.png",
+      "/projects/era-digiti/02-about-us.png",
+      "/projects/era-digiti/03-stats-banner.png",
+      "/projects/era-digiti/04-services-overview.png",
+      "/projects/era-digiti/05-solutions-grid.png",
+      "/projects/era-digiti/06-service-page-hero.png",
+      "/projects/era-digiti/07-projects-portfolio.png",
+      "/projects/era-digiti/08-newsletter.png",
+    ],
+  },
+  {
+    slug: "real-estate-portfolio",
+    name: "Real Estate Portfolio",
+    category: "Real Estate / Investment",
+    shortDescription:
+      "Distressed asset turnaround and redevelopment portfolio (in development).",
+    techStack: ["Next.js", "Tailwind CSS", "CMS-ready"],
+    overview:
+      "A real estate investment portfolio site in development, built to present turnaround expertise, case studies, and property highlights for lenders, investors, and partners.",
+    problemSolved:
+      "The firm needed a credible web presence to communicate distressed-asset recovery, redevelopment track record, and partnership opportunities.",
+    keyFeatures: [
+      "Mission-led homepage",
+      "Our story & leadership",
+      "Performance metrics",
+      "Redevelopment case studies",
+      "Property portfolio grid",
+      "Contact & inquiry forms",
+    ],
+    businessValue:
+      "Clear positioning for distressed-asset partnerships and stronger trust during investor conversations.",
+    costRange: "In development",
+    screenshots: [
+      "/projects/real-estate-portfolio/01-homepage-hero.png",
+      "/projects/real-estate-portfolio/02-about-our-story.png",
+      "/projects/real-estate-portfolio/03-reviving-potential.png",
+      "/projects/real-estate-portfolio/04-performance-stats.png",
+      "/projects/real-estate-portfolio/05-redevelopment-projects.png",
+      "/projects/real-estate-portfolio/06-property-portfolio-grid.png",
+      "/projects/real-estate-portfolio/07-capabilities-section.png",
+      "/projects/real-estate-portfolio/08-contact.png",
+    ],
+  },
+  {
+    slug: "digiborr",
+    name: "Digiborr",
+    category: "Tech Support Agency",
+    shortDescription:
+      "Tech support and digital growth agency portfolio spanning PPC, SEO, web, and security services.",
+    techStack: ["React", "Next.js", "WordPress", "GA4 + GTM"],
+    overview:
+      "Digiborr is a tech support and growth agency portfolio built to present remote support, paid acquisition, SEO, web development, and security services in one conversion-focused experience.",
+    problemSolved:
+      "The agency needed a unified web presence that builds trust for tech support while showcasing broader digital marketing and development capabilities.",
+    keyFeatures: [
+      "Tech support landing & Telegram CTA",
+      "Services grid (PPC, SEO, SMO, video, web, security)",
+      "Growth studio & strategy pages",
+      "Industry-specific PPC funnels",
+      "Web development showcase",
+      "Performance metrics & trust signals",
+    ],
+    businessValue:
+      "Clear service positioning and stronger lead capture across support and growth offerings.",
+    costRange: "₹25,000 – ₹80,000",
+    screenshots: [
+      "/projects/digiborr/01-homepage-tech-support.png",
+      "/projects/digiborr/02-services-grid.png",
+      "/projects/digiborr/03-growth-pillars.png",
+      "/projects/digiborr/04-strategies-metrics.png",
+      "/projects/digiborr/05-tech-finance-ppc.png",
+      "/projects/digiborr/06-web-development.png",
+      "/projects/digiborr/07-services-bento.png",
+      "/projects/digiborr/08-growth-studio.png",
+    ],
+  },
+  {
+    slug: "paisa-solutions",
+    name: "Paisa Solutions",
+    category: "Finance / Loans",
+    shortDescription:
+      "Digital loan marketplace portfolio for personal, business, and secured lending.",
+    techStack: ["React", "Next.js", "Tailwind CSS", "Lead Forms"],
+    overview:
+      "Paisa Solutions is a finance agency portfolio built to help users compare loan options, apply digitally, and access transparent approval workflows across multiple loan types.",
+    problemSolved:
+      "Borrowers needed a single, trustworthy platform to explore loan products, check eligibility, and complete applications without opaque paperwork or slow turnaround.",
+    keyFeatures: [
+      "Personal loan hero & quick apply",
+      "Multi-product loan catalog",
+      "6-step application journey",
+      "Bank comparison & eligibility",
+      "Impact metrics & trust signals",
+      "Credit score guidance",
+    ],
+    businessValue:
+      "Faster lead capture and clearer conversion paths for loan products up to ₹50 lakhs.",
+    costRange: "₹50,000 – ₹1,50,000",
+    screenshots: [
+      "/projects/paisa-solutions/01-homepage-loan-hero.png",
+      "/projects/paisa-solutions/02-why-choose-us.png",
+      "/projects/paisa-solutions/03-loan-products.png",
+      "/projects/paisa-solutions/04-personal-loan-options.png",
+      "/projects/paisa-solutions/05-application-steps.png",
+      "/projects/paisa-solutions/06-about-us.png",
+      "/projects/paisa-solutions/07-impact-stats.png",
+      "/projects/paisa-solutions/08-credit-score-tips.png",
+    ],
+  },
+  {
+    slug: "namokashirudraksh",
+    name: "Namo Kashi Rudraksh",
+    category: "Indian eCommerce",
+    shortDescription:
+      "Spiritual eCommerce store for Rudraksha, puja kits, murtis, and religious products.",
+    techStack: ["WooCommerce", "WordPress", "Payment Gateway", "SEO"],
+    overview:
+      "Namo Kashi Rudraksh is an Indian eCommerce store for original Rudraksha beads, puja kits, murtis, malas, and spiritual accessories with category-led shopping and promotional offers.",
+    problemSolved:
+      "Customers needed a trusted online destination to browse authentic spiritual products by mukhi type, compare pricing, and order with clear stock and discount visibility.",
+    keyFeatures: [
+      "Multi-category catalog (Rudraksha, Puja Kit, Murtis)",
+      "Product grids with discounts & ratings",
+      "Promotional banners & combo offers",
+      "Price filter & category listings",
+      "Cart, wishlist & account flows",
+      "App download & payment integrations",
+    ],
+    businessValue:
+      "Broader reach for niche spiritual inventory and stronger conversion through structured merchandising.",
+    costRange: "₹50,000 – ₹1,50,000",
+    screenshots: [
+      "/projects/namokashirudraksh/01-homepage-hero.png",
+      "/projects/namokashirudraksh/02-popular-categories.png",
+      "/projects/namokashirudraksh/03-puja-kit-offer.png",
+      "/projects/namokashirudraksh/04-rudraksha-grid.png",
+      "/projects/namokashirudraksh/05-spiritual-stones.png",
+      "/projects/namokashirudraksh/06-hindu-murtis.png",
+      "/projects/namokashirudraksh/07-category-listing.png",
+      "/projects/namokashirudraksh/08-footer.png",
+    ],
+  },
+  {
     slug: "sthulas-ecommerce",
     name: "Sthulas eCommerce",
     category: "eCommerce",

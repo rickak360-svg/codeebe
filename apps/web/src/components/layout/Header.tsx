@@ -146,18 +146,6 @@ export function Header() {
 
               <div className="flex h-9 shrink-0 items-center justify-end gap-2">
                 <ThemeToggle className="hidden lg:inline-flex" />
-                <Link
-                  href="/contact"
-                  className="header-ghost-btn hidden h-9 items-center rounded-full px-4 text-sm font-medium transition-colors sm:inline-flex"
-                >
-                  Log in
-                </Link>
-                <Link
-                  href="/estimate"
-                  className="hidden h-9 items-center rounded-full bg-[#ff6b00] px-5 text-sm font-semibold text-[#1a0a00] transition-colors hover:bg-[#ff8533] sm:inline-flex"
-                >
-                  Try it free
-                </Link>
                 <ThemeToggle className="lg:hidden" />
                 <button
                   type="button"
@@ -207,22 +195,6 @@ export function Header() {
                     </li>
                   ))}
                 </ul>
-                <div className="mt-3 flex flex-col gap-2 border-t border-white/[0.08] pt-3">
-                  <Link
-                    href="/contact"
-                    className="rounded-full border border-white/15 py-2.5 text-center text-sm font-medium text-white"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    Log in
-                  </Link>
-                  <Link
-                    href="/estimate"
-                    className="rounded-full bg-[#ff6b00] py-2.5 text-center text-sm font-semibold text-[#1a0a00]"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    Try it free
-                  </Link>
-                </div>
               </nav>
             </div>
           </div>

@@ -7,6 +7,7 @@ import { ProcessTimeline } from "@/components/landing/ProcessTimeline";
 import { PortfolioGrid } from "@/components/landing/PortfolioGrid";
 import { FaqAccordion } from "@/components/landing/FaqAccordion";
 import { FinalCta } from "@/components/landing/FinalCta";
+import { NeedHelpButton } from "@/components/landing/NeedHelpButton";
 import { showcaseSlugs } from "@/data/landing";
 import { getProjects } from "@/lib/projects";
 import type { Project } from "@/lib/projects";
@@ -34,6 +35,7 @@ export default async function HomePage() {
       <PortfolioGrid projects={showcase.length > 0 ? showcase : projects.slice(0, 6)} />
       <FaqAccordion />
       <FinalCta />
+      <NeedHelpButton />
     </div>
   );
 }

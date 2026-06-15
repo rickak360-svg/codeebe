@@ -147,8 +147,11 @@ export const faqItems = [
 ] as const;
 
 export const showcaseSlugs = [
-  "cricrumble",
-  "influventure",
+  "era-digiti",
+  "digiborr",
+  "paisa-solutions",
+  "namokashirudraksh",
+  "real-estate-portfolio",
   "scanpubs",
   "shubh-safar-car-rental",
   "sthulas-ecommerce",
