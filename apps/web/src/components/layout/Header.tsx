@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { MaterialIcon } from "@/components/home/MaterialIcon";
 import { useReducedMotion } from "@/components/landing/useReducedMotion";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 type NavLink = {
   label: string;
@@ -144,9 +143,7 @@ export function Header() {
                 </ul>
               </nav>
 
-              <div className="flex h-9 shrink-0 items-center justify-end gap-2">
-                <ThemeToggle className="hidden lg:inline-flex" />
-                <ThemeToggle className="lg:hidden" />
+              <div className="flex h-9 shrink-0 items-center justify-end gap-2 lg:hidden">
                 <button
                   type="button"
                   className="header-theme-toggle flex h-10 w-10 items-center justify-center rounded-full transition-colors lg:hidden"
@@ -166,10 +163,6 @@ export function Header() {
             <div className="floating-header-shadow" aria-hidden />
             <div className="floating-header-pill">
               <nav className="px-4 py-3" aria-label="Mobile">
-                <div className="mb-3 flex items-center justify-between border-b border-white/[0.08] pb-3">
-                  <span className="text-sm font-medium text-[#8a756c]">Appearance</span>
-                  <ThemeToggle />
-                </div>
                 <ul className="space-y-1">
                   {navItems.map((item) => (
                     <li key={item.label}>
