@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/main.ts",
-    "build": "pnpm --filter @codeebe/queue build && tsc",
+    "prebuild": "pnpm --filter @codeebe/queue build",
+    "build": "tsc",
     "start": "node dist/main.js",
     "lint": "tsc --noEmit"
   },

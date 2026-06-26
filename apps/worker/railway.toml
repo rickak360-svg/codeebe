@@ -1,0 +1,5 @@
+[build]
+buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @codeebe/worker... build"
+
+[deploy]
+startCommand = "pnpm --filter @codeebe/worker start"
