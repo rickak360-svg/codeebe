@@ -4,8 +4,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { LeadSource, LeadStatus as DbLeadStatus, Prisma } from '@prisma/client';
+import { randomUUID } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service';
+import { MailService } from '../mail/mail.service';
+import { AiService } from '../ai/ai.service';
+import { WhatsAppService } from '../notifications/whatsapp.service';
 import { toLead } from './lead.mapper';
+import { computeLeadScore } from './lead-score.utils';
+import { generateMarketComparison, generateSRS } from './srs.generator';
 import type {
   CreateLeadInput,
   EstimateResult,
@@ -47,7 +53,12 @@ const VALID_STATUSES: LeadStatus[] = [
 
 @Injectable()
 export class LeadsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly mail: MailService,
+    private readonly ai: AiService,
+    private readonly whatsapp: WhatsAppService,
+  ) {}
 
   async create(
     input: CreateLeadInput,
@@ -55,6 +66,12 @@ export class LeadsService {
     this.validateCreate(input);
 
     const estimate = this.calculateEstimate(input);
+    const { score, label: scoreLabel } = computeLeadScore(input, estimate);
+    const srs = generateSRS(input, estimate.minPrice, estimate.maxPrice);
+    const marketComparison = generateMarketComparison(input, estimate.minPrice, estimate.maxPrice);
+    const quotationToken = randomUUID();
+    const tokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
     const row = await this.prisma.lead.create({
       data: {
         fullName: input.fullName.trim(),
@@ -69,10 +86,101 @@ export class LeadsService {
         source: input.source ? (input.source as LeadSource) : null,
         status: DbLeadStatus.new,
         estimate: estimate as unknown as Prisma.InputJsonValue,
+        srs: srs as unknown as Prisma.InputJsonValue,
+        marketComparison: marketComparison as unknown as Prisma.InputJsonValue,
+        quotationToken,
+        tokenExpiresAt,
+        score,
+        scoreLabel,
       },
     });
 
+    // Enrich the quotation with AI in the background, then email once ready so
+    // the recipient's link shows the AI version. Falls back to the templates
+    // already stored above if AI is disabled or fails.
+    void this.enrichAndNotify(row.id, input, estimate, {
+      to: row.email,
+      name: row.fullName,
+      phone: row.phone,
+      projectType: row.projectType,
+      quotationToken,
+      score,
+      scoreLabel,
+    });
+
     return { lead: toLead(row), estimate };
+  }
+
+  private async enrichAndNotify(
+    leadId: string,
+    input: CreateLeadInput,
+    estimate: EstimateResult,
+    mail: {
+      to: string;
+      name: string;
+      phone: string;
+      projectType: string;
+      quotationToken: string;
+      score: number;
+      scoreLabel: string;
+    },
+  ): Promise<void> {
+    let finalEstimate = estimate;
+    try {
+      const ai = await this.ai.generateQuotation(input, estimate);
+      if (ai) {
+        finalEstimate = ai.estimate;
+        await this.prisma.lead.update({
+          where: { id: leadId },
+          data: {
+            estimate: ai.estimate as unknown as Prisma.InputJsonValue,
+            srs: ai.srs as unknown as Prisma.InputJsonValue,
+            marketComparison:
+              ai.marketComparison as unknown as Prisma.InputJsonValue,
+          },
+        });
+      }
+    } catch (err) {
+      console.error('[AI] Quotation enrichment failed:', err);
+    }
+
+    const webUrl = process.env.WEB_URL ?? 'http://localhost:3008';
+    const quotationUrl = `${webUrl}/quotation/${mail.quotationToken}`;
+
+    this.mail
+      .sendQuotationEmail({
+        to: mail.to,
+        name: mail.name,
+        projectType: mail.projectType,
+        quotationToken: mail.quotationToken,
+        minPrice: finalEstimate.minPrice,
+        maxPrice: finalEstimate.maxPrice,
+      })
+      .catch((err) =>
+        console.error('[Mail] Failed to send quotation email:', err),
+      );
+
+    this.whatsapp
+      .notifyAdminNewLead({
+        clientName: mail.name,
+        clientPhone: mail.phone,
+        projectType: mail.projectType,
+        score: mail.score,
+        scoreLabel: mail.scoreLabel,
+        quotationUrl,
+      })
+      .catch((err) => console.error('[WhatsApp] Admin notify failed:', err));
+
+    if (process.env.WHATSAPP_NOTIFY_CLIENT === 'true') {
+      this.whatsapp
+        .notifyClientQuotation({
+          toPhone: mail.phone,
+          name: mail.name,
+          projectType: mail.projectType,
+          quotationUrl,
+        })
+        .catch((err) => console.error('[WhatsApp] Client notify failed:', err));
+    }
   }
 
   async findAll(): Promise<Lead[]> {

@@ -12,7 +12,7 @@ html.dark {
   --brand-hover: #ff8533;
   --brand-muted: rgba(255, 102, 0, 0.15);
   --brand-glow: rgba(255, 102, 0, 0.25);
-  --site-max-width: 1280px;
+  --site-max-width: 1440px;
   --header-nav-fg: #c8c6c5;
   --header-nav-fg-active: #ffffff;
   --header-nav-bg-active: rgba(255, 255, 255, 0.08);
@@ -294,6 +294,16 @@ html.light .landing-page .landing-final-cta-glow {
 .hero-px {
   padding-left: max(1rem, 2.5vw);
   padding-right: max(1rem, 2.5vw);
+}
+
+/* ── Modal scroll — hidden scrollbar, smooth momentum ───────────────────────── */
+.modal-scroll {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+.modal-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 .site-container {

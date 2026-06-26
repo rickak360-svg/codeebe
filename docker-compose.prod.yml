@@ -1,0 +1,45 @@
+# Production compose for the backend services (API + worker).
+# Postgres and Redis are external (Neon + Upstash), so they are NOT included here.
+# Provide secrets via a root `.env.prod` file or your platform's secret manager.
+#
+#   docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      API_PORT: 3001
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      REDIS_ENABLED: "true"
+      WEB_ORIGIN: ${WEB_ORIGIN}
+      ADMIN_ORIGIN: ${ADMIN_ORIGIN}
+      WEB_URL: ${WEB_URL}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SECURE: ${SMTP_SECURE}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      SMTP_FROM: ${SMTP_FROM}
+      SMTP_REPLY_TO: ${SMTP_REPLY_TO}
+      MAIL_ENABLED: "true"
+      ADMIN_NOTIFY_EMAIL: ${ADMIN_NOTIFY_EMAIL}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL}
+      AI_ENABLED: "true"
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      REDIS_URL: ${REDIS_URL}

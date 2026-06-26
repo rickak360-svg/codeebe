@@ -7,29 +7,43 @@ import type {
   Lead,
   LeadStatus,
   PublicShowcaseProject,
+  QuotationData,
   ShowcaseProject,
   UpsertShowcaseProjectPayload,
   UpsertTeamMemberPayload,
   UpsertServiceItemPayload,
   TeamMember,
+  ClientPortalItem,
   ServiceItem,
 } from "./types";
 
-export function createApiClient(baseUrl: string) {
+export interface ApiClientOptions {
+  /** Returns the current admin auth token (e.g. from localStorage), if any. */
+  getToken?: () => string | null | undefined;
+  /** Called when the API responds 401 (e.g. to clear session and redirect). */
+  onUnauthorized?: () => void;
+}
+
+export function createApiClient(baseUrl: string, options: ApiClientOptions = {}) {
   const base = baseUrl.replace(/\/$/, "");
 
   async function request<T>(
     path: string,
     init?: RequestInit,
   ): Promise<T> {
+    const token = options.getToken?.();
     const res = await fetch(`${base}${path}`, {
       ...init,
       headers: {
         "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...init?.headers,
       },
     });
     if (!res.ok) {
+      if (res.status === 401) {
+        options.onUnauthorized?.();
+      }
       const text = await res.text();
       throw new Error(text || `API request failed: ${res.status}`);
     }
@@ -37,6 +51,13 @@ export function createApiClient(baseUrl: string) {
   }
 
   return {
+    login(password: string): Promise<{ token: string }> {
+      return request<{ token: string }>("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ password }),
+      });
+    },
+
     async getHealth(): Promise<HealthResponse> {
       const res = await fetch(`${base}/health`);
       if (!res.ok) {
@@ -57,6 +78,22 @@ export function createApiClient(baseUrl: string) {
       return request<CreateLeadResponse>("/leads", {
         method: "POST",
         body: JSON.stringify(payload),
+      });
+    },
+
+    getQuotation(token: string): Promise<QuotationData> {
+      return request<QuotationData>(`/quotation/${token}`);
+    },
+
+    markInterested(token: string): Promise<{ success: boolean; message: string }> {
+      return request<{ success: boolean; message: string }>(`/quotation/${token}/interest`, {
+        method: "POST",
+      });
+    },
+
+    requestMeeting(token: string): Promise<{ success: boolean; message: string }> {
+      return request<{ success: boolean; message: string }>(`/quotation/${token}/meeting`, {
+        method: "POST",
       });
     },
 
@@ -186,6 +223,17 @@ export function createApiClient(baseUrl: string) {
         `/admin/services/${id}`,
         { method: "DELETE" },
       );
+    },
+
+    getClientPortal(email: string): Promise<ClientPortalItem[]> {
+      return request<ClientPortalItem[]>("/clients/portal", {
+        method: "POST",
+        body: JSON.stringify({ email }),
+      });
+    },
+
+    quotationPdfUrl(token: string): string {
+      return `${base}/quotation/${token}/pdf`;
     },
   };
 }

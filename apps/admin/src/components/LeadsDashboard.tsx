@@ -27,6 +27,12 @@ function statusLabel(s: LeadStatus) {
   return s.replace(/_/g, " ");
 }
 
+function scoreBadge(label?: string) {
+  if (label === "hot") return "badge-hot";
+  if (label === "warm") return "badge-warm";
+  return "badge-cold";
+}
+
 export function LeadsDashboard() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
@@ -114,6 +120,7 @@ export function LeadsDashboard() {
                   <th>Email</th>
                   <th>Budget</th>
                   <th>Estimate</th>
+                  <th>Score</th>
                   <th>Status</th>
                   <th>Created</th>
                   <th />
@@ -131,6 +138,11 @@ export function LeadsDashboard() {
                       {lead.estimate
                         ? `${formatInr(lead.estimate.minPrice)} – ${formatInr(lead.estimate.maxPrice)}`
                         : "—"}
+                    </td>
+                    <td>
+                      <span className={`badge ${scoreBadge(lead.scoreLabel)}`}>
+                        {lead.scoreLabel ?? "cold"} ({lead.score ?? 0})
+                      </span>
                     </td>
                     <td>
                       <span className={`badge badge-${lead.status}`}>

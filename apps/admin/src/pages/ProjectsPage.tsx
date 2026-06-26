@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { api } from "../lib/api";
+import { publicWebUrl } from "../lib/site";
 import type { ShowcaseProject, UpsertShowcaseProjectPayload } from "@codeebe/shared";
 
 function linesToArray(text: string): string[] {
@@ -200,7 +201,7 @@ export function ProjectsPage() {
                     </td>
                     <td className="actions-cell">
                       <a
-                        href={`http://localhost:3000/projects/${p.slug}`}
+                        href={`${publicWebUrl}/projects/${p.slug}`}
                         target="_blank"
                         rel="noreferrer"
                         className="btn-link"

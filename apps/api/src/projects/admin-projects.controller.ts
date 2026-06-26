@@ -6,11 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { UpsertShowcaseProjectDto } from './dto/upsert-project.dto';
 import { ProjectsService } from './projects.service';
 import type { UpsertShowcaseProjectInput } from './types/project.types';
+import { AdminGuard } from '../auth/admin.guard';
 
+@UseGuards(AdminGuard)
 @Controller('admin/projects')
 export class AdminProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}

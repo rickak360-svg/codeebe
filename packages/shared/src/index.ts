@@ -10,6 +10,7 @@ export type {
   LeadStatus,
   ProjectType,
   PublicShowcaseProject,
+  QuotationData,
   ShowcaseProject,
   UpdateLeadStatusPayload,
   UpsertShowcaseProjectPayload,
@@ -21,4 +22,5 @@ export type {
   ServiceKind,
   ServiceItem,
   UpsertServiceItemPayload,
+  ClientPortalItem,
 } from "./types";

@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Codeebe",
   tagline: "BUILD. SCALE. DOMINATE.",
   brandOrange: "#FF6600",
-  email: "hello@codeebe.com",
+  email: "support@codeebe.com",
   calendlyUrl:
     process.env.NEXT_PUBLIC_CALENDLY_URL ?? "https://calendly.com/codeebe",
   whatsappUrl:

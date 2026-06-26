@@ -16,6 +16,12 @@ enum LeadStatus {
   lost
 }
 
+enum InterestLevel {
+  none
+  interested
+  meeting_requested
+}
+
 enum LeadSource {
   estimate
   contact
@@ -37,13 +43,24 @@ model Lead {
   features    String[]
   timeline    String
   budgetRange String?
-  source      LeadSource?
-  status      LeadStatus  @default(new)
-  createdAt   DateTime    @default(now())
-  estimate    Json?
+  source           LeadSource?
+  status           LeadStatus     @default(new)
+  interestLevel    InterestLevel  @default(none)
+  createdAt        DateTime       @default(now())
+  estimate         Json?
+  srs              Json?
+  marketComparison Json?
+  quotationToken   String?        @unique
+  tokenExpiresAt   DateTime?
+  quotationViewed  Boolean        @default(false)
+  score            Int            @default(0)
+  scoreLabel       String         @default("cold")
+  calendlyEventUri String?
 
   @@index([createdAt(sort: Desc)])
   @@index([email])
+  @@index([quotationToken])
+  @@index([score(sort: Desc)])
 }
 
 model ShowcaseProject {

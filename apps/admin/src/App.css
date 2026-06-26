@@ -279,6 +279,21 @@ code {
   color: #991b1b;
 }
 
+.badge-hot {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.badge-warm {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.badge-cold {
+  background: #e2e8f0;
+  color: #475569;
+}
+
 .drawer-backdrop {
   position: fixed;
   inset: 0;

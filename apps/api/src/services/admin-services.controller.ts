@@ -6,11 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { UpsertServiceItemDto } from './dto/upsert-service.dto';
 import { ServicesService } from './services.service';
 import type { UpsertServiceItemInput } from './types/service.types';
+import { AdminGuard } from '../auth/admin.guard';
 
+@UseGuards(AdminGuard)
 @Controller('admin/services')
 export class AdminServicesController {
   constructor(private readonly servicesService: ServicesService) {}

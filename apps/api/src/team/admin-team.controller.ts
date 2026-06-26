@@ -6,11 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { UpsertTeamMemberDto } from './dto/upsert-team.dto';
 import { TeamService } from './team.service';
 import type { UpsertTeamMemberInput } from './types/team.types';
+import { AdminGuard } from '../auth/admin.guard';
 
+@UseGuards(AdminGuard)
 @Controller('admin/team')
 export class AdminTeamController {
   constructor(private readonly teamService: TeamService) {}

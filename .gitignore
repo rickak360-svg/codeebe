@@ -1,36 +1,38 @@
-# Dependencies
-node_modules/
-
-# Build outputs
-dist/
-build/
-.next/
-out/
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Logs
-*.log
-npm-debug.log*
-pnpm-debug.log*
-
-# IDE / OS
-.idea/
-.vscode/*
-!.vscode/extensions.json
-.DS_Store
-Thumbs.db
-
-# Test / coverage
-coverage/
-
-# NestJS / worker
-apps/api/dist/
-apps/worker/dist/
-
-# Misc
-*.tsbuildinfo
-.turbo/
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+**/.env
+!**/.env.example
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# IDE / OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# Test / coverage
+coverage/
+
+# NestJS / worker
+apps/api/dist/
+apps/worker/dist/
+
+# Misc
+*.tsbuildinfo
+.turbo/

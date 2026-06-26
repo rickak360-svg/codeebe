@@ -1,23 +1,11 @@
-import { SectionHeading } from "@/components/brand/SectionHeading";
-import { EstimateForm } from "@/components/estimate/EstimateForm";
+import { EstimateLanding } from "@/components/estimate/EstimateLanding";
 
 export const metadata = {
-  title: "Instant Estimate — Codeebe",
-  description: "Get a basic project estimate in minutes.",
+  title: "Get an Instant Estimate — Codeebe",
+  description:
+    "Answer 5 quick questions and receive a detailed SRS, project estimate, and delivery roadmap — free, in under 2 minutes.",
 };
 
 export default function EstimatePage() {
-  return (
-    <div className="page-below-header mx-auto max-w-2xl px-4 pb-16 pt-8 sm:px-6 sm:pb-20">
-      <SectionHeading
-        eyebrow="Estimate"
-        title="Project requirement &"
-        titleAccent="estimate"
-        description="Share your needs and receive a transparent ballpark range. Final pricing follows a discovery call."
-      />
-      <div className="mt-10">
-        <EstimateForm />
-      </div>
-    </div>
-  );
+  return <EstimateLanding />;
 }

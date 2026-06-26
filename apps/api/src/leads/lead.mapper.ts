@@ -15,6 +15,8 @@ export function toLead(row: DbLead): Lead {
     budgetRange: row.budgetRange ?? undefined,
     source: row.source ?? undefined,
     status: row.status,
+    score: row.score,
+    scoreLabel: row.scoreLabel as 'hot' | 'warm' | 'cold',
     createdAt: row.createdAt.toISOString(),
     estimate: row.estimate
       ? (row.estimate as unknown as EstimateResult)

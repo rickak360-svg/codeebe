@@ -1,3 +1,45 @@
+export type QuotationData = {
+  id: string;
+  fullName: string;
+  projectType: string;
+  timeline: string;
+  features: string[];
+  estimate: {
+    minPrice: number;
+    maxPrice: number;
+    currency: string;
+    timelineLabel: string;
+    suggestedPackage: string;
+    summary: string;
+    notes: string[];
+    codeebeProvides: string[];
+    marketComparisonNote: string;
+  };
+  srs: {
+    title: string;
+    version: string;
+    generatedAt: string;
+    client: { name: string; email: string; phone: string };
+    overview: string;
+    scope: { included: string[]; outOfScope: string[] };
+    functionalRequirements: { id: string; title: string; description: string; priority: string }[];
+    nonFunctionalRequirements: { category: string; requirement: string }[];
+    techStack: { frontend: string; backend: string; database: string; hosting: string };
+    phases: { phase: number; name: string; duration: string; deliverables: string[] }[];
+    deliverables: string[];
+    assumptions: string[];
+  };
+  marketComparison: {
+    summary: string;
+    competitors: { name: string; priceRange: string; timeline: string; highlights: string[]; gaps: string[] }[];
+    codeebe: { priceRange: string; timeline: string; highlights: string[] };
+    whyCodeebe: string[];
+  };
+  interestLevel: "none" | "interested" | "meeting_requested";
+  expiresAt: string;
+  createdAt: string;
+};
+
 export type HealthResponse = {
   status: string;
   service: string;
@@ -67,6 +109,8 @@ export type Lead = {
   source?: "estimate" | "contact";
   status: LeadStatus;
   createdAt: string;
+  score?: number;
+  scoreLabel?: "hot" | "warm" | "cold";
   estimate?: EstimateResult;
 };
 
@@ -166,10 +210,25 @@ export type UpsertServiceItemPayload = {
   sortOrder?: number;
 };
 
+export type ClientPortalItem = {
+  id: string;
+  projectType: string;
+  status: LeadStatus;
+  score: number;
+  scoreLabel: "hot" | "warm" | "cold";
+  createdAt: string;
+  quotationToken: string | null;
+  quotationExpiresAt: string | null;
+  quotationActive: boolean;
+  minPrice: number | null;
+  maxPrice: number | null;
+};
+
 export type AdminOverview = {
   leads: {
     total: number;
     new: number;
+    hot: number;
     meetingScheduled: number;
     converted: number;
   };
@@ -191,6 +250,8 @@ export type AdminOverview = {
     email: string;
     projectType: string;
     status: LeadStatus;
+    score: number;
+    scoreLabel: string;
     createdAt: string;
   }>;
 };

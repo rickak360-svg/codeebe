@@ -24,7 +24,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
             </h2>
           </div>
           <Link
-            href="/projects"
+            href="/portfolio"
             className="landing-link inline-flex items-center gap-2 font-mono text-sm"
           >
             View all

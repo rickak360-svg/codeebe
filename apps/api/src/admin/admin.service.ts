@@ -18,6 +18,7 @@ export class AdminService {
     const [
       leadsTotal,
       leadsNew,
+      leadsHot,
       leadsMeeting,
       leadsConverted,
       projects,
@@ -27,6 +28,7 @@ export class AdminService {
     ] = await Promise.all([
       this.prisma.lead.count(),
       this.prisma.lead.count({ where: { status: LeadStatus.new } }),
+      this.prisma.lead.count({ where: { scoreLabel: 'hot' } }),
       this.prisma.lead.count({
         where: { status: LeadStatus.meeting_scheduled },
       }),
@@ -43,6 +45,8 @@ export class AdminService {
           email: true,
           projectType: true,
           status: true,
+          score: true,
+          scoreLabel: true,
           createdAt: true,
         },
       }),
@@ -52,6 +56,7 @@ export class AdminService {
       leads: {
         total: leadsTotal,
         new: leadsNew,
+        hot: leadsHot,
         meetingScheduled: leadsMeeting,
         converted: leadsConverted,
       },

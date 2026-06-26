@@ -12,7 +12,7 @@ import { useReducedMotion } from "./useReducedMotion";
 
 export function HeroPremium() {
   const reduced = useReducedMotion();
-  const [briefOpen, setBriefOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <section
@@ -59,13 +59,13 @@ export function HeroPremium() {
               className="space-y-0"
             >
               <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
-                <a
-                  href="#hero-wizard"
-                  onClick={() => setBriefOpen(true)}
-                  className="inline-flex items-center justify-center rounded-lg bg-[#ff6b00] px-6 py-3 text-[15px] font-medium text-[#1a0a00] transition-colors hover:bg-[#ff8533] sm:text-base"
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(true)}
+                  className="inline-flex cursor-pointer items-center justify-center rounded-lg bg-[#ff6b00] px-6 py-3 text-[15px] font-medium text-[#1a0a00] transition-colors hover:bg-[#ff8533] sm:text-base"
                 >
                   Start in the wizard
-                </a>
+                </button>
                 <a
                   href={siteConfig.calendlyUrl}
                   target="_blank"
@@ -79,10 +79,10 @@ export function HeroPremium() {
             </motion.div>
           </motion.div>
 
-          <div id="hero-wizard" className="w-full scroll-mt-28">
+          <div className="w-full">
             <HeroRequirementWizard
-              briefOpen={briefOpen}
-              onBriefOpenChange={setBriefOpen}
+              open={modalOpen}
+              onOpenChange={setModalOpen}
             />
           </div>
         </div>

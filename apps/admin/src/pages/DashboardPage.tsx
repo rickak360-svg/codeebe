@@ -55,6 +55,10 @@ export function DashboardPage() {
               <span className="stat-value">{overview.leads.new}</span>
             </div>
             <div className="stat-card">
+              <span className="stat-label">Hot leads</span>
+              <span className="stat-value">{overview.leads.hot}</span>
+            </div>
+            <div className="stat-card">
               <span className="stat-label">Portfolio items</span>
               <span className="stat-value">{overview.projects.total}</span>
             </div>
@@ -110,7 +114,9 @@ export function DashboardPage() {
                   <li key={l.id}>
                     <strong>{l.fullName}</strong>
                     <span className="muted">
-                      {l.projectType} · {l.status.replace(/_/g, " ")}
+                      {l.projectType} · {l.status.replace(/_/g, " ")} ·{" "}
+                      <span className={`badge badge-${l.scoreLabel}`}>{l.scoreLabel}</span>{" "}
+                      ({l.score})
                     </span>
                   </li>
                 ))}

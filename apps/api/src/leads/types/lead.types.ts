@@ -32,6 +32,8 @@ export type Lead = {
   source?: 'estimate' | 'contact';
   status: LeadStatus;
   createdAt: string;
+  score?: number;
+  scoreLabel?: 'hot' | 'warm' | 'cold';
   estimate?: EstimateResult;
 };
 
