@@ -1,4 +1,4 @@
-import "./env";
+import "./env.js";
 import { Worker } from "bullmq";
 import {
   getRedisConnection,
@@ -6,7 +6,7 @@ import {
   QUEUES,
   type ExampleJobPayload,
 } from "@codeebe/queue";
-import { processExampleJob } from "./processors/example.processor";
+import { processExampleJob } from "./processors/example.processor.js";
 
 const connection = getRedisConnection();
 
