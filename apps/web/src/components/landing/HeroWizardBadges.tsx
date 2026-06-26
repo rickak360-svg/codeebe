@@ -4,7 +4,7 @@ import { heroTrustBadges } from "@/data/landing";
 export function HeroWizardBadges() {
   return (
     <ul
-      className="mt-3 flex flex-nowrap items-center justify-center gap-1 overflow-x-auto sm:gap-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="mt-3 flex flex-nowrap items-center justify-start gap-1.5 overflow-x-auto px-0.5 sm:justify-center sm:gap-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       aria-label="Deliverables included in your brief"
     >
       {heroTrustBadges.map((badge) => (

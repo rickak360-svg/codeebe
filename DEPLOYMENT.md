@@ -19,12 +19,14 @@ Postgres (**Neon**) and Redis (**Upstash**) are already managed externally — n
 Both platforms auto-detect Node + pnpm.
 
 - **API service**
-  - Build command: `pnpm install --frozen-lockfile && pnpm --filter @codeebe/queue build && pnpm --filter @codeebe/api build`
-  - Start command: `node apps/api/dist/src/main.js`
+  - Build command: `pnpm install --frozen-lockfile && pnpm --filter @codeebe/api build`
+  - Start command: `pnpm --filter @codeebe/api start` *(runs `node dist/src/main.js`)*
   - Health check path: `/health`
 - **Worker service** (same repo, separate service)
-  - Build command: `pnpm install --frozen-lockfile && pnpm --filter @codeebe/queue build && pnpm --filter @codeebe/worker build`
-  - Start command: `node apps/worker/dist/main.js`
+  - Build command: `pnpm install --frozen-lockfile && pnpm --filter @codeebe/worker build`
+  - Start command: `pnpm --filter @codeebe/worker start`
+
+> **Note:** `@codeebe/queue` is built automatically as part of the API/worker `build` scripts — no extra step needed.
 
 ### Option B — Docker
 Build from the **repo root** (the Dockerfiles expect the root as context):

@@ -2,10 +2,11 @@ const stackBadges = ["React", "Node.js", "PostgreSQL", "Redis"];
 
 export function HeroVisual() {
   return (
-    <div className="relative w-full max-w-md lg:max-w-none lg:ml-auto">
-      <div className="pointer-events-none absolute -right-6 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-[#ff6600]/10 blur-3xl" />
+    <div className="relative w-full max-w-none lg:max-w-none lg:ml-auto">
+      <div className="pointer-events-none absolute -right-8 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full bg-[#ff6600]/16 blur-3xl sm:-right-6 sm:h-40 sm:w-40 sm:bg-[#ff6600]/10" />
+      <div className="pointer-events-none absolute -left-6 bottom-4 h-28 w-28 rounded-full bg-[#ffb693]/10 blur-2xl sm:hidden" />
 
-      <div className="hero-glass relative rounded-2xl p-4 sm:p-5">
+      <div className="hero-glass relative rounded-[1.25rem] p-4 shadow-[0_20px_50px_-20px_rgba(255,107,0,0.35)] sm:rounded-2xl sm:p-5 sm:shadow-none">
         {/* Status row */}
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5">
