@@ -17,7 +17,7 @@ export function HeroPremium() {
   return (
     <section
       id="hero"
-      className="relative isolate overflow-hidden border-b border-[var(--landing-border-subtle)] bg-[var(--landing-surface-lowest)] pt-28 sm:pt-32 lg:pt-36"
+      className="relative isolate w-full overflow-hidden border-b border-[var(--landing-border-subtle)] bg-[var(--landing-surface-lowest)] pt-28 sm:pt-32 lg:pt-36"
     >
       <LandingBackdrop glowRight subtle />
 
@@ -32,13 +32,13 @@ export function HeroPremium() {
       />
 
       <SiteContainer className="relative z-10 pb-14 pt-2 sm:pb-16 sm:pt-4 lg:pb-24 lg:pt-8">
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] lg:gap-14 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,540px)]">
+        <div className="grid w-full min-w-0 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] lg:gap-14 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,540px)]">
           {/* Copy — leads on every breakpoint for a clear value prop */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="order-1 flex w-full flex-col items-start"
+            className="order-1 flex min-w-0 w-full flex-col items-start overflow-hidden"
           >
             <motion.p
               variants={fadeUp}
@@ -55,7 +55,7 @@ export function HeroPremium() {
             <motion.h1
               variants={fadeUp}
               transition={defaultTransition(reduced)}
-              className="landing-title mt-5 font-[family-name:var(--font-family-display)] text-[2rem] font-semibold leading-[1.1] tracking-[-0.02em] sm:text-[2.75rem] sm:leading-[1.08] lg:text-[3.25rem] xl:text-[3.5rem]"
+              className="landing-title mt-5 w-full font-[family-name:var(--font-family-display)] text-[1.7rem] font-semibold leading-[1.1] tracking-[-0.02em] sm:text-[2.75rem] sm:leading-[1.08] lg:text-[3.25rem] xl:text-[3.5rem]"
             >
               Describe your project.{" "}
               <span className="bg-gradient-to-br from-[#ffb693] via-[#ff6b00] to-[#ff8533] bg-clip-text text-transparent">
@@ -104,7 +104,7 @@ export function HeroPremium() {
           </motion.div>
 
           {/* Visual — follows the copy on mobile, sits beside it on desktop */}
-          <div className="order-2 w-full">
+          <div className="order-2 w-full min-w-0 overflow-hidden">
             <HeroRequirementWizard open={modalOpen} onOpenChange={setModalOpen} />
           </div>
         </div>
