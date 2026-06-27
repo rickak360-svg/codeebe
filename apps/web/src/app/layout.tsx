@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import { ThemeScript } from "@/components/theme/ThemeScript";
 import "./globals.css";
 
 const hankenGrotesk = Hanken_Grotesk({
@@ -37,20 +35,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning
-      className={`${hankenGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} h-full`}
+      style={{ colorScheme: "dark" }}
+      className={`dark ${hankenGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} h-full`}
     >
       <head>
-        <ThemeScript />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
           rel="stylesheet"
         />
       </head>
       <body className="flex min-h-full flex-col bg-[var(--background)] font-[family-name:var(--font-family-body)] text-[var(--foreground)] antialiased">
-        <ThemeProvider>
-          <SiteLayout>{children}</SiteLayout>
-        </ThemeProvider>
+        <SiteLayout>{children}</SiteLayout>
       </body>
     </html>
   );

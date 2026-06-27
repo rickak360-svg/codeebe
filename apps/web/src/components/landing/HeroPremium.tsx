@@ -17,44 +17,33 @@ export function HeroPremium() {
   return (
     <section
       id="hero"
-      className="relative isolate overflow-hidden border-b border-[var(--landing-border-subtle)] bg-[var(--landing-surface-lowest)] pt-[6.75rem] sm:pt-[8.75rem]"
+      className="relative isolate overflow-hidden border-b border-[var(--landing-border-subtle)] bg-[var(--landing-surface-lowest)] pt-28 sm:pt-32 lg:pt-36"
     >
       <LandingBackdrop glowRight subtle />
 
-      {/* Mobile-only ambient glow — stronger presence on small screens */}
+      {/* Soft brand glows — clipped by overflow-hidden so they never cause scroll */}
       <div
-        className="pointer-events-none absolute -left-24 top-28 h-64 w-64 rounded-full bg-[#ff6b00]/14 blur-[90px] sm:hidden"
+        className="pointer-events-none absolute -left-24 top-24 h-56 w-56 rounded-full bg-[#ff6b00]/12 blur-[90px] lg:hidden"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -right-16 top-16 h-48 w-48 rounded-full bg-[#ffb693]/12 blur-[70px] sm:hidden"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#ff6b00]/40 to-transparent sm:hidden"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#ff6b00]/40 to-transparent"
         aria-hidden
       />
 
-      <SiteContainer className="relative z-10 pb-10 pt-4 sm:pb-12 sm:pt-5 md:pb-16 md:pt-9 lg:pb-20 lg:pt-11">
-        <div className="grid items-start gap-7 sm:gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,460px)] lg:gap-10 xl:grid-cols-[minmax(0,1.25fr)_480px] xl:gap-12">
-          {/* Visual leads on mobile — copy follows once the hook lands */}
-          <div className="order-1 w-full lg:order-2">
-            <HeroRequirementWizard
-              open={modalOpen}
-              onOpenChange={setModalOpen}
-            />
-          </div>
-
+      <SiteContainer className="relative z-10 pb-14 pt-2 sm:pb-16 sm:pt-4 lg:pb-24 lg:pt-8">
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] lg:gap-14 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,540px)]">
+          {/* Copy — leads on every breakpoint for a clear value prop */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="order-2 w-full max-w-none space-y-4 sm:max-w-[540px] lg:order-1 lg:max-w-[600px] xl:max-w-[640px]"
+            className="order-1 flex w-full flex-col items-start"
           >
             <motion.p
               variants={fadeUp}
               transition={defaultTransition(reduced)}
-              className="inline-flex items-center gap-2 rounded-full border border-[#ff6b00]/25 bg-[#ff6b00]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#ff8533] sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:text-xs sm:font-medium sm:tracking-[0.2em] sm:text-[var(--landing-on-surface-variant)]"
+              className="inline-flex items-center gap-2 rounded-full border border-[#ff6b00]/25 bg-[#ff6b00]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#ff8533] sm:text-xs"
             >
               <span
                 className={`h-1.5 w-1.5 shrink-0 rounded-full bg-[#ff6b00] ${reduced ? "" : "animate-pulse"}`}
@@ -66,7 +55,7 @@ export function HeroPremium() {
             <motion.h1
               variants={fadeUp}
               transition={defaultTransition(reduced)}
-              className="landing-title font-[family-name:var(--font-family-display)] text-[2.125rem] font-semibold leading-[1.08] tracking-[-0.02em] sm:text-[2.375rem] sm:leading-[1.2] sm:tracking-tight lg:text-[2.75rem] lg:leading-[1.16]"
+              className="landing-title mt-5 font-[family-name:var(--font-family-display)] text-[2rem] font-semibold leading-[1.1] tracking-[-0.02em] sm:text-[2.75rem] sm:leading-[1.08] lg:text-[3.25rem] xl:text-[3.5rem]"
             >
               Describe your project.{" "}
               <span className="bg-gradient-to-br from-[#ffb693] via-[#ff6b00] to-[#ff8533] bg-clip-text text-transparent">
@@ -77,36 +66,47 @@ export function HeroPremium() {
             <motion.p
               variants={fadeUp}
               transition={defaultTransition(reduced)}
-              className="landing-muted max-w-[36ch] text-[15px] leading-relaxed sm:max-w-none sm:text-base sm:leading-relaxed md:text-lg md:leading-[1.55]"
+              className="landing-muted mt-4 max-w-[52ch] text-[15px] leading-relaxed sm:text-base md:text-lg md:leading-[1.6]"
             >
-              Use the wizard to describe your idea and get SRS, quotation, and roadmap options.
+              Use the wizard to describe your idea and instantly get an SRS,
+              quotation, and roadmap you can act on.
             </motion.p>
 
             <motion.div
               variants={fadeUp}
               transition={defaultTransition(reduced)}
-              className="space-y-0"
+              className="mt-7 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center"
             >
-              <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(true)}
-                  className="inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-[#ff6b00] px-6 py-3.5 text-[15px] font-semibold text-[#1a0a00] shadow-[0_12px_32px_-10px_rgba(255,107,0,0.55)] transition-[background-color,box-shadow,transform] hover:bg-[#ff8533] hover:shadow-[0_14px_36px_-10px_rgba(255,107,0,0.65)] active:scale-[0.98] sm:w-auto sm:rounded-lg sm:py-3 sm:font-medium sm:shadow-none sm:hover:shadow-none sm:active:scale-100 sm:text-base"
-                >
-                  Start in the wizard
-                </button>
-                <a
-                  href={siteConfig.calendlyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="landing-btn-ghost inline-flex w-full items-center justify-center rounded-xl px-6 py-3.5 text-[15px] font-medium sm:w-auto sm:rounded-lg sm:py-3 sm:text-base"
-                >
-                  Book Consultation
-                </a>
-              </div>
+              <button
+                type="button"
+                onClick={() => setModalOpen(true)}
+                className="inline-flex w-full items-center justify-center rounded-xl bg-[#ff6b00] px-6 py-3.5 text-[15px] font-semibold text-[#1a0a00] shadow-[0_12px_32px_-10px_rgba(255,107,0,0.55)] transition-[background-color,box-shadow,transform] hover:bg-[#ff8533] hover:shadow-[0_14px_36px_-10px_rgba(255,107,0,0.65)] active:scale-[0.98] sm:w-auto sm:px-7"
+              >
+                Start in the wizard
+              </button>
+              <a
+                href={siteConfig.calendlyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="landing-btn-ghost inline-flex w-full items-center justify-center rounded-xl px-6 py-3.5 text-[15px] font-medium sm:w-auto sm:px-7"
+              >
+                Book Consultation
+              </a>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              transition={defaultTransition(reduced)}
+              className="w-full"
+            >
               <HeroTrustStrip />
             </motion.div>
           </motion.div>
+
+          {/* Visual — follows the copy on mobile, sits beside it on desktop */}
+          <div className="order-2 w-full">
+            <HeroRequirementWizard open={modalOpen} onOpenChange={setModalOpen} />
+          </div>
         </div>
       </SiteContainer>
     </section>

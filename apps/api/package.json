@@ -9,7 +9,7 @@
     "prebuild": "pnpm --filter @codeebe/queue build",
     "build": "prisma generate && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "dev": "prisma generate && nest start --watch",
+    "dev": "nest start --watch",
     "postinstall": "prisma generate",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",

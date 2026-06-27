@@ -4,27 +4,27 @@ import { heroTrustBadges } from "@/data/landing";
 export function HeroTrustStrip() {
   return (
     <div
-      className="landing-trust-strip -mx-1 mt-4 overflow-hidden rounded-xl border sm:mx-0 sm:mt-4 sm:rounded-lg"
+      className="landing-trust-strip mt-7 overflow-hidden rounded-xl border"
       aria-label="Trust and deliverables"
     >
-      {/* Mobile: horizontal snap scroll — wild but scannable */}
-      <ul className="flex snap-x snap-mandatory gap-0 overflow-x-auto [scrollbar-width:none] sm:grid sm:grid-cols-4 sm:overflow-visible [&::-webkit-scrollbar]:hidden">
+      <ul className="grid grid-cols-2 sm:grid-cols-4">
         {heroTrustBadges.map((badge, index) => (
           <li
             key={badge.label}
             className={[
-              "flex min-w-[42%] shrink-0 snap-start flex-col items-center gap-2 px-3 py-3.5 text-center sm:min-w-0 sm:shrink sm:px-4 sm:py-5",
+              "flex flex-col items-center justify-center gap-2 px-3 py-4 text-center sm:px-4 sm:py-5",
               "border-[var(--landing-border)]",
-              index < heroTrustBadges.length - 1 ? "border-r sm:border-r" : "",
-              "max-sm:border-b-0",
+              index % 2 === 0 ? "max-sm:border-r" : "",
+              index < 2 ? "max-sm:border-b" : "",
+              index > 0 ? "sm:border-l" : "",
             ]
               .filter(Boolean)
               .join(" ")}
           >
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff6b00]/10 sm:h-8 sm:w-8 sm:rounded-none sm:bg-transparent">
-              <MaterialIcon name={badge.icon} className="!text-[20px] text-[#ff6b00] sm:!text-[24px]" />
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#ff6b00]/10">
+              <MaterialIcon name={badge.icon} className="!text-[20px] text-[#ff6b00]" />
             </span>
-            <span className="text-[10px] font-semibold leading-snug text-[var(--landing-on-surface)] sm:text-xs sm:font-medium">
+            <span className="text-[11px] font-medium leading-snug text-[var(--landing-on-surface)] sm:text-xs">
               {badge.label}
             </span>
           </li>

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-:root,
-html.dark {
+:root {
+  color-scheme: dark;
   --background: #121414;
   --foreground: #e3e2e2;
   --surface: #111111;
@@ -26,29 +26,6 @@ html.dark {
   --header-theme-bg-hover: rgba(255, 255, 255, 0.06);
 }
 
-html.light {
-  color-scheme: light;
-  --background: #fafaf9;
-  --foreground: #1c1917;
-  --surface: #ffffff;
-  --surface-elevated: #f5f4f3;
-  --border: #e7e5e4;
-  --muted: #78716c;
-  --brand-muted: rgba(255, 102, 0, 0.12);
-  --brand-glow: rgba(255, 102, 0, 0.2);
-  --header-nav-fg: #57534e;
-  --header-nav-fg-active: #1c1917;
-  --header-nav-bg-active: rgba(0, 0, 0, 0.06);
-  --header-nav-bg-hover: rgba(0, 0, 0, 0.04);
-  --header-dropdown-bg: #ffffff;
-  --header-dropdown-fg: #57534e;
-  --header-dropdown-border: rgba(0, 0, 0, 0.08);
-  --header-ghost-border: rgba(0, 0, 0, 0.12);
-  --header-ghost-fg: #1c1917;
-  --header-theme-fg: #44403c;
-  --header-theme-bg-hover: rgba(0, 0, 0, 0.05);
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -61,6 +38,8 @@ html.light {
 body {
   background: var(--background);
   color: var(--foreground);
+  scrollbar-gutter: stable;
+  overflow-x: hidden;
 }
 
 .brand-gradient {
@@ -178,109 +157,6 @@ body {
   color: var(--landing-on-surface);
 }
 
-html.light .landing-page {
-  --landing-bg: #fafaf9;
-  --landing-surface: #ffffff;
-  --landing-surface-low: #f4f3f2;
-  --landing-surface-lowest: #fafaf9;
-  --landing-surface-high: #e7e5e4;
-  --landing-on-surface: #1c1917;
-  --landing-on-surface-variant: #57534e;
-  --landing-on-surface-muted: #78716c;
-  --landing-on-surface-soft: #44403c;
-  --landing-outline: #a8a29e;
-  --landing-border: #e7e5e4;
-  --landing-border-subtle: #f0eeec;
-  --landing-card-bg: #ffffff;
-  --landing-glass-bg: #ffffff;
-  --landing-card-shadow:
-    0 1px 2px rgba(28, 25, 23, 0.04),
-    0 4px 20px rgba(28, 25, 23, 0.06);
-  --landing-card-shadow-hover:
-    0 4px 12px rgba(255, 107, 0, 0.08),
-    0 12px 32px rgba(28, 25, 23, 0.08);
-}
-
-html.light .landing-page .text-white {
-  color: var(--landing-on-surface);
-}
-
-html.light .landing-page .text-\[\#e3e2e2\],
-html.light .landing-page .text-\[\#e3e2e2\]\/20 {
-  color: color-mix(in srgb, var(--landing-on-surface) 20%, transparent);
-}
-
-html.light .landing-page .text-\[\#e2bfb0\],
-html.light .landing-page .text-\[\#8a756c\],
-html.light .landing-page .text-\[\#6b5c55\],
-html.light .landing-page .text-\[\#a98a7d\],
-html.light .landing-page .text-\[\#c8c6c5\],
-html.light .landing-page .text-\[\#5a4136\] {
-  color: var(--landing-on-surface-variant);
-}
-
-html.light .landing-page .border-white\/5,
-html.light .landing-page .border-white\/\[0\.05\],
-html.light .landing-page .border-white\/\[0\.07\],
-html.light .landing-page .border-white\/\[0\.08\],
-html.light .landing-page .border-white\/\[0\.1\],
-html.light .landing-page .border-white\/\[0\.12\] {
-  border-color: var(--landing-border);
-}
-
-html.light .landing-page .bg-\[\#0a0b0c\],
-html.light .landing-page .bg-\[\#0a0b0c\]\/60,
-html.light .landing-page .bg-\[\#0d0e0f\],
-html.light .landing-page .bg-\[\#121414\] {
-  background-color: var(--landing-surface-low);
-}
-
-html.light .landing-page .glass-card,
-html.light .landing-page .hero-glass {
-  background: var(--landing-glass-bg);
-  border-color: var(--landing-border);
-  box-shadow: var(--landing-card-shadow);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-html.light .landing-page .glass-card:hover {
-  box-shadow: var(--landing-card-shadow-hover);
-}
-
-html.light .landing-page .landing-final-cta-bg {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 107, 0, 0.06) 0%,
-    var(--landing-bg) 45%,
-    var(--landing-surface-low) 100%
-  );
-}
-
-html.light .landing-page .landing-btn-ghost {
-  border-color: var(--landing-border);
-  color: var(--landing-on-surface);
-}
-
-html.light .landing-page .landing-btn-ghost:hover {
-  border-color: rgba(255, 107, 0, 0.35);
-  background: rgba(255, 107, 0, 0.06);
-  color: var(--landing-on-surface);
-}
-
-html.light .landing-page .selection\:text-white::selection,
-html.light .landing-page.selection\:text-white::selection {
-  color: #1a0a00;
-}
-
-html.light .landing-grid-pattern {
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-}
-
-html.light .landing-page .landing-final-cta-glow {
-  opacity: 0.35;
-}
-
 .landing-grid-pattern {
   background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 32px 32px;
@@ -313,6 +189,7 @@ html.light .landing-page .landing-final-cta-glow {
   margin-right: auto;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+  box-sizing: border-box;
 }
 
 .page-below-header {
@@ -344,7 +221,7 @@ html.light .landing-page .landing-final-cta-glow {
   inset: 0;
   border-radius: 9999px;
   background: rgba(0, 0, 0, 0.55);
-  transform: translate(3px, 4px);
+  transform: translate(0px, 4px);
 }
 
 /* Next/Image: keep header logo on the same vertical center as nav (h-9) */
@@ -371,18 +248,6 @@ html.light .landing-page .landing-final-cta-glow {
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-html.light .floating-header-shadow {
-  background: rgba(0, 0, 0, 0.06);
-}
-
-html.light .floating-header-pill {
-  border-color: rgba(0, 0, 0, 0.08);
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
 .header-nav-rail {
   display: flex;
   align-items: center;
@@ -393,11 +258,6 @@ html.light .floating-header-pill {
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.04);
-}
-
-html.light .header-nav-rail {
-  border-color: rgba(0, 0, 0, 0.08);
-  background: rgba(0, 0, 0, 0.03);
 }
 
 .header-nav-link {
@@ -429,11 +289,6 @@ html.light .header-nav-rail {
   background: rgba(255, 107, 0, 0.14);
   color: var(--header-nav-fg-active);
   box-shadow: inset 0 0 0 1px rgba(255, 107, 0, 0.22);
-}
-
-html.light .header-nav-link--active {
-  background: rgba(255, 107, 0, 0.1);
-  box-shadow: inset 0 0 0 1px rgba(255, 107, 0, 0.18);
 }
 
 .header-nav-chevron {
@@ -502,11 +357,6 @@ html.light .header-nav-link--active {
 
 .header-theme-toggle:hover {
   background: var(--header-theme-bg-hover);
-}
-
-html.light .floating-header-pill .text-white,
-html.light .floating-header-pill a.text-white {
-  color: var(--header-nav-fg-active);
 }
 
 @media (min-width: 640px) {

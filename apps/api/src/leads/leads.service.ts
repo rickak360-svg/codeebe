@@ -98,7 +98,7 @@ export class LeadsService {
     // Enrich the quotation with AI in the background, then email once ready so
     // the recipient's link shows the AI version. Falls back to the templates
     // already stored above if AI is disabled or fails.
-    void this.enrichAndNotify(row.id, input, estimate, {
+    void this.enrichAndNotify(row.id, input, estimate, srs, marketComparison, {
       to: row.email,
       name: row.fullName,
       phone: row.phone,
@@ -115,6 +115,8 @@ export class LeadsService {
     leadId: string,
     input: CreateLeadInput,
     estimate: EstimateResult,
+    srs: import('./srs.generator').SRSDocument,
+    marketComparison: import('./srs.generator').MarketComparison,
     mail: {
       to: string;
       name: string;
@@ -147,6 +149,11 @@ export class LeadsService {
     const webUrl = process.env.WEB_URL ?? 'http://localhost:3008';
     const quotationUrl = `${webUrl}/quotation/${mail.quotationToken}`;
 
+    // Re-fetch latest SRS/market from DB in case AI updated them
+    const latestRow = await this.prisma.lead.findUnique({ where: { id: leadId } });
+    const latestSrs = (latestRow?.srs ?? srs) as unknown as import('./srs.generator').SRSDocument;
+    const latestMarket = (latestRow?.marketComparison ?? marketComparison) as unknown as import('./srs.generator').MarketComparison;
+
     this.mail
       .sendQuotationEmail({
         to: mail.to,
@@ -155,6 +162,13 @@ export class LeadsService {
         quotationToken: mail.quotationToken,
         minPrice: finalEstimate.minPrice,
         maxPrice: finalEstimate.maxPrice,
+        timeline: input.timeline,
+        features: input.features ?? [],
+        techStack: latestSrs.techStack,
+        codeebeProvides: finalEstimate.codeebeProvides,
+        phases: latestSrs.phases,
+        marketComparison: latestMarket,
+        notes: finalEstimate.notes,
       })
       .catch((err) =>
         console.error('[Mail] Failed to send quotation email:', err),
