@@ -6,7 +6,12 @@ export default defineConfig({
   envDir: __dirname,
   plugins: [react()],
   server: {
-    port: 5173,
+    host: true,
+    port: parseInt(process.env.PORT || "5173"),
+  },
+  preview: {
+    host: true,
+    port: parseInt(process.env.PORT || "4173"),
   },
   resolve: {
     alias: {
