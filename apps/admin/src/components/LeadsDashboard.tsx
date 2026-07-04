@@ -20,7 +20,11 @@ function formatInr(n: number) {
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleString();
+  return new Date(iso).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
 
 function statusLabel(s: LeadStatus) {
@@ -114,49 +118,52 @@ export function LeadsDashboard() {
             <table className="leads-table">
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th>Lead</th>
                   <th>Project</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-                  <th>Budget</th>
                   <th>Estimate</th>
                   <th>Score</th>
                   <th>Status</th>
-                  <th>Created</th>
+                  <th>Date</th>
                   <th />
                 </tr>
               </thead>
               <tbody>
                 {leads.map((lead) => (
                   <tr key={lead.id}>
-                    <td>{lead.fullName}</td>
-                    <td>{lead.projectType}</td>
-                    <td>{lead.phone}</td>
-                    <td>{lead.email}</td>
-                    <td>{lead.budgetRange ?? "—"}</td>
                     <td>
+                      <div className="lead-name">{lead.fullName}</div>
+                      <div className="lead-sub">{lead.email}</div>
+                    </td>
+                    <td>
+                      <div className="lead-name">{lead.projectType}</div>
+                      {lead.budgetRange && (
+                        <div className="lead-sub">{lead.budgetRange}</div>
+                      )}
+                    </td>
+                    <td className="nowrap">
                       {lead.estimate
                         ? `${formatInr(lead.estimate.minPrice)} – ${formatInr(lead.estimate.maxPrice)}`
-                        : "—"}
+                        : <span className="lead-sub">—</span>}
                     </td>
                     <td>
                       <span className={`badge ${scoreBadge(lead.scoreLabel)}`}>
-                        {lead.scoreLabel ?? "cold"} ({lead.score ?? 0})
+                        {lead.scoreLabel ?? "cold"}
+                        <span className="badge-score"> {lead.score ?? 0}</span>
                       </span>
                     </td>
                     <td>
-                      <span className={`badge badge-${lead.status}`}>
+                      <span className={`badge badge-status-${lead.status}`}>
                         {statusLabel(lead.status)}
                       </span>
                     </td>
-                    <td className="nowrap">{formatDate(lead.createdAt)}</td>
+                    <td className="nowrap lead-sub">{formatDate(lead.createdAt)}</td>
                     <td>
                       <button
                         type="button"
                         className="btn-link"
                         onClick={() => setSelected(lead)}
                       >
-                        View
+                        View →
                       </button>
                     </td>
                   </tr>

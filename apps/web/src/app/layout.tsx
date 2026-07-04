@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import "./globals.css";
 
@@ -21,6 +22,13 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["500"],
 });
 
+const ethnocentric = localFont({
+  src: "../fonts/ethnocentric.woff",
+  variable: "--font-family-ethno",
+  weight: "400",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Codeebe | Premium Product Engineering Studio",
   description:
@@ -36,7 +44,7 @@ export default function RootLayout({
     <html
       lang="en"
       style={{ colorScheme: "dark" }}
-      className={`dark ${hankenGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} h-full`}
+      className={`dark ${hankenGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${ethnocentric.variable} h-full`}
     >
       <head>
         <link

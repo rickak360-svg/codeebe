@@ -101,9 +101,9 @@ export function analyzeRequirement(description: string): AnalyzedRequirement {
 
 /** Mirrors API base pricing for hero preview only. */
 const PREVIEW_PRICING: Record<string, [number, number]> = {
-  "Landing Page": [12_000, 30_000],
-  "Business Website": [25_000, 70_000],
-  "WordPress Website": [20_000, 65_000],
+  "Landing Page": [8_000, 25_000],
+  "Business Website": [12_000, 35_000],
+  "WordPress Website": [10_000, 35_000],
   eCommerce: [50_000, 150_000],
   "SaaS MVP": [150_000, 500_000],
   Marketplace: [250_000, 800_000],

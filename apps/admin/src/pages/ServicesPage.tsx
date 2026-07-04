@@ -24,6 +24,29 @@ const emptyForm = (kind: ServiceKind = "card"): UpsertServiceItemPayload => ({
   sortOrder: 0,
 });
 
+type ViewMode = "list" | "grid";
+
+function ListIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <rect x="1" y="2" width="14" height="2" rx="1" fill="currentColor" />
+      <rect x="1" y="7" width="14" height="2" rx="1" fill="currentColor" />
+      <rect x="1" y="12" width="14" height="2" rx="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function GridIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor" />
+      <rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor" />
+      <rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor" />
+      <rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor" />
+    </svg>
+  );
+}
+
 export function ServicesPage() {
   const [items, setItems] = useState<ServiceItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,6 +55,7 @@ export function ServicesPage() {
   const [editing, setEditing] = useState<ServiceItem | "new" | null>(null);
   const [form, setForm] = useState<UpsertServiceItemPayload>(emptyForm());
   const [saving, setSaving] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
   const load = useCallback(() => {
     setLoading(true);
@@ -156,9 +180,30 @@ export function ServicesPage() {
               Trust badges
             </button>
           </div>
-          <button type="button" className="btn-ghost" onClick={load} disabled={loading}>
-            Refresh
-          </button>
+
+          <div className="panel-head-right">
+            <div className="view-toggle">
+              <button
+                type="button"
+                className={viewMode === "list" ? "view-toggle-btn active" : "view-toggle-btn"}
+                onClick={() => setViewMode("list")}
+                title="List view"
+              >
+                <ListIcon />
+              </button>
+              <button
+                type="button"
+                className={viewMode === "grid" ? "view-toggle-btn active" : "view-toggle-btn"}
+                onClick={() => setViewMode("grid")}
+                title="Grid view"
+              >
+                <GridIcon />
+              </button>
+            </div>
+            <button type="button" className="btn-ghost" onClick={load} disabled={loading}>
+              Refresh
+            </button>
+          </div>
         </div>
 
         {loading && <p className="muted">Loading…</p>}
@@ -168,7 +213,53 @@ export function ServicesPage() {
           </p>
         )}
 
-        {!loading && filtered.length > 0 && (
+        {/* ── Grid view ── */}
+        {!loading && filtered.length > 0 && viewMode === "grid" && (
+          <div className="services-grid">
+            {filtered.map((item) => (
+              <div key={item.id} className="service-card">
+                <div className="service-card-head">
+                  <span className={`badge ${item.kind === "card" ? "badge-kind-card" : "badge-kind-badge"}`}>
+                    {item.kind === "card" ? "Card" : "Badge"}
+                  </span>
+                  <button
+                    type="button"
+                    className={`badge ${item.published ? "badge-published" : "badge-draft"}`}
+                    onClick={() => togglePublished(item)}
+                    title="Toggle published"
+                  >
+                    {item.published ? "Published" : "Draft"}
+                  </button>
+                </div>
+                <div className="service-card-body">
+                  <p className="service-card-title">{item.title}</p>
+                  {item.kind === "card" && item.description && (
+                    <p className="service-card-desc">{item.description}</p>
+                  )}
+                  {item.kind === "badge" && (
+                    <p className="service-card-order">Order: {item.sortOrder}</p>
+                  )}
+                </div>
+                <div className="service-card-foot">
+                  <button type="button" className="btn-link" onClick={() => openEdit(item)}>
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-link danger"
+                    onClick={() => handleDelete(item.id, item.title)}
+                  >
+                    Delete
+                  </button>
+                  <span className="service-card-order-tag">#{item.sortOrder}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ── List view ── */}
+        {!loading && filtered.length > 0 && viewMode === "list" && (
           <div className="table-wrap">
             <table className="leads-table">
               <thead>
@@ -185,15 +276,17 @@ export function ServicesPage() {
                 {filtered.map((item) => (
                   <tr key={item.id}>
                     <td>
-                      <span className="badge badge-kind">
+                      <span className={`badge ${item.kind === "card" ? "badge-kind-card" : "badge-kind-badge"}`}>
                         {item.kind === "card" ? "Card" : "Badge"}
                       </span>
                     </td>
-                    <td>{item.title}</td>
+                    <td>
+                      <span className="lead-name">{item.title}</span>
+                    </td>
                     <td className="muted-cell">
                       {item.kind === "card" ? item.description : "—"}
                     </td>
-                    <td>{item.sortOrder}</td>
+                    <td className="lead-sub">{item.sortOrder}</td>
                     <td>
                       <button
                         type="button"
@@ -203,21 +296,19 @@ export function ServicesPage() {
                         {item.published ? "Published" : "Draft"}
                       </button>
                     </td>
-                    <td className="actions-cell">
-                      <button
-                        type="button"
-                        className="btn-link"
-                        onClick={() => openEdit(item)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-link danger"
-                        onClick={() => handleDelete(item.id, item.title)}
-                      >
-                        Delete
-                      </button>
+                    <td>
+                      <div className="actions-cell">
+                        <button type="button" className="btn-link" onClick={() => openEdit(item)}>
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-link danger"
+                          onClick={() => handleDelete(item.id, item.title)}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -241,7 +332,7 @@ export function ServicesPage() {
                   ? form.kind === "badge"
                     ? "New trust badge"
                     : "New service card"
-                  : `Edit ${form.title}`}
+                  : `Edit — ${form.title}`}
               </h2>
               <button type="button" className="btn-ghost" onClick={closeForm}>
                 Close
@@ -257,10 +348,7 @@ export function ServicesPage() {
                   <select
                     value={form.kind}
                     onChange={(e) =>
-                      setForm({
-                        ...form,
-                        kind: e.target.value as ServiceKind,
-                      })
+                      setForm({ ...form, kind: e.target.value as ServiceKind })
                     }
                     disabled={editing !== "new"}
                   >

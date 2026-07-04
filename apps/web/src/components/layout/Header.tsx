@@ -161,7 +161,7 @@ function MobileAccordionItem({
         <Link
           href={item.href}
           onClick={() => { if (!hasChildren) onClose(); }}
-          className={`flex-1 py-4 text-[1.25rem] font-semibold tracking-tight transition-colors duration-150 ${
+          className={`flex-1 py-4 font-[family-name:var(--font-family-ethno)] text-[1.1rem] uppercase tracking-wider transition-colors duration-150 ${
             active ? "text-[#ff6b00]" : "text-white/90 hover:text-white"
           }`}
         >

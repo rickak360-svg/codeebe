@@ -37,7 +37,7 @@ const SERVICES = [
     includes: ["iOS & Android", "Push notifications", "Offline support", "API integration", "App store deploy"],
   },
   {
-    icon: "wordpress",
+    icon: "web",
     color: "#06b6d4",
     title: "WordPress & CMS Development",
     desc: "Custom WordPress themes, Elementor Pro designs, ACF-powered data structures, and WooCommerce integrations. Fast, SEO-ready, and easy to manage in-house.",

@@ -55,7 +55,7 @@ export function HeroPremium() {
             <motion.h1
               variants={fadeUp}
               transition={defaultTransition(reduced)}
-              className="landing-title mt-5 w-full font-[family-name:var(--font-family-display)] text-[1.7rem] font-semibold leading-[1.1] tracking-[-0.02em] sm:text-[2.75rem] sm:leading-[1.08] lg:text-[3.25rem] xl:text-[3.5rem]"
+              className="landing-title mt-5 w-full font-[family-name:var(--font-family-ethno)] text-[1.5rem] leading-[1.15] tracking-[0.02em] sm:text-[2.25rem] sm:leading-[1.12] lg:text-[2.75rem] xl:text-[3rem]"
             >
               Describe your project.{" "}
               <span className="bg-gradient-to-br from-[#ffb693] via-[#ff6b00] to-[#ff8533] bg-clip-text text-transparent">
