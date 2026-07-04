@@ -8,6 +8,7 @@ export default defineConfig({
   server: {
     host: true,
     port: parseInt(process.env.PORT || "5173"),
+    allowedHosts: ["codeebeadmin-dev.up.railway.app"],
   },
   preview: {
     host: true,
