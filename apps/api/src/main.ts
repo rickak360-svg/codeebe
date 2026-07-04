@@ -13,14 +13,23 @@ async function bootstrap() {
     }),
   );
 
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3008',
+    'http://localhost:5173',
+    process.env.WEB_ORIGIN,
+    process.env.ADMIN_ORIGIN,
+  ].filter(Boolean) as string[];
+
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:3008',
-      'http://localhost:5173',
-      process.env.WEB_ORIGIN,
-      process.env.ADMIN_ORIGIN,
-    ].filter(Boolean) as string[],
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. curl, Postman, server-to-server)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      // Allow any Vercel preview deployment for this project
+      if (/^https:\/\/codeebe-.*\.vercel\.app$/.test(origin)) return callback(null, true);
+      callback(new Error(`CORS: origin ${origin} not allowed`));
+    },
     credentials: true,
   });
 
