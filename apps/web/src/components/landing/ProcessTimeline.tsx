@@ -39,8 +39,8 @@ export function ProcessTimeline() {
 
           <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {engineeringProcess.map((step) => (
-              <StaggerItem key={step.step}>
-                <GlassCard className="relative p-6">
+              <StaggerItem key={step.step} className="h-full">
+                <GlassCard className="relative h-full p-6">
                   <span className="inline-flex h-10 w-10 items-center justify-center bg-[#ff6b00] font-mono text-sm font-bold text-[#1a0a00]">
                     {step.step}
                   </span>
