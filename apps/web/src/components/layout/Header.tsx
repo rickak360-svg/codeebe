@@ -254,7 +254,7 @@ export function Header() {
   return (
     <>
       {/* ── Floating pill header ── */}
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 bg-transparent pt-5 sm:pt-8">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-[100] bg-transparent pt-5 sm:pt-8">
         <motion.div
           className="floating-header-wrap pointer-events-auto"
           initial={reduced ? false : { opacity: 0, y: -12 }}
