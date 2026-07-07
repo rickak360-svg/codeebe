@@ -13,7 +13,7 @@ const TECH = [
 
 export function ServicesTechStack() {
   return (
-    <section className="border-y border-white/[0.06] bg-white/[0.015] py-20 sm:py-24">
+    <section id="tech" className="scroll-mt-28 border-y border-white/[0.06] bg-white/[0.015] py-20 sm:py-24">
       <div className="site-container">
         <div className="mb-10 text-center">
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#ff6b00]/80">Tech Stack</p>

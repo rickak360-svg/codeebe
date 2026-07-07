@@ -16,7 +16,7 @@ export function ProcessTimeline() {
         <Reveal className="mb-14 text-center md:mx-auto md:max-w-2xl">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff6b00]">How we work</p>
           <h2 className="landing-title mt-3 font-[family-name:var(--font-family-display)] text-3xl font-bold sm:text-4xl">
-            Engineering process
+            Engineering Process
           </h2>
         </Reveal>
 

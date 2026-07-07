@@ -18,8 +18,8 @@ export default function ServicesPage() {
       <ServicesGrid />
       <ServicesTechStack />
       <ServicesProcess />
-      <ServicesFaq />
       <ServicesCta />
+      <ServicesFaq />
     </main>
   );
 }

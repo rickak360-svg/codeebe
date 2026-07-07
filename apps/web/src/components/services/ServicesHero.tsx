@@ -6,9 +6,16 @@ import { MaterialIcon } from "@/components/home/MaterialIcon";
 
 const TAGS = ["SaaS Platforms", "AI Integrations", "E-Commerce", "Mobile Apps", "WordPress", "Custom APIs"];
 
+const SECTION_LINKS = [
+  { label: "Capabilities", href: "#capabilities", icon: "widgets" },
+  { label: "Tech Stack", href: "#tech", icon: "memory" },
+  { label: "Process", href: "#process", icon: "route" },
+  { label: "FAQ", href: "#faq", icon: "quiz" },
+] as const;
+
 export function ServicesHero() {
   return (
-    <section className="relative overflow-hidden border-b border-white/[0.06] pt-[8rem] pb-20 sm:pt-[9.5rem] sm:pb-24">
+    <section className="relative overflow-hidden border-b border-white/[0.06] pt-[7rem] pb-14 sm:pt-[8.5rem] sm:pb-16">
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-[#ff6b00]/[0.05] blur-[120px]" />
       <div className="site-container relative z-10">
         <div className="mx-auto max-w-3xl text-center">
@@ -76,6 +83,37 @@ export function ServicesHero() {
               <MaterialIcon name="work" className="!text-[15px]" />
               View Our Work
             </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.36 }}
+            className="mt-10 border-t border-white/[0.06] pt-8"
+          >
+            <p className="mb-4 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">
+              Explore this page
+            </p>
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+              {SECTION_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="group flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-left transition hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.04]"
+                >
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#ff6b00]/10 ring-1 ring-[#ff6b00]/15 transition group-hover:bg-[#ff6b00]/15">
+                    <MaterialIcon name={link.icon} className="!text-[17px] text-[#ff6b00]" />
+                  </div>
+                  <span className="text-sm font-medium text-white/70 transition group-hover:text-white">
+                    {link.label}
+                  </span>
+                  <MaterialIcon
+                    name="arrow_downward"
+                    className="!text-[16px] ml-auto text-white/20 transition group-hover:text-[#ff6b00]/70"
+                  />
+                </a>
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>

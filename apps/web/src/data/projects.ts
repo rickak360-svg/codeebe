@@ -98,6 +98,11 @@ export const projects: Project[] = [
     businessValue:
       "Measurable engagement from print campaigns and reduced friction for readers.",
     costRange: "₹1,50,000 – ₹5,00,000",
+    screenshots: [
+      "/projects/scanpubs/01-homepage-hero.png",
+      "/projects/scanpubs/02-blog-page.png",
+      "/projects/scanpubs/03-testimonials-page.png",
+    ],
   },
   {
     slug: "shubh-safar-car-rental",
@@ -412,6 +417,12 @@ export const projects: Project[] = [
     businessValue:
       "Reduced manual coordination and faster booking completion.",
     costRange: "₹1,00,000 – ₹3,00,000",
+    screenshots: [
+      "/projects/dream-drive-car-rental/01-homepage-hero.png",
+      "/projects/dream-drive-car-rental/02-fleet-page.png",
+      "/projects/dream-drive-car-rental/03-testimonials-page.png",
+      "/projects/dream-drive-car-rental/04-blog-page.png",
+    ],
   },
 ];
 
