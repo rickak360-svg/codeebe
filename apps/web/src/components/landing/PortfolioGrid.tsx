@@ -13,6 +13,7 @@ const SCROLL_DURATION_MS = 2600;
 const MIN_SCALE = 0.78;
 const MAX_SCALE = 0.98;
 const MIN_OPACITY = 0.32;
+const DESKTOP_MQ = "(min-width: 768px)";
 
 function easeInOutQuint(t: number) {
   return t < 0.5 ? 16 * t * t * t * t * t : 1 - Math.pow(-2 * t + 2, 5) / 2;
@@ -48,6 +49,20 @@ function buildLoopProjects(projects: Project[]) {
   if (projects.length === 0) return [];
   if (projects.length === 1) return projects;
   return [...projects, ...projects, ...projects];
+}
+
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_MQ);
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return isDesktop;
 }
 
 type ViewMode = "carousel" | "grid";
@@ -94,8 +109,51 @@ function ViewToggle({
   );
 }
 
+function MobileProjectGrid({ projects }: { projects: Project[] }) {
+  return (
+    <div className="site-container grid gap-5 py-2 md:hidden">
+      {projects.map((project, index) => (
+        <PortfolioShowcaseCard
+          key={project.slug}
+          project={project}
+          priority={index < 2}
+          variant="grid"
+        />
+      ))}
+    </div>
+  );
+}
+
+function MobileSimpleCarousel({ projects }: { projects: Project[] }) {
+  return (
+    <div className="py-2 md:hidden">
+      <div
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
+        {projects.map((project, index) => (
+          <div
+            key={project.slug}
+            className="w-[calc(100vw-2.5rem)] max-w-[24rem] shrink-0 snap-center"
+          >
+            <PortfolioShowcaseCard
+              project={project}
+              priority={index < 2}
+              variant="grid"
+            />
+          </div>
+        ))}
+      </div>
+      <p className="mt-3 px-5 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-white/30">
+        Swipe to browse projects
+      </p>
+    </div>
+  );
+}
+
 export function PortfolioGrid({ projects }: { projects: Project[] }) {
   const reduced = useReducedMotion();
+  const isDesktop = useIsDesktop();
   const trackRef = useRef<HTMLDivElement>(null);
   const visualIndexRef = useRef(0);
   const pausedRef = useRef(false);
@@ -109,6 +167,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
   const loopProjects = useMemo(() => buildLoopProjects(projects), [projects]);
   const loopOffset = projects.length > 1 ? projects.length : 0;
   const isCarousel = viewMode === "carousel";
+  const useFancyCarousel = isCarousel && isDesktop;
 
   const getSlides = useCallback(() => {
     const track = trackRef.current;
@@ -219,7 +278,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
   );
 
   useEffect(() => {
-    if (!isCarousel) {
+    if (!useFancyCarousel) {
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
@@ -236,10 +295,10 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, [applyCardTransforms, isCarousel]);
+  }, [applyCardTransforms, useFancyCarousel]);
 
   useEffect(() => {
-    if (!isCarousel) {
+    if (!useFancyCarousel) {
       hasInitializedRef.current = false;
       return;
     }
@@ -265,10 +324,10 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
       window.clearTimeout(retry);
       window.clearTimeout(retryLate);
     };
-  }, [applyCardTransforms, getScrollTargetForIndex, isCarousel, loopOffset, loopProjects.length, updateSidePadding]);
+  }, [applyCardTransforms, getScrollTargetForIndex, loopOffset, loopProjects.length, updateSidePadding, useFancyCarousel]);
 
   useEffect(() => {
-    if (!isCarousel) return;
+    if (!useFancyCarousel) return;
 
     const track = trackRef.current;
     if (!track) return;
@@ -284,10 +343,10 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
     getSlides().forEach((slide) => observer.observe(slide));
 
     return () => observer.disconnect();
-  }, [applyCardTransforms, getScrollTargetForIndex, getSlides, isCarousel, loopProjects.length, updateSidePadding]);
+  }, [applyCardTransforms, getScrollTargetForIndex, getSlides, loopProjects.length, updateSidePadding, useFancyCarousel]);
 
   useEffect(() => {
-    if (!isCarousel) return;
+    if (!useFancyCarousel) return;
 
     const track = trackRef.current;
     if (!track) return;
@@ -326,10 +385,10 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
       track.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
     };
-  }, [applyCardTransforms, getScrollTargetForIndex, getSlides, isCarousel, updateSidePadding]);
+  }, [applyCardTransforms, getScrollTargetForIndex, getSlides, updateSidePadding, useFancyCarousel]);
 
   useEffect(() => {
-    if (!isCarousel || reduced || projects.length <= 1) return;
+    if (!useFancyCarousel || reduced || projects.length <= 1) return;
 
     const timer = window.setInterval(() => {
       if (pausedRef.current || animatingRef.current) return;
@@ -337,7 +396,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
     }, AUTO_INTERVAL_MS);
 
     return () => window.clearInterval(timer);
-  }, [isCarousel, projects.length, reduced, scrollToIndex]);
+  }, [projects.length, reduced, scrollToIndex, useFancyCarousel]);
 
   const scrollByCard = (direction: "prev" | "next") => {
     const delta = direction === "next" ? 1 : -1;
@@ -349,7 +408,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
   return (
     <section id="portfolio" className="landing-section-gap relative z-10 isolate scroll-mt-28">
       <div className="site-container">
-        <Reveal className="mb-10 flex flex-col gap-5 md:mb-12 md:flex-row md:items-end md:justify-between">
+        <Reveal className="mb-8 flex flex-col gap-5 md:mb-12 md:flex-row md:items-end md:justify-between">
           <div className="max-w-xl">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff6b00]">Case studies</p>
             <h2 className="landing-title mt-3 font-[family-name:var(--font-family-display)] text-3xl font-bold sm:text-4xl">
@@ -361,7 +420,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
             <ViewToggle viewMode={viewMode} onChange={setViewMode} />
 
             {isCarousel && (
-              <div className="flex items-center gap-2">
+              <div className="hidden items-center gap-2 md:flex">
                 <button
                   type="button"
                   aria-label="Previous projects"
@@ -385,7 +444,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
 
             <Link
               href="/portfolio"
-              className="landing-link hidden items-center gap-2 font-mono text-sm sm:inline-flex"
+              className="landing-link hidden items-center gap-2 font-mono text-sm md:inline-flex"
             >
               View all
               <MaterialIcon name="north_east" className="text-base" />
@@ -395,8 +454,14 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
       </div>
 
       {isCarousel ? (
+        <MobileSimpleCarousel projects={projects} />
+      ) : (
+        <MobileProjectGrid projects={projects} />
+      )}
+
+      {useFancyCarousel ? (
         <div
-          className="site-container relative min-w-0 overflow-hidden py-2 sm:py-4"
+          className="site-container relative hidden min-w-0 overflow-hidden py-2 sm:py-4 md:block"
           onMouseEnter={() => {
             pausedRef.current = true;
           }}
@@ -437,8 +502,10 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
             })}
           </div>
         </div>
-      ) : (
-        <div className="site-container py-2">
+      ) : null}
+
+      {!isCarousel ? (
+        <div className="site-container hidden py-2 md:block">
           <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3">
             {projects.map((project, index) => (
               <PortfolioShowcaseCard
@@ -450,9 +517,9 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
             ))}
           </div>
         </div>
-      )}
+      ) : null}
 
-      <div className="site-container mt-6 sm:hidden">
+      <div className="site-container mt-6 md:hidden">
         <Link href="/portfolio" className="landing-link inline-flex items-center gap-2 font-mono text-sm">
           View all
           <MaterialIcon name="north_east" className="text-base" />
