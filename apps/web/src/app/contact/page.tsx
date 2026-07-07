@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="relative page-below-header overflow-x-hidden pb-12 sm:pb-20">
+    <div className="relative overflow-x-hidden pb-12 pt-[5.75rem] sm:pb-20 sm:pt-[7.125rem]">
 
       {/* Background effects */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -17,11 +17,11 @@ export default function ContactPage() {
         <div className="absolute -left-40 bottom-40 h-[400px] w-[400px] rounded-full bg-[#ff6b00]/[0.03] blur-[120px]" />
       </div>
 
-      <div className="site-container relative min-w-0 pt-4 sm:pt-8">
+      <div className="site-container relative min-w-0">
 
         {/* Hero heading */}
-        <div className="mb-8 max-w-2xl sm:mb-12">
-          <div className="mb-3 flex items-center gap-2 sm:mb-4">
+        <div className="mb-6 max-w-2xl sm:mb-8">
+          <div className="mb-2 flex items-center gap-2 sm:mb-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#ff6b00]/10 ring-1 ring-[#ff6b00]/20">
               <span className="material-symbols-outlined !text-[16px] text-[#ff6b00]">chat_bubble</span>
             </div>
