@@ -11,7 +11,7 @@ import { useReducedMotion } from "./useReducedMotion";
 const AUTO_INTERVAL_MS = 6000;
 const SCROLL_DURATION_MS = 2600;
 const MIN_SCALE = 0.78;
-const MAX_SCALE = 0.98;
+const MAX_SCALE = 1;
 const MIN_OPACITY = 0.32;
 const DESKTOP_MQ = "(min-width: 768px)";
 
@@ -192,8 +192,8 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
       const distance = Math.abs(slideCenter - viewportCenter);
       const proximity = Math.max(0, 1 - distance / falloff);
       const eased = proximity * proximity * (3 - 2 * proximity);
-      const scale = MIN_SCALE + eased * (MAX_SCALE - MIN_SCALE);
-      const opacity = MIN_OPACITY + eased * (1 - MIN_OPACITY);
+      const scale = reduced ? 1 : MIN_SCALE + eased * (MAX_SCALE - MIN_SCALE);
+      const opacity = reduced ? 1 : MIN_OPACITY + eased * (1 - MIN_OPACITY);
 
       card.style.transform = `translate3d(0, 0, 0) scale(${scale})`;
       card.style.opacity = String(opacity);
@@ -206,7 +206,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
 
       if (glow) glow.style.opacity = String(eased * 0.95);
     });
-  }, [getSlides]);
+  }, [getSlides, reduced]);
 
   const getScrollTargetForIndex = useCallback(
     (index: number) => {
@@ -283,6 +283,21 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
         cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
       }
+
+      const slides = getSlides();
+      slides.forEach((slide) => {
+        const card = slide.querySelector<HTMLElement>("[data-carousel-card]");
+        const glow = slide.querySelector<HTMLElement>("[data-carousel-glow]");
+        if (!card) return;
+
+        card.style.transform = "";
+        card.style.opacity = "";
+        card.style.zIndex = "";
+        card.style.borderColor = "";
+        card.style.boxShadow = "";
+        if (glow) glow.style.opacity = "";
+      });
+
       return;
     }
 
@@ -295,7 +310,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, [applyCardTransforms, useFancyCarousel]);
+  }, [applyCardTransforms, getSlides, useFancyCarousel]);
 
   useEffect(() => {
     if (!useFancyCarousel) {
@@ -477,7 +492,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
         >
           <div
             ref={trackRef}
-            className="flex snap-x snap-mandatory items-center gap-4 overflow-x-auto pb-2 sm:gap-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="flex snap-x snap-mandatory items-center gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             style={{
               paddingLeft: sidePadding,
               paddingRight: sidePadding,
@@ -491,7 +506,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
                 <div
                   key={`${project.slug}-${copyIndex}-${index}`}
                   data-carousel-slide
-                  className="flex w-full max-w-[34rem] shrink-0 snap-center items-center justify-center sm:max-w-[38rem] lg:max-w-[44rem]"
+                  className="flex w-[min(72vw,42rem)] shrink-0 snap-center items-center justify-center"
                 >
                   <PortfolioShowcaseCard
                     project={project}
