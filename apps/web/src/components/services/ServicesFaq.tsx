@@ -17,7 +17,7 @@ export function ServicesFaq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="border-t border-white/[0.06] bg-white/[0.015] py-20 sm:py-24">
+    <section id="faq" className="scroll-mt-28 border-t border-white/[0.06] bg-white/[0.015] py-20 sm:py-24">
       <div className="site-container">
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 text-center">

@@ -14,7 +14,7 @@ const STEPS = [
 
 export function ServicesProcess() {
   return (
-    <section className="py-20 sm:py-24">
+    <section id="process" className="scroll-mt-28 py-20 sm:py-24">
       <div className="site-container">
         <div className="mb-12 text-center">
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#ff6b00]/80">Delivery Model</p>
