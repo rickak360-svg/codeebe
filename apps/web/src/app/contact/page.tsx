@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="relative page-below-header pb-20">
+    <div className="relative page-below-header overflow-x-hidden pb-12 sm:pb-20">
 
       {/* Background effects */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -17,46 +17,46 @@ export default function ContactPage() {
         <div className="absolute -left-40 bottom-40 h-[400px] w-[400px] rounded-full bg-[#ff6b00]/[0.03] blur-[120px]" />
       </div>
 
-      <div className="site-container relative pt-8">
+      <div className="site-container relative min-w-0 pt-4 sm:pt-8">
 
         {/* Hero heading */}
-        <div className="mb-12 max-w-2xl">
-          <div className="mb-4 flex items-center gap-2">
+        <div className="mb-8 max-w-2xl sm:mb-12">
+          <div className="mb-3 flex items-center gap-2 sm:mb-4">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#ff6b00]/10 ring-1 ring-[#ff6b00]/20">
               <span className="material-symbols-outlined !text-[16px] text-[#ff6b00]">chat_bubble</span>
             </div>
-            <span className="text-sm font-semibold uppercase tracking-widest text-[#ff6b00]">Contact</span>
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#ff6b00] sm:text-sm">Contact</span>
           </div>
-          <h1 className="font-[family-name:var(--font-family-display)] text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h1 className="font-[family-name:var(--font-family-display)] text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Let&apos;s{" "}
             <span className="bg-gradient-to-r from-[#ff6b00] via-[#ff9a00] to-[#ffcc00] bg-clip-text text-transparent">talk</span>
           </h1>
-          <p className="mt-3 text-base leading-relaxed text-white/50">
+          <p className="mt-2 text-sm leading-relaxed text-white/50 sm:mt-3 sm:text-base">
             Have a project in mind? Fill out the form or reach out through any channel below.
           </p>
         </div>
 
         {/* Main grid: Form left, Cards right */}
-        <div className="grid items-stretch gap-10 lg:grid-cols-2">
+        <div className="grid min-w-0 items-stretch gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-10">
 
           {/* Left: Form card */}
-          <div className="rounded-2xl border border-[#ff6b00]/15 bg-white/[0.02] p-6 shadow-[0_0_40px_-12px_rgba(255,107,0,0.12)] backdrop-blur-sm sm:p-8">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#ff6b00]/20 to-[#ff6b00]/5 ring-1 ring-[#ff6b00]/20">
+          <div className="min-w-0 rounded-2xl border border-[#ff6b00]/15 bg-white/[0.02] p-4 shadow-[0_0_40px_-12px_rgba(255,107,0,0.12)] backdrop-blur-sm sm:p-6 lg:p-8">
+            <div className="mb-5 flex items-center gap-3 sm:mb-6">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#ff6b00]/20 to-[#ff6b00]/5 ring-1 ring-[#ff6b00]/20">
                 <span className="material-symbols-outlined !text-[18px] text-[#ff6b00]">edit_square</span>
               </div>
-              <h2 className="text-lg font-semibold text-white">Send a message</h2>
+              <h2 className="text-base font-semibold text-white sm:text-lg">Send a message</h2>
             </div>
             <ContactForm />
           </div>
 
           {/* Right: Contact cards grid */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
 
             {/* Email */}
             <a
               href={`mailto:${siteConfig.email}`}
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 transition-all duration-300 hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.03]"
+              className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition-all duration-300 hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.03] sm:p-5"
             >
               <div className="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[#ff6b00]/[0.06] blur-[25px] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden />
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#ff6b00]/25 bg-[#ff6b00]/[0.06] transition-all duration-300 group-hover:border-[#ff6b00]/40 group-hover:shadow-[0_0_16px_-4px_rgba(255,107,0,0.4)]">
@@ -71,7 +71,7 @@ export default function ContactPage() {
               href={siteConfig.calendlyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 transition-all duration-300 hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.03]"
+              className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition-all duration-300 hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.03] sm:p-5"
             >
               <div className="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[#ff6b00]/[0.06] blur-[25px] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden />
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#ff6b00]/25 bg-[#ff6b00]/[0.06] transition-all duration-300 group-hover:border-[#ff6b00]/40 group-hover:shadow-[0_0_16px_-4px_rgba(255,107,0,0.4)]">
@@ -89,7 +89,7 @@ export default function ContactPage() {
               href={siteConfig.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 transition-all duration-300 hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.03]"
+              className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition-all duration-300 hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.03] sm:p-5"
             >
               <div className="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[#ff6b00]/[0.06] blur-[25px] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden />
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#ff6b00]/25 bg-[#ff6b00]/[0.06] transition-all duration-300 group-hover:border-[#ff6b00]/40 group-hover:shadow-[0_0_16px_-4px_rgba(255,107,0,0.4)]">
@@ -107,7 +107,7 @@ export default function ContactPage() {
             {/* Live Chat */}
             <a
               href="#"
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 transition-all duration-300 hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.03]"
+              className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition-all duration-300 hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.03] sm:p-5"
             >
               <div className="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[#ff6b00]/[0.06] blur-[25px] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden />
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#ff6b00]/25 bg-[#ff6b00]/[0.06] transition-all duration-300 group-hover:border-[#ff6b00]/40 group-hover:shadow-[0_0_16px_-4px_rgba(255,107,0,0.4)]">
@@ -123,7 +123,7 @@ export default function ContactPage() {
             {/* Phone - spans full width below the 2x2 grid */}
             <a
               href={`tel:${siteConfig.phone?.replace(/\\s/g, "")}`}
-              className="group relative col-span-2 overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 transition-all duration-300 hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.03]"
+              className="group relative col-span-1 overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition-all duration-300 hover:border-[#ff6b00]/25 hover:bg-[#ff6b00]/[0.03] sm:col-span-2 sm:p-5"
             >
               <div className="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[#ff6b00]/[0.06] blur-[25px] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden />
               <div className="flex items-center gap-4">
@@ -142,7 +142,7 @@ export default function ContactPage() {
         </div>
 
         {/* Bottom trust strip */}
-        <div className="mt-14 flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] px-6 py-5 sm:gap-10">
+        <div className="mt-10 grid grid-cols-2 gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] px-4 py-4 sm:mt-14 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-6 sm:px-6 sm:py-5 lg:gap-10">
           {[
             { icon: "verified", label: "50+ Projects Delivered" },
             { icon: "star", label: "98% Client Satisfaction" },
@@ -150,8 +150,8 @@ export default function ContactPage() {
             { icon: "support_agent", label: "Dedicated Support" },
           ].map(({ icon, label }) => (
             <div key={label} className="flex items-center gap-2">
-              <span className="material-symbols-outlined !text-[18px] text-[#ff6b00]">{icon}</span>
-              <span className="text-[13px] font-medium text-white/50">{label}</span>
+              <span className="material-symbols-outlined !text-[16px] text-[#ff6b00] sm:!text-[18px]">{icon}</span>
+              <span className="text-[11px] font-medium leading-snug text-white/50 sm:text-[13px]">{label}</span>
             </div>
           ))}
         </div>

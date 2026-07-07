@@ -33,6 +33,13 @@ export const metadata: Metadata = {
   title: "Codeebe | Premium Product Engineering Studio",
   description:
     "We build SaaS, automation, AI workflows and product platforms with product-first thinking, clean architecture, and launch-ready delivery.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({
@@ -47,6 +54,9 @@ export default function RootLayout({
       className={`dark ${hankenGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${ethnocentric.variable} h-full`}
     >
       <head>
+        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/icon.png" type="image/png" sizes="512x512" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" sizes="180x180" />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
           rel="stylesheet"

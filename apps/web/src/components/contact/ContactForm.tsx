@@ -10,7 +10,7 @@ const SERVICES_MARQUEE = [
 ];
 
 const INPUT_CLASS =
-  "w-full rounded-xl border border-white/[0.1] bg-[#1a1a1a] py-3.5 pl-11 pr-4 text-sm text-white placeholder:text-white/30 transition-all duration-200 focus:border-[#ff6b00]/60 focus:bg-[#1a1a1a] focus:shadow-[0_0_0_3px_rgba(255,107,0,0.1)] focus:outline-none";
+  "min-w-0 w-full max-w-full rounded-xl border border-white/[0.1] bg-[#1a1a1a] py-3 pl-10 pr-3 text-sm text-white placeholder:text-white/30 transition-all duration-200 focus:border-[#ff6b00]/60 focus:bg-[#1a1a1a] focus:shadow-[0_0_0_3px_rgba(255,107,0,0.1)] focus:outline-none sm:py-3.5 sm:pl-11 sm:pr-4";
 
 export function ContactForm() {
   const [loading, setLoading] = useState(false);
@@ -60,7 +60,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="min-w-0 space-y-4 sm:space-y-5">
       {error && (
         <div className="flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/[0.06] px-4 py-3">
           <span className="material-symbols-outlined !text-[18px] text-red-400">error</span>
@@ -69,14 +69,14 @@ export function ContactForm() {
       )}
 
       {/* Services marquee */}
-      <div className="relative overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02] py-3">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-[#0d0d0d] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-[#0d0d0d] to-transparent" />
-        <div className="flex animate-marquee whitespace-nowrap">
+      <div className="relative w-full max-w-full overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02] py-2.5 sm:py-3">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-[#0d0d0d] to-transparent sm:w-12" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-[#0d0d0d] to-transparent sm:w-12" />
+        <div className="flex w-max animate-marquee whitespace-nowrap">
           {[...SERVICES_MARQUEE, ...SERVICES_MARQUEE].map((service, i) => (
             <span
               key={`${service}-${i}`}
-              className="mx-3 inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-white/25"
+              className="mx-2 inline-flex shrink-0 items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/25 sm:mx-3 sm:text-[12px] sm:tracking-[0.15em]"
             >
               <span className="h-1 w-1 rounded-full bg-[#ff6b00]/40" />
               {service}
@@ -86,14 +86,14 @@ export function ContactForm() {
       </div>
 
       {/* Name + Email row */}
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-2 sm:gap-5">
         <div>
           <label className="mb-2 block text-[13px] font-medium text-white/60" htmlFor="fullName">
             Name <span className="text-[#ff6b00]">*</span>
           </label>
           <div className="relative">
-            <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2">
-              <span className="material-symbols-outlined !text-[18px] text-white/30">person</span>
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 sm:left-3.5">
+              <span className="material-symbols-outlined !text-[17px] text-white/30 sm:!text-[18px]">person</span>
             </span>
             <input
               id="fullName"
@@ -125,7 +125,7 @@ export function ContactForm() {
       </div>
 
       {/* Phone + Company row */}
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-2 sm:gap-5">
         <div>
           <label className="mb-2 block text-[13px] font-medium text-white/60" htmlFor="phone">
             Phone <span className="text-[#ff6b00]">*</span>
@@ -176,7 +176,7 @@ export function ContactForm() {
             required
             rows={5}
             placeholder="Tell us about your project requirements..."
-            className="w-full rounded-xl border border-white/[0.1] bg-[#1a1a1a] py-3.5 pl-11 pr-4 text-sm text-white placeholder:text-white/30 transition-all duration-200 focus:border-[#ff6b00]/60 focus:bg-[#1a1a1a] focus:shadow-[0_0_0_3px_rgba(255,107,0,0.1)] focus:outline-none resize-none"
+            className="w-full max-w-full resize-none rounded-xl border border-white/[0.1] bg-[#1a1a1a] py-3 pl-10 pr-3 text-sm text-white placeholder:text-white/30 transition-all duration-200 focus:border-[#ff6b00]/60 focus:bg-[#1a1a1a] focus:shadow-[0_0_0_3px_rgba(255,107,0,0.1)] focus:outline-none sm:py-3.5 sm:pl-11 sm:pr-4"
           />
         </div>
       </div>
@@ -185,7 +185,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={loading}
-        className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-[#ff6b00] to-[#ff8533] px-6 py-4 text-sm font-bold text-white shadow-[0_8px_28px_-8px_rgba(255,107,0,0.5)] transition-all duration-300 hover:shadow-[0_12px_36px_-8px_rgba(255,107,0,0.65)] hover:scale-[1.01] disabled:opacity-60 disabled:hover:scale-100"
+        className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-[#ff6b00] to-[#ff8533] px-5 py-3.5 text-sm font-bold text-white shadow-[0_8px_28px_-8px_rgba(255,107,0,0.5)] transition-all duration-300 hover:shadow-[0_12px_36px_-8px_rgba(255,107,0,0.65)] enabled:hover:scale-[1.01] disabled:opacity-60 disabled:hover:scale-100 sm:px-6 sm:py-4"
       >
         <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
         <span className="relative flex items-center justify-center gap-2">

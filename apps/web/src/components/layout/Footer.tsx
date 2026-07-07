@@ -281,8 +281,10 @@ export function Footer() {
             © {year} {siteConfig.name} · Premium Product Engineering Studio
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[11.5px] text-white/25">
-            <Link href="/contact" className="transition-colors hover:text-[#ff6b00]">Privacy Policy</Link>
-            <Link href="/contact" className="transition-colors hover:text-[#ff6b00]">Terms of Service</Link>
+            <Link href="/privacy-policy" className="transition-colors hover:text-[#ff6b00]">Privacy Policy</Link>
+            <Link href="/terms" className="transition-colors hover:text-[#ff6b00]">Terms & Conditions</Link>
+            <Link href="/refund-policy" className="transition-colors hover:text-[#ff6b00]">Refund Policy</Link>
+            <Link href="/disclaimer" className="transition-colors hover:text-[#ff6b00]">Disclaimer</Link>
             <span className="flex items-center gap-1">
               Made with
               <span className="text-[#ff6b00]">♥</span>
