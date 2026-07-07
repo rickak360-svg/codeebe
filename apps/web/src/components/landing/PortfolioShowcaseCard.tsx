@@ -48,7 +48,11 @@ export const PortfolioShowcaseCard = memo(
                 ? "(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                 : "(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 704px"
             }
-            className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+            className={`object-cover object-top transition-[filter,transform] duration-500 ease-in-out group-hover:scale-[1.03] ${
+              isGrid
+                ? "brightness-[0.48] saturate-[0.9] group-hover:brightness-[0.72] group-hover:saturate-100"
+                : ""
+            }`}
           />
         ) : (
           <div
@@ -57,7 +61,19 @@ export const PortfolioShowcaseCard = memo(
           />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/75 to-black/25" />
+        <div
+          className={
+            isGrid
+              ? "absolute inset-0 bg-gradient-to-t from-black via-black/92 to-black/70 transition-opacity duration-500 ease-in-out group-hover:opacity-80"
+              : "absolute inset-0 bg-gradient-to-t from-black via-black/75 to-black/25"
+          }
+        />
+        {isGrid ? (
+          <div
+            className="absolute inset-0 bg-black/30 transition-opacity duration-500 ease-in-out group-hover:opacity-10"
+            aria-hidden
+          />
+        ) : null}
         <div
           data-carousel-glow
           className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(255,107,0,0.18),transparent_55%)] opacity-0 group-hover:opacity-80"

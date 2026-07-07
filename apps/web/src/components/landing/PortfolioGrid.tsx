@@ -182,10 +182,20 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
 
   const updateSidePadding = useCallback(() => {
     const track = trackRef.current;
-    const slide = getSlides()[0];
+    const slides = getSlides();
+    const slide = slides[loopOffset] ?? slides[0];
     if (!track || !slide) return;
-    setSidePadding(Math.max(20, (track.clientWidth - slide.offsetWidth) / 2));
-  }, [getSlides]);
+
+    const trackWidth = track.clientWidth;
+    const slideWidth = slide.getBoundingClientRect().width;
+
+    if (slideWidth <= 0 || slideWidth >= trackWidth - 8) {
+      setSidePadding(20);
+      return;
+    }
+
+    setSidePadding(Math.max(20, (trackWidth - slideWidth) / 2));
+  }, [getSlides, loopOffset]);
 
   const scrollToIndex = useCallback(
     (index: number, duration = SCROLL_DURATION_MS) => {
@@ -247,8 +257,34 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
     };
 
     const frame = requestAnimationFrame(init);
-    return () => cancelAnimationFrame(frame);
+    const retry = window.setTimeout(init, 120);
+    const retryLate = window.setTimeout(init, 400);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(retry);
+      window.clearTimeout(retryLate);
+    };
   }, [applyCardTransforms, getScrollTargetForIndex, isCarousel, loopOffset, loopProjects.length, updateSidePadding]);
+
+  useEffect(() => {
+    if (!isCarousel) return;
+
+    const track = trackRef.current;
+    if (!track) return;
+
+    const observer = new ResizeObserver(() => {
+      updateSidePadding();
+      const target = getScrollTargetForIndex(visualIndexRef.current);
+      if (target !== null) track.scrollLeft = Math.max(0, target);
+      applyCardTransforms();
+    });
+
+    observer.observe(track);
+    getSlides().forEach((slide) => observer.observe(slide));
+
+    return () => observer.disconnect();
+  }, [applyCardTransforms, getScrollTargetForIndex, getSlides, isCarousel, loopProjects.length, updateSidePadding]);
 
   useEffect(() => {
     if (!isCarousel) return;
@@ -390,7 +426,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
                 <div
                   key={`${project.slug}-${copyIndex}-${index}`}
                   data-carousel-slide
-                  className="flex w-[min(100%,34rem)] max-w-full shrink-0 snap-center items-center justify-center sm:w-[min(100%,38rem)] lg:w-[min(100%,44rem)]"
+                  className="flex w-full max-w-[34rem] shrink-0 snap-center items-center justify-center sm:max-w-[38rem] lg:max-w-[44rem]"
                 >
                   <PortfolioShowcaseCard
                     project={project}
