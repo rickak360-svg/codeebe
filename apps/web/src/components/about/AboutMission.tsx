@@ -12,7 +12,7 @@ const PILLARS = [
 
 export function AboutMission() {
   return (
-    <section className="py-20 sm:py-24">
+    <section id="mission" className="scroll-mt-28 py-20 sm:py-24">
       <div className="site-container">
         <div className="grid gap-16 lg:grid-cols-[1fr_1.2fr] lg:items-center">
           {/* Left: story */}

@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="relative overflow-x-hidden pb-12 pt-[5.75rem] sm:pb-20 sm:pt-[7.125rem]">
+    <div className="relative overflow-x-hidden pb-12 pt-[7.75rem] sm:pb-20 sm:pt-[9.125rem]">
 
       {/* Background effects */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
