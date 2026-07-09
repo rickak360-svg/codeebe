@@ -279,6 +279,12 @@ export function Header() {
 
   return (
     <>
+      {/* Top scrim — fades page content beneath the floating header */}
+      <div
+        className="pointer-events-none fixed inset-x-0 top-0 z-[90] h-36 bg-gradient-to-b from-[#0a0b0b] from-15% via-[#0a0b0b]/75 via-50% to-transparent sm:h-40 lg:h-44"
+        aria-hidden
+      />
+
       {/* ── Floating pill header ── */}
       <header className="pointer-events-none fixed inset-x-0 top-0 z-[100] bg-transparent pt-5 sm:pt-8">
         <motion.div
