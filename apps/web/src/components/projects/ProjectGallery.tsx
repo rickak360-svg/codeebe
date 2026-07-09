@@ -57,12 +57,19 @@ export function ProjectGallery({ images, name }: Props) {
     return () => clearInterval(t);
   }, [paused, count]);
 
-  // Keep the active thumbnail in view.
+  // Keep the active thumbnail in view (horizontal strip only — never scroll the page).
   useEffect(() => {
     const track = thumbsRef.current;
     if (!track) return;
     const active = track.children[index] as HTMLElement | undefined;
-    active?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    if (!active) return;
+
+    const targetLeft =
+      active.offsetLeft - track.clientWidth / 2 + active.clientWidth / 2;
+    track.scrollTo({
+      left: Math.max(0, Math.min(targetLeft, track.scrollWidth - track.clientWidth)),
+      behavior: "smooth",
+    });
   }, [index]);
 
   if (count === 0) return null;
