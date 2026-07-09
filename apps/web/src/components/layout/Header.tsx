@@ -17,7 +17,7 @@ const navItems: NavLink[] = [
     label: "About",
     href: "/about",
     children: [
-      { label: "About Us",    href: "/about",         icon: "info",         desc: "Who we are & our mission"      },
+      { label: "About Us",    href: "/about#mission", icon: "info",         desc: "Who we are & our mission"      },
       { label: "Our Process", href: "/about#process", icon: "account_tree", desc: "How we take a brief to launch" },
     ],
   },
@@ -25,7 +25,7 @@ const navItems: NavLink[] = [
     label: "Services",
     href: "/services",
     children: [
-      { label: "All Services", href: "/services",      icon: "widgets", desc: "SaaS, AI, mobile & more"  },
+      { label: "All Services", href: "/services#capabilities", icon: "widgets", desc: "SaaS, AI, mobile & more"  },
       { label: "Tech Stack",   href: "/services#tech", icon: "memory",  desc: "Tools & frameworks we use" },
       { label: "FAQ",          href: "/services#faq",  icon: "quiz",    desc: "Common questions answered" },
     ],
@@ -33,6 +33,15 @@ const navItems: NavLink[] = [
   { label: "Portfolio", href: "/portfolio" },
   { label: "Contact",   href: "/contact"   },
 ];
+
+/* Same-page nav clicks (no hash) should return to the top, since the App
+   Router treats a click to the current URL as a no-op and won't scroll. */
+function scrollTopIfSamePath(href: string, pathname: string) {
+  const [path, hashPart] = href.split("#");
+  if (!hashPart && (path || "/") === pathname) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
 
 /* ── Animated hamburger ↔ X (SVG morph, GPU only) ───────────────────────── */
 function MenuIcon({ open }: { open: boolean }) {
@@ -67,18 +76,34 @@ function NavDropdown({ item, active }: { item: NavLink; active: boolean }) {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasChildren = Boolean(item.children?.length);
   const reduced = useReducedMotion();
+  const pathname = usePathname();
 
   const openMenu  = () => { if (closeTimer.current) clearTimeout(closeTimer.current); setOpen(true); };
   const closeMenu = () => { closeTimer.current = setTimeout(() => setOpen(false), 120); };
   const linkClass = `header-nav-link ${active ? "header-nav-link--active" : ""}`;
 
   if (!hasChildren) {
-    return <li><Link href={item.href} className={linkClass}>{item.label}</Link></li>;
+    return (
+      <li>
+        <Link
+          href={item.href}
+          className={linkClass}
+          onClick={() => scrollTopIfSamePath(item.href, pathname)}
+        >
+          {item.label}
+        </Link>
+      </li>
+    );
   }
 
   return (
     <li className="relative" onMouseEnter={openMenu} onMouseLeave={closeMenu}>
-      <Link href={item.href} className={linkClass} aria-expanded={open}>
+      <Link
+        href={item.href}
+        className={linkClass}
+        aria-expanded={open}
+        onClick={() => scrollTopIfSamePath(item.href, pathname)}
+      >
         <span>{item.label}</span>
         <motion.span
           animate={{ rotate: open ? 180 : 0 }}
@@ -120,7 +145,7 @@ function NavDropdown({ item, active }: { item: NavLink; active: boolean }) {
                     key={child.href}
                     href={child.href}
                     className="group flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-[#ff6b00]/[0.08]"
-                    onClick={() => setOpen(false)}
+                    onClick={() => { setOpen(false); scrollTopIfSamePath(child.href, pathname); }}
                   >
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03] transition-colors group-hover:border-[#ff6b00]/30 group-hover:bg-[#ff6b00]/10">
                       <MaterialIcon name={child.icon} className="!text-[15px] text-white/40 transition-colors group-hover:text-[#ff6b00]" />
@@ -154,13 +179,14 @@ function MobileAccordionItem({
 }) {
   const [expanded, setExpanded] = useState(false);
   const hasChildren = Boolean(item.children?.length);
+  const pathname = usePathname();
 
   return (
     <li>
       <div className="flex items-center">
         <Link
           href={item.href}
-          onClick={() => { if (!hasChildren) onClose(); }}
+          onClick={() => { if (!hasChildren) { scrollTopIfSamePath(item.href, pathname); onClose(); } }}
           className={`flex-1 py-4 font-[family-name:var(--font-family-ethno)] text-[1.1rem] uppercase tracking-wider transition-colors duration-150 ${
             active ? "text-[#ff6b00]" : "text-white/90 hover:text-white"
           }`}
@@ -197,7 +223,7 @@ function MobileAccordionItem({
               <li key={child.href}>
                 <Link
                   href={child.href}
-                  onClick={onClose}
+                  onClick={() => { scrollTopIfSamePath(child.href, pathname); onClose(); }}
                   className="group flex items-center gap-3 py-3 pl-4 text-white/50 transition-colors hover:text-white"
                 >
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-white/[0.07] bg-white/[0.04] transition-colors group-hover:border-[#ff6b00]/30 group-hover:bg-[#ff6b00]/10">
@@ -253,6 +279,12 @@ export function Header() {
 
   return (
     <>
+      {/* Top scrim — fades page content beneath the floating header */}
+      <div
+        className="pointer-events-none fixed inset-x-0 top-0 z-[90] h-36 bg-gradient-to-b from-[#0a0b0b] from-15% via-[#0a0b0b]/75 via-50% to-transparent sm:h-40 lg:h-44"
+        aria-hidden
+      />
+
       {/* ── Floating pill header ── */}
       <header className="pointer-events-none fixed inset-x-0 top-0 z-[100] bg-transparent pt-5 sm:pt-8">
         <motion.div

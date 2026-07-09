@@ -17,9 +17,15 @@ export function HeroPremium() {
   return (
     <section
       id="hero"
-      className="relative isolate w-full overflow-hidden border-b border-[var(--landing-border-subtle)] bg-[var(--landing-surface-lowest)] pt-28 sm:pt-32 lg:pt-36"
+      className="relative isolate w-full overflow-hidden border-b border-[var(--landing-border-subtle)] bg-[var(--landing-surface-lowest)] pt-36 sm:pt-40 lg:pt-44"
     >
       <LandingBackdrop glowRight subtle />
+
+      {/* Fade hero copy beneath the floating header so headline text doesn't clash */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 z-[15] h-40 bg-gradient-to-b from-[var(--landing-surface-lowest)] from-10% via-[var(--landing-surface-lowest)]/90 via-55% to-transparent sm:h-44 lg:h-48"
+        aria-hidden
+      />
 
       {/* Soft brand glows — clipped by overflow-hidden so they never cause scroll */}
       <div

@@ -173,7 +173,7 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.8fr_1fr_1fr_1.3fr]">
 
           {/* Brand */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 lg:pl-[17px]">
             <BrandLogo size="lg" />
 
             <p className="max-w-[260px] text-[13px] leading-relaxed text-white/40">
