@@ -14,6 +14,7 @@ import { ServicesModule } from './services/services.module';
 import { TeamModule } from './team/team.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
 import { ClientsModule } from './clients/clients.module';
+import { ChatModule } from './chat/chat.module';
 
 /** BullMQ jobs demo — requires Redis. Leads API works without it. */
 function getQueueModules(): Array<Type<unknown> | DynamicModule> {
@@ -41,6 +42,7 @@ function getQueueModules(): Array<Type<unknown> | DynamicModule> {
     AdminModule,
     WebhooksModule,
     ClientsModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [

@@ -29,7 +29,7 @@ export type Lead = {
   features: string[];
   timeline: string;
   budgetRange?: string;
-  source?: 'estimate' | 'contact';
+  source?: 'estimate' | 'contact' | 'chat';
   status: LeadStatus;
   createdAt: string;
   score?: number;
@@ -47,5 +47,5 @@ export type CreateLeadInput = {
   features: string[];
   timeline: string;
   budgetRange?: string;
-  source?: 'estimate' | 'contact';
+  source?: 'estimate' | 'contact' | 'chat';
 };
