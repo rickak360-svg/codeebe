@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import type { ReactNode } from 'react';
 import type { ChatMessage as ChatMessageType } from './useChatbot';
 import { McqOptions, parseMcqOptions } from './McqOptions';
 import { ContactDetailsForm, isAskingForContactDetails } from './ContactDetailsForm';
@@ -111,8 +112,7 @@ function MessageContent({ content, mcqOptions }: { content: string; mcqOptions?:
     
     return lines.map((line, i) => {
       // Handle bold **text**
-      let parts = line.split(/(\*\*[^*]+\*\*)/g);
-      parts = parts.map((part, j) => {
+      const parts: ReactNode[] = line.split(/(\*\*[^*]+\*\*)/g).map((part, j) => {
         if (part.startsWith('**') && part.endsWith('**')) {
           return <strong key={`${i}-${j}`} className="font-semibold">{part.slice(2, -2)}</strong>;
         }
@@ -124,7 +124,7 @@ function MessageContent({ content, mcqOptions }: { content: string; mcqOptions?:
         return (
           <div key={i} className="flex items-start gap-2 text-[13px] leading-relaxed">
             <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-[#ff6b00]" />
-            <span>{parts.slice(0)}</span>
+            <span>{parts}</span>
           </div>
         );
       }
