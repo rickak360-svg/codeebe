@@ -78,7 +78,7 @@ const showcaseProjects = [
     category: 'Booking / Rental',
     shortDescription:
       'Car rental booking website with fleet showcase, inquiries, and admin-friendly content.',
-    techStack: ['WordPress', 'Custom Theme', 'PHP', 'MySQL'],
+    techStack: ['NextJs', 'NodeJs', 'Neondb', 'Redis'],
     overview:
       'Shubh Safar presents rental fleets online and captures booking inquiries with a trustworthy brand experience.',
     problemSolved:

@@ -291,12 +291,12 @@ export function Header() {
     <>
       {/* Top scrim — fades page content beneath the floating header */}
       <div
-        className="pointer-events-none fixed inset-x-0 top-0 z-[90] h-36 bg-gradient-to-b from-[#0a0b0b] from-15% via-[#0a0b0b]/75 via-50% to-transparent sm:h-40 lg:h-44"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[90] h-28 bg-gradient-to-b from-[#0a0b0b] from-25% via-[#0a0b0b]/70 via-60% to-transparent sm:h-32 lg:h-36"
         aria-hidden
       />
 
       {/* ── Floating pill header ── */}
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-[100] bg-transparent pt-5 sm:pt-8">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-[100] bg-transparent pt-4 sm:pt-6 lg:pt-7">
         <motion.div
           className="floating-header-wrap pointer-events-auto"
           initial={reduced ? false : { opacity: 0, y: -12 }}
@@ -305,8 +305,8 @@ export function Header() {
         >
           <div className="floating-header-shell">
             <div className="floating-header-shadow" aria-hidden />
-            <div className="floating-header-pill pb-2 pt-2">
-              <div className="relative flex h-14 items-center px-4 sm:h-[4.125rem] sm:px-5 lg:px-6">
+            <div className="floating-header-pill px-1 py-2.5 sm:py-3">
+              <div className="relative flex min-h-12 items-center px-3 sm:min-h-[3.25rem] sm:px-4 lg:min-h-[3.5rem] lg:px-5">
 
                 {/* Hamburger — left on mobile */}
                 <button

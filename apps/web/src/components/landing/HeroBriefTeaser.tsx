@@ -43,7 +43,7 @@ export function HeroBriefTeaser({ onOpenBrief }: Props) {
       initial={reduced ? false : { opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="relative mx-auto w-full min-w-0 max-w-[440px] overflow-hidden lg:mx-0 lg:max-w-none"
+      className="relative mx-auto w-full min-w-0 max-w-[440px] overflow-visible pt-3 lg:mx-0 lg:max-w-none"
     >
       <div
         className="pointer-events-none absolute -inset-3 rounded-[1.75rem] bg-[radial-gradient(circle_at_50%_35%,rgba(255,107,0,0.12),transparent_70%)]"

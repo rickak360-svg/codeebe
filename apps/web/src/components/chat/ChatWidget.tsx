@@ -37,7 +37,7 @@ export function ChatWidget() {
 
   return (
     <>
-      {/* Floating bubble */}
+      {/* Floating chat button */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -46,10 +46,10 @@ export function ChatWidget() {
             exit={{ scale: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             onClick={toggleChat}
-            className="fixed bottom-6 right-6 z-[200] flex h-[60px] w-[60px] items-center justify-center rounded-full bg-gradient-to-br from-[#ff6b00] to-[#ff9a00] text-white shadow-[0_8px_32px_-8px_rgba(255,107,0,0.6)] transition-transform hover:scale-110 lg:bottom-8 lg:right-8"
-            aria-label="Open chat"
+            className="fixed bottom-20 right-5 z-[200] flex h-[56px] w-[56px] items-center justify-center rounded-full bg-gradient-to-br from-[#ff6b00] to-[#ff9a00] text-white shadow-[0_8px_32px_-8px_rgba(255,107,0,0.6)] transition-transform hover:scale-110 sm:bottom-24 sm:right-8 sm:h-[60px] sm:w-[60px]"
+            aria-label="Open AI chat"
           >
-            <MaterialIcon name="chat" className="!text-[28px]" />
+            <MaterialIcon name="smart_toy" className="!text-[28px]" />
             {unreadCount > 0 && (
               <motion.span
                 initial={{ scale: 0 }}
@@ -59,7 +59,6 @@ export function ChatWidget() {
                 {unreadCount}
               </motion.span>
             )}
-            <span className="absolute inset-0 animate-ping rounded-full bg-[#ff6b00] opacity-20" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -104,10 +103,10 @@ export function ChatWidget() {
                   <div className="flex items-center justify-between gap-2">
                   <div className="flex min-w-0 flex-1 items-center gap-2">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#ff6b00]/15">
-                      <MaterialIcon name="support_agent" className="!text-[18px] text-[#ff6b00]" />
+                      <MaterialIcon name="smart_toy" className="!text-[18px] text-[#ff6b00]" />
                     </div>
                     <div className="min-w-0">
-                      <p className="truncate text-[13px] font-semibold text-white">Chat with Codeebe</p>
+                      <p className="truncate text-[13px] font-semibold text-white">AI Chat with Codeebe</p>
                       <p className="truncate text-[10px] text-white/40">We typically reply instantly</p>
                     </div>
                   </div>
