@@ -78,6 +78,100 @@ export class MailService {
     this.logger.log(`Quotation email sent to ${input.to}`);
   }
 
+  async sendChatLeadSummary(input: {
+    adminEmail: string;
+    clientName: string;
+    clientEmail: string;
+    clientPhone?: string;
+    companyName?: string;
+    projectType: string;
+    description?: string;
+    features?: string[];
+    timeline?: string;
+    budgetRange?: string;
+    conversationSummary?: string;
+    leadId?: string;
+  }): Promise<void> {
+    if (!this.enabled) {
+      this.logger.log(
+        `[MAIL DISABLED] Chat lead summary for ${input.clientEmail}: ${input.projectType}`,
+      );
+      return;
+    }
+
+    const featuresHtml =
+      input.features && input.features.length > 0
+        ? input.features
+            .map(
+              (f) =>
+                `<li style="margin:4px 0;color:#333">${f}</li>`,
+            )
+            .join('')
+        : '<li style="color:#888">Not specified</li>';
+
+    const adminLink = input.leadId
+      ? `${this.webUrl}/admin/leads/${input.leadId}`
+      : `${this.webUrl}/admin`;
+
+    const html = `
+      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:24px;background:#fafafa">
+        <div style="background:#0a0a0a;border-radius:12px;padding:20px 24px;margin-bottom:16px">
+          <p style="margin:0 0 4px;color:#ff6b00;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase">New Chat Lead</p>
+          <h2 style="margin:0;color:#fff;font-size:20px">${input.clientName}</h2>
+          <p style="margin:6px 0 0;color:#aaa;font-size:13px">${input.projectType}</p>
+        </div>
+
+        <div style="background:#fff;border:1px solid #eee;border-radius:12px;padding:20px 24px;margin-bottom:12px">
+          <h3 style="margin:0 0 12px;color:#111;font-size:14px">Contact</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:13px;color:#444">
+            <tr><td style="padding:4px 0;width:120px;color:#888">Name</td><td>${input.clientName}</td></tr>
+            <tr><td style="padding:4px 0;color:#888">Email</td><td><a href="mailto:${input.clientEmail}" style="color:#ff6b00">${input.clientEmail}</a></td></tr>
+            <tr><td style="padding:4px 0;color:#888">Phone</td><td>${input.clientPhone || 'Not provided'}</td></tr>
+            <tr><td style="padding:4px 0;color:#888">Company</td><td>${input.companyName || 'Not provided'}</td></tr>
+          </table>
+        </div>
+
+        <div style="background:#fff;border:1px solid #eee;border-radius:12px;padding:20px 24px;margin-bottom:12px">
+          <h3 style="margin:0 0 12px;color:#111;font-size:14px">Requirements</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:13px;color:#444">
+            <tr><td style="padding:4px 0;width:120px;color:#888">Project</td><td>${input.projectType}</td></tr>
+            <tr><td style="padding:4px 0;color:#888">Timeline</td><td>${input.timeline || 'Not specified'}</td></tr>
+            <tr><td style="padding:4px 0;color:#888">Budget</td><td>${input.budgetRange || 'Not specified'}</td></tr>
+          </table>
+          <p style="margin:12px 0 6px;color:#888;font-size:12px">Description</p>
+          <p style="margin:0;color:#333;font-size:13px;line-height:1.5">${input.description || 'No description captured'}</p>
+          <p style="margin:14px 0 6px;color:#888;font-size:12px">Features requested</p>
+          <ul style="margin:0;padding-left:18px">${featuresHtml}</ul>
+        </div>
+
+        ${
+          input.conversationSummary
+            ? `<div style="background:#fff;border:1px solid #eee;border-radius:12px;padding:20px 24px;margin-bottom:12px">
+          <h3 style="margin:0 0 12px;color:#111;font-size:14px">Conversation summary</h3>
+          <pre style="margin:0;white-space:pre-wrap;font-family:inherit;font-size:12px;line-height:1.55;color:#555">${input.conversationSummary}</pre>
+        </div>`
+            : ''
+        }
+
+        <p style="margin:16px 0 0">
+          <a href="${adminLink}"
+             style="background:#ff6b00;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;display:inline-block;font-size:13px;font-weight:600">
+            View in Admin Panel
+          </a>
+        </p>
+      </div>`;
+
+    await this.transporter!.sendMail({
+      from: this.from,
+      to: input.adminEmail,
+      replyTo: input.clientEmail,
+      subject: `💬 Chat Lead — ${input.clientName} wants ${input.projectType}`,
+      html,
+    });
+
+    this.logger.log(`Chat lead summary sent to ${input.adminEmail} for ${input.clientEmail}`);
+  }
+
   async sendInterestNotification(input: {
     adminEmail: string;
     clientName: string;

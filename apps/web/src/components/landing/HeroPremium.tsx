@@ -17,17 +17,17 @@ export function HeroPremium() {
   return (
     <section
       id="hero"
-      className="relative isolate w-full overflow-hidden border-b border-[var(--landing-border-subtle)] bg-[var(--landing-surface-lowest)] pt-36 sm:pt-40 lg:pt-44"
+      className="relative isolate w-full overflow-x-clip border-b border-[var(--landing-border-subtle)] bg-[var(--landing-surface-lowest)] pt-36 sm:pt-40 lg:pt-44"
     >
       <LandingBackdrop glowRight subtle />
 
-      {/* Fade hero copy beneath the floating header so headline text doesn't clash */}
+      {/* Fade only under the floating header — keep short so hero card isn't clipped */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-[15] h-40 bg-gradient-to-b from-[var(--landing-surface-lowest)] from-10% via-[var(--landing-surface-lowest)]/90 via-55% to-transparent sm:h-44 lg:h-48"
+        className="pointer-events-none absolute inset-x-0 top-0 z-[15] h-24 bg-gradient-to-b from-[var(--landing-surface-lowest)] from-20% via-[var(--landing-surface-lowest)]/70 to-transparent sm:h-28 lg:h-32"
         aria-hidden
       />
 
-      {/* Soft brand glows — clipped by overflow-hidden so they never cause scroll */}
+      {/* Soft brand glows — clipped by overflow-x-clip so they never cause horizontal scroll */}
       <div
         className="pointer-events-none absolute -left-24 top-24 h-56 w-56 rounded-full bg-[#ff6b00]/12 blur-[90px] lg:hidden"
         aria-hidden
@@ -37,14 +37,14 @@ export function HeroPremium() {
         aria-hidden
       />
 
-      <SiteContainer className="relative z-10 pb-14 pt-2 sm:pb-16 sm:pt-4 lg:pb-24 lg:pt-8">
+      <SiteContainer className="relative z-10 pb-14 pt-4 sm:pb-16 sm:pt-6 lg:pb-24 lg:pt-8">
         <div className="grid w-full min-w-0 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] lg:gap-14 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,540px)]">
           {/* Copy — leads on every breakpoint for a clear value prop */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="order-1 flex min-w-0 w-full flex-col items-start overflow-hidden"
+            className="order-1 flex min-w-0 w-full flex-col items-start"
           >
             <motion.p
               variants={fadeUp}
@@ -110,7 +110,7 @@ export function HeroPremium() {
           </motion.div>
 
           {/* Visual — follows the copy on mobile, sits beside it on desktop */}
-          <div className="order-2 w-full min-w-0 overflow-hidden">
+          <div className="order-2 relative z-20 w-full min-w-0 overflow-visible">
             <HeroRequirementWizard open={modalOpen} onOpenChange={setModalOpen} />
           </div>
         </div>

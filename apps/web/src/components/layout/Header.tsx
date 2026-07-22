@@ -30,6 +30,16 @@ const navItems: NavLink[] = [
       { label: "FAQ",          href: "/services#faq",  icon: "quiz",    desc: "Common questions answered" },
     ],
   },
+  {
+    label: "Packages",
+    href: "/packages",
+    children: [
+      { label: "All Packages",      href: "/packages#plans", icon: "inventory_2",    desc: "Consulting to management systems" },
+      { label: "Consulting Sites",  href: "/packages#plans", icon: "business_center", desc: "From ₹10,000" },
+      { label: "eCommerce",         href: "/packages#plans", icon: "storefront",     desc: "CMS from ₹20,000" },
+      { label: "Management System", href: "/packages#plans", icon: "dashboard",      desc: "From ₹40,000" },
+    ],
+  },
   { label: "Portfolio", href: "/portfolio" },
   { label: "Contact",   href: "/contact"   },
 ];
@@ -110,7 +120,7 @@ function NavDropdown({ item, active }: { item: NavLink; active: boolean }) {
           transition={{ duration: reduced ? 0 : 0.2 }}
           className="inline-flex"
         >
-          <MaterialIcon name="keyboard_arrow_down" className="header-nav-chevron !text-[18px]" />
+          <MaterialIcon name="keyboard_arrow_down" className="header-nav-chevron !text-[14px]" />
         </motion.span>
       </Link>
       {open && <div className="absolute left-0 top-full h-3 w-full" />}
@@ -281,12 +291,12 @@ export function Header() {
     <>
       {/* Top scrim — fades page content beneath the floating header */}
       <div
-        className="pointer-events-none fixed inset-x-0 top-0 z-[90] h-36 bg-gradient-to-b from-[#0a0b0b] from-15% via-[#0a0b0b]/75 via-50% to-transparent sm:h-40 lg:h-44"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[90] h-28 bg-gradient-to-b from-[#0a0b0b] from-25% via-[#0a0b0b]/70 via-60% to-transparent sm:h-32 lg:h-36"
         aria-hidden
       />
 
       {/* ── Floating pill header ── */}
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-[100] bg-transparent pt-5 sm:pt-8">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-[100] bg-transparent pt-4 sm:pt-6 lg:pt-7">
         <motion.div
           className="floating-header-wrap pointer-events-auto"
           initial={reduced ? false : { opacity: 0, y: -12 }}
@@ -295,8 +305,8 @@ export function Header() {
         >
           <div className="floating-header-shell">
             <div className="floating-header-shadow" aria-hidden />
-            <div className="floating-header-pill pb-2 pt-2">
-              <div className="relative flex h-14 items-center px-4 sm:h-[4.125rem] sm:px-5 lg:px-6">
+            <div className="floating-header-pill px-1 py-2.5 sm:py-3">
+              <div className="relative flex min-h-12 items-center px-3 sm:min-h-[3.25rem] sm:px-4 lg:min-h-[3.5rem] lg:px-5">
 
                 {/* Hamburger — left on mobile */}
                 <button
@@ -324,20 +334,21 @@ export function Header() {
                 </nav>
 
                 {/* Desktop right */}
-                <div className="hidden shrink-0 items-center gap-2 lg:flex">
-                  <div className="flex items-center gap-1.5 rounded-full border border-green-500/25 bg-green-500/8 px-3 py-1.5">
+                <div className="hidden shrink-0 items-center gap-1.5 xl:gap-2 lg:flex">
+                  <div className="flex items-center gap-1.5 rounded-full border border-green-500/25 bg-green-500/8 px-2 py-1.5 xl:px-3">
                     <span className="relative flex h-2 w-2">
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-60" />
                       <span className="relative inline-flex h-2 w-2 rounded-full bg-green-400" />
                     </span>
-                    <span className="text-[11.5px] font-medium text-green-400">Accepting Projects</span>
+                    <span className="hidden text-[11px] font-medium text-green-400 xl:inline">Accepting Projects</span>
+                    <span className="text-[10px] font-medium text-green-400 xl:hidden">Open</span>
                   </div>
-                  <div className="mx-1 h-5 w-px bg-[var(--landing-border)]" aria-hidden />
+                  <div className="mx-0.5 h-5 w-px bg-[var(--landing-border)] xl:mx-1" aria-hidden />
                   <Link
                     href="/estimate"
-                    className="flex items-center gap-1.5 rounded-full bg-[#ff6b00] px-4 py-2 text-[13px] font-semibold text-[#1a0a00] transition-colors hover:bg-[#ff8533]"
+                    className="flex items-center gap-1 rounded-full bg-[#ff6b00] px-3 py-1.5 text-[12px] font-semibold text-[#1a0a00] transition-colors hover:bg-[#ff8533] xl:gap-1.5 xl:px-4 xl:py-2 xl:text-[13px]"
                   >
-                    <MaterialIcon name="edit_note" className="!text-[15px]" />
+                    <MaterialIcon name="edit_note" className="!text-[14px] xl:!text-[15px]" />
                     Get a Quote
                   </Link>
                 </div>

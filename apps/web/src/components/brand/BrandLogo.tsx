@@ -13,7 +13,7 @@ const sizeClasses: Record<Size, string> = {
 };
 
 const headerSizeClasses =
-  "block h-8z w-auto max-h-8 -translate-y-px object-contain object-[left_center] sm:h-9";
+  "block h-8 w-auto max-h-8 object-contain object-[left_center] sm:h-9 sm:max-h-9";
 
 const sizeDimensions: Record<Size, { width: number; height: number }> = {
   md: { width: 200, height: 34 },
