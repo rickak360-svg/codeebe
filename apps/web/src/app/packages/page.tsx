@@ -5,7 +5,7 @@ import { PackagesCta } from "@/components/packages/PackagesCta";
 export const metadata = {
   title: "Packages — Codeebe | Configure Your Project",
   description:
-    "Configure your web, e-commerce, SaaS, AI, mobile, or cloud project. Choose your service, project type, and package for an instant estimate.",
+    "Configure consulting sites, booking, eCommerce, car rental, or management systems. Choose a plan for fixed pricing with hosting and support included.",
 };
 
 export default function PackagesPage() {

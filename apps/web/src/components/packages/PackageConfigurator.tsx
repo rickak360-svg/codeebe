@@ -7,19 +7,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MaterialIcon } from "@/components/home/MaterialIcon";
 import {
   services,
-  projectTypesByService,
-  packageTiers,
-  comparisonRows,
   calculateEstimate,
   buildEstimateUrl,
   buildContactUrl,
   formatINR,
-  getBuildApproaches,
-  serviceNeedsBuildApproach,
+  getServicePlans,
   type ServiceId,
-  type PackageTierId,
-  type BuildApproachId,
-  type BuildApproach,
+  type PlanId,
+  type ServicePlan,
 } from "@/data/configurator";
 
 const PRIMARY = "#FF7A00";
@@ -195,183 +190,18 @@ function ServiceCard({
   );
 }
 
-const PREVIEW_PROJECT_BY_SERVICE: Partial<Record<ServiceId, string>> = {
-  "web-development": "business-website",
-  ecommerce: "fashion-store",
-};
-
-function BuildApproachCard({
-  approach,
-  selected,
-  onSelect,
-  serviceId,
-  index,
-}: {
-  approach: BuildApproach;
-  selected: boolean;
-  onSelect: () => void;
-  serviceId: ServiceId;
-  index: number;
-}) {
-  const previewProject = PREVIEW_PROJECT_BY_SERVICE[serviceId];
-  const previewEstimate = previewProject
-    ? calculateEstimate(serviceId, previewProject, "basic", approach.id)
-    : null;
-
-  return (
-    <motion.button
-      type="button"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.08, duration: 0.4 }}
-      whileHover={{ y: -4, scale: 1.01 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={onSelect}
-      className="group relative w-full overflow-hidden rounded-[24px] p-6 text-left sm:p-7"
-      style={{
-        background: selected
-          ? "linear-gradient(135deg, rgba(255,122,0,0.12) 0%, rgba(18,18,18,0.95) 60%)"
-          : "rgba(18,18,18,0.8)",
-        border: selected
-          ? `1.5px solid ${PRIMARY}`
-          : "1px solid rgba(255,255,255,0.08)",
-        boxShadow: selected
-          ? "0 0 40px -12px rgba(255,122,0,0.4)"
-          : "0 8px 32px -16px rgba(0,0,0,0.5)",
-        backdropFilter: "blur(20px)",
-      }}
-    >
-      {approach.savingsLabel && (
-        <span
-          className="absolute right-4 top-4 rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider"
-          style={{ background: "rgba(34,197,94,0.15)", color: SUCCESS }}
-        >
-          {approach.savingsLabel}
-        </span>
-      )}
-
-      <motion.div
-        className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl"
-        style={{ background: "rgba(255,122,0,0.12)" }}
-      >
-        <MaterialIcon name={approach.icon} className="!text-[24px]" style={{ color: PRIMARY }} />
-      </motion.div>
-
-      <h3 className="mb-2 font-[family-name:var(--font-family-display)] text-xl font-bold text-white">
-        {approach.label}
-      </h3>
-      <p className="mb-4 text-[13px] leading-relaxed text-[#9CA3AF]">{approach.description}</p>
-
-      <motion.div className="mb-4 flex flex-wrap gap-1.5">
-        {approach.platforms.map((platform) => (
-          <span
-            key={platform}
-            className="rounded-lg px-2.5 py-1 text-[11px] font-medium text-white/60"
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
-          >
-            {platform}
-          </span>
-        ))}
-      </motion.div>
-
-      {previewEstimate && (
-        <motion.div
-          className="inline-flex items-center gap-2 rounded-xl px-3 py-1.5"
-          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
-        >
-          <span className="text-[10px] uppercase tracking-wider text-[#9CA3AF]">From</span>
-          <span className="font-[family-name:var(--font-family-display)] text-base font-bold text-white">
-            {previewEstimate.priceFormatted}
-          </span>
-        </motion.div>
-      )}
-    </motion.button>
-  );
-}
-
-function ProjectTypeChip({
-  label,
+function PlanCard({
+  plan,
   selected,
   onSelect,
   index,
 }: {
-  label: string;
+  plan: ServicePlan;
   selected: boolean;
   onSelect: () => void;
   index: number;
 }) {
-  return (
-    <motion.button
-      type="button"
-      initial={{ opacity: 0, scale: 0.92 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: index * 0.03, duration: 0.3 }}
-      whileHover={{ scale: 1.04, y: -2 }}
-      whileTap={{ scale: 0.97 }}
-      onClick={onSelect}
-      className="relative rounded-2xl px-4 py-3 text-[13px] font-medium transition-all duration-200"
-      style={{
-        background: selected ? "rgba(255,122,0,0.15)" : "rgba(18,18,18,0.8)",
-        border: selected ? `1.5px solid ${PRIMARY}` : "1px solid rgba(255,255,255,0.08)",
-        color: selected ? "#FFFFFF" : "#9CA3AF",
-        boxShadow: selected ? "0 0 24px -6px rgba(255,122,0,0.4)" : "none",
-        backdropFilter: "blur(12px)",
-      }}
-    >
-      {selected && (
-        <motion.span
-          layoutId="type-indicator"
-          className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full"
-          style={{ background: PRIMARY }}
-        >
-          <MaterialIcon name="check" className="!text-[12px] text-[#090909]" />
-        </motion.span>
-      )}
-      {label}
-    </motion.button>
-  );
-}
-
-function FeatureValue({ value }: { value: boolean | string }) {
-  if (value === true) {
-    return (
-      <motion.span
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ type: "spring", stiffness: 400, damping: 15 }}
-        className="inline-flex h-6 w-6 items-center justify-center rounded-full"
-        style={{ background: "rgba(34,197,94,0.15)", color: SUCCESS }}
-      >
-        <MaterialIcon name="check" className="!text-[14px]" />
-      </motion.span>
-    );
-  }
-  if (value === false) {
-    return (
-      <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/[0.04] text-white/20">
-        <MaterialIcon name="remove" className="!text-[14px]" />
-      </span>
-    );
-  }
-  return (
-    <span className="text-[12px] font-medium text-white/70">{value}</span>
-  );
-}
-
-function PackageCard({
-  pkg,
-  selected,
-  onSelect,
-  estimate,
-  index,
-}: {
-  pkg: (typeof packageTiers)[0];
-  selected: boolean;
-  onSelect: () => void;
-  estimate: { priceFormatted: string; timeline: string };
-  index: number;
-}) {
-  const isPopular = pkg.popular;
+  const isPopular = plan.popular;
 
   return (
     <motion.article
@@ -396,7 +226,6 @@ function PackageCard({
             ? "0 0 40px -12px rgba(255,122,0,0.3)"
             : "0 16px 48px -24px rgba(0,0,0,0.6)",
         backdropFilter: "blur(20px)",
-        minHeight: isPopular ? "auto" : undefined,
         transform: isPopular ? "scale(1.02)" : undefined,
       }}
     >
@@ -411,7 +240,7 @@ function PackageCard({
             boxShadow: "0 4px 20px -4px rgba(255,122,0,0.6)",
           }}
         >
-          {pkg.badge}
+          {plan.badge}
         </motion.div>
       )}
 
@@ -424,35 +253,45 @@ function PackageCard({
             border: "1px solid rgba(255,255,255,0.08)",
           }}
         >
-          {pkg.badge}
+          {plan.badge}
         </span>
       )}
 
       {isPopular && <motion.div className="mb-4 h-3" />}
 
       <h3 className="font-[family-name:var(--font-family-display)] text-2xl font-bold text-white">
-        {pkg.name}
+        {plan.name}
       </h3>
-      <p className="mt-1 text-[13px] text-[#9CA3AF]">{pkg.tagline}</p>
+      <p className="mt-1 text-[13px] text-[#9CA3AF]">{plan.tagline}</p>
 
-      <div className="my-5 rounded-2xl p-4" style={{ background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.06)" }}>
+      <div
+        className="my-5 rounded-2xl p-4"
+        style={{ background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.06)" }}
+      >
         <p className="font-[family-name:var(--font-family-display)] text-3xl font-bold text-white">
-          {estimate.priceFormatted}
+          {formatINR(plan.price)}
         </p>
         <p className="mt-1 text-[12px] text-[#9CA3AF]">
           <MaterialIcon name="schedule" className="!text-[13px] mr-1 align-middle" style={{ color: PRIMARY }} />
-          {estimate.timeline}
+          {plan.timeline}
         </p>
       </div>
 
+      <p className="mb-4 text-[12.5px] leading-relaxed text-white/55">{plan.deliverables}</p>
+
       <ul className="mb-6 flex-1 space-y-2">
-        {pkg.highlights.map((h) => (
-          <li key={h} className="flex items-center gap-2 text-[12.5px] text-white/60">
-            <span className="h-1 w-1 rounded-full" style={{ background: PRIMARY }} />
+        {plan.highlights.map((h) => (
+          <li key={h} className="flex items-start gap-2 text-[12.5px] text-white/60">
+            <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full" style={{ background: PRIMARY }} />
             {h}
           </li>
         ))}
       </ul>
+
+      <div className="mb-5 grid grid-cols-2 gap-2">
+        <MetaChip icon="cloud" label="Hosting" value={plan.hosting} />
+        <MetaChip icon="support_agent" label="Support" value={plan.support} />
+      </div>
 
       <motion.button
         type="button"
@@ -470,20 +309,43 @@ function PackageCard({
         }}
       >
         <MaterialIcon name={selected ? "check_circle" : "add_circle"} className="!text-[16px]" />
-        {selected ? "Selected" : "Select package"}
+        {selected ? "Selected" : "Select plan"}
       </motion.button>
     </motion.article>
   );
 }
 
+function MetaChip({ icon, label, value }: { icon: string; label: string; value: string }) {
+  return (
+    <div
+      className="rounded-xl px-3 py-2"
+      style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+    >
+      <p className="flex items-center gap-1 text-[9px] uppercase tracking-wider text-[#9CA3AF]">
+        <MaterialIcon name={icon} className="!text-[11px]" style={{ color: PRIMARY }} />
+        {label}
+      </p>
+      <p className="mt-0.5 text-[12px] font-medium text-white/80">{value}</p>
+    </div>
+  );
+}
+
 function ComparisonSection({
-  selectedPackage,
-  estimates,
+  plans,
+  selectedPlan,
 }: {
-  selectedPackage: PackageTierId | null;
-  estimates: Record<PackageTierId, ReturnType<typeof calculateEstimate>>;
+  plans: ServicePlan[];
+  selectedPlan: PlanId | null;
 }) {
   const [expanded, setExpanded] = useState(true);
+
+  const rows = [
+    { key: "price", label: "Price", render: (p: ServicePlan) => formatINR(p.price) },
+    { key: "timeline", label: "Timeline", render: (p: ServicePlan) => p.timeline },
+    { key: "hosting", label: "Hosting", render: (p: ServicePlan) => p.hosting },
+    { key: "support", label: "Support", render: (p: ServicePlan) => p.support },
+    { key: "deliverables", label: "Deliverables", render: (p: ServicePlan) => p.deliverables },
+  ] as const;
 
   return (
     <motion.div
@@ -507,7 +369,7 @@ function ComparisonSection({
             Full comparison
           </p>
           <h3 className="mt-1 font-[family-name:var(--font-family-display)] text-xl font-bold text-white">
-            Package feature breakdown
+            Plan breakdown
           </h3>
         </motion.div>
         <motion.span
@@ -527,86 +389,59 @@ function ComparisonSection({
             transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
             className="overflow-hidden"
           >
-            <motion.div
-              className="overflow-x-auto px-4 pb-6 sm:px-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1 }}
-            >
-              <table className="w-full min-w-[600px] border-collapse">
+            <div className="overflow-x-auto px-4 pb-6 sm:px-6">
+              <table className="w-full min-w-[560px] border-collapse">
                 <thead>
                   <tr className="border-b border-white/[0.06]">
                     <th className="px-3 py-4 text-left text-[11px] font-semibold uppercase tracking-wider text-[#9CA3AF]">
-                      Feature
+                      Detail
                     </th>
-                    {packageTiers.map((pkg) => (
+                    {plans.map((plan) => (
                       <th
-                        key={pkg.id}
+                        key={plan.id}
                         className="px-3 py-4 text-center"
                         style={{
                           background:
-                            selectedPackage === pkg.id
+                            selectedPlan === plan.id
                               ? "rgba(255,122,0,0.06)"
-                              : pkg.popular
+                              : plan.popular
                                 ? "rgba(255,122,0,0.03)"
                                 : undefined,
                         }}
                       >
                         <span
                           className="block text-[13px] font-semibold"
-                          style={{
-                            color: pkg.popular ? PRIMARY : "#FFFFFF",
-                          }}
+                          style={{ color: plan.popular ? PRIMARY : "#FFFFFF" }}
                         >
-                          {pkg.name}
+                          {plan.name}
                         </span>
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-white/[0.04] bg-white/[0.02]">
-                    <td className="px-3 py-3 text-[12px] font-medium text-[#9CA3AF]">Price</td>
-                    {packageTiers.map((pkg) => (
-                      <td key={pkg.id} className="px-3 py-3 text-center text-[12px] font-semibold text-white">
-                        {estimates[pkg.id].priceFormatted}
-                      </td>
-                    ))}
-                  </tr>
-                  <tr className="border-b border-white/[0.04]">
-                    <td className="px-3 py-3 text-[12px] font-medium text-[#9CA3AF]">Timeline</td>
-                    {packageTiers.map((pkg) => (
-                      <td key={pkg.id} className="px-3 py-3 text-center text-[12px] text-white/60">
-                        {estimates[pkg.id].timeline}
-                      </td>
-                    ))}
-                  </tr>
-                  {comparisonRows.map((row, i) => (
-                    <motion.tr
-                      key={row.key}
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.02 }}
-                      className={i % 2 === 0 ? "bg-white/[0.015]" : ""}
-                    >
+                  {rows.map((row, i) => (
+                    <tr key={row.key} className={i % 2 === 0 ? "bg-white/[0.015]" : ""}>
                       <td className="px-3 py-3.5 text-[13px] text-white/70">{row.label}</td>
-                      {packageTiers.map((pkg) => (
+                      {plans.map((plan) => (
                         <td
-                          key={pkg.id}
-                          className="px-3 py-3.5 text-center"
+                          key={plan.id}
+                          className="px-3 py-3.5 text-center text-[12px] text-white/70"
                           style={{
                             background:
-                              selectedPackage === pkg.id ? "rgba(255,122,0,0.04)" : undefined,
+                              selectedPlan === plan.id ? "rgba(255,122,0,0.04)" : undefined,
+                            fontWeight: row.key === "price" ? 600 : undefined,
+                            color: row.key === "price" ? "#FFFFFF" : undefined,
                           }}
                         >
-                          <FeatureValue value={pkg.features[row.key]} />
+                          {row.render(plan)}
                         </td>
                       ))}
-                    </motion.tr>
+                    </tr>
                   ))}
                 </tbody>
               </table>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -616,20 +451,20 @@ function ComparisonSection({
 
 function StickySummary({
   serviceTitle,
-  buildLabel,
-  projectLabel,
   packageName,
   priceFormatted,
   timeline,
+  hosting,
+  support,
   estimateUrl,
   contactUrl,
 }: {
   serviceTitle: string;
-  buildLabel?: string;
-  projectLabel: string;
   packageName: string;
   priceFormatted: string;
   timeline: string;
+  hosting: string;
+  support: string;
   estimateUrl: string;
   contactUrl: string;
 }) {
@@ -647,7 +482,10 @@ function StickySummary({
     >
       <div
         className="mx-auto max-w-[1440px] px-4 pb-4 sm:px-6"
-        style={{ paddingLeft: "max(1rem, env(safe-area-inset-left))", paddingRight: "max(1rem, env(safe-area-inset-right))" }}
+        style={{
+          paddingLeft: "max(1rem, env(safe-area-inset-left))",
+          paddingRight: "max(1rem, env(safe-area-inset-right))",
+        }}
       >
         <div
           className="flex flex-col gap-4 rounded-[24px] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5"
@@ -663,11 +501,11 @@ function StickySummary({
             layout
           >
             <SummaryItem label="Service" value={serviceTitle} />
-            {buildLabel && <SummaryItem label="Build" value={buildLabel} />}
-            <SummaryItem label="Project" value={projectLabel} />
             <SummaryItem label="Package" value={packageName} highlight />
-            <SummaryItem label="Estimated Price" value={priceFormatted} highlight large />
+            <SummaryItem label="Price" value={priceFormatted} highlight large />
             <SummaryItem label="Timeline" value={timeline} />
+            <SummaryItem label="Hosting" value={hosting} />
+            <SummaryItem label="Support" value={support} />
           </motion.div>
 
           <motion.div className="flex shrink-0 flex-wrap gap-2 sm:gap-3" layout>
@@ -725,96 +563,37 @@ function SummaryItem({
 export function PackageConfigurator() {
   const isMobile = useIsMobile();
   const [serviceId, setServiceId] = useState<ServiceId | null>(null);
-  const [buildApproachId, setBuildApproachId] = useState<BuildApproachId | null>(null);
-  const [projectTypeId, setProjectTypeId] = useState<string | null>(null);
-  const [packageId, setPackageId] = useState<PackageTierId | null>(null);
-  const [typeSearch, setTypeSearch] = useState("");
+  const [planId, setPlanId] = useState<PlanId | null>(null);
   const [mobileStep, setMobileStep] = useState(1);
 
-  const needsBuildApproach = serviceId ? serviceNeedsBuildApproach(serviceId) : false;
-  const buildApproaches = serviceId ? getBuildApproaches(serviceId) : [];
-  const typeStepNum = needsBuildApproach ? 3 : 2;
-  const packageStepNum = needsBuildApproach ? 4 : 3;
+  const activeStep = serviceId ? 2 : 1;
 
-  const activeStep = useMemo(() => {
-    if (!serviceId) return 1;
-    if (needsBuildApproach && !buildApproachId) return 2;
-    if (!projectTypeId) return typeStepNum;
-    return packageStepNum;
-  }, [serviceId, needsBuildApproach, buildApproachId, projectTypeId, typeStepNum, packageStepNum]);
-
-  const progressSteps = useMemo(() => {
-    if (needsBuildApproach) {
-      return [
-        { num: 1, label: "Service", done: !!serviceId },
-        { num: 2, label: "Build", done: !!buildApproachId },
-        { num: 3, label: "Type", done: !!projectTypeId },
-        { num: 4, label: "Package", done: !!packageId },
-      ];
-    }
-    return [
+  const progressSteps = useMemo(
+    () => [
       { num: 1, label: "Service", done: !!serviceId },
-      { num: 2, label: "Type", done: !!projectTypeId },
-      { num: 3, label: "Package", done: !!packageId },
-    ];
-  }, [needsBuildApproach, serviceId, buildApproachId, projectTypeId, packageId]);
-
-  const displayStep = isMobile ? mobileStep : activeStep;
-  const typeStepReady = !!serviceId && (!needsBuildApproach || !!buildApproachId);
-
-  const projectTypes = serviceId ? projectTypesByService[serviceId] : [];
-  const filteredTypes = useMemo(
-    () =>
-      projectTypes.filter((t) =>
-        t.label.toLowerCase().includes(typeSearch.toLowerCase()),
-      ),
-    [projectTypes, typeSearch],
+      { num: 2, label: "Plan", done: !!planId },
+    ],
+    [serviceId, planId],
   );
 
+  const displayStep = isMobile ? mobileStep : activeStep;
+  const plans = serviceId ? getServicePlans(serviceId) : [];
   const selectedService = services.find((s) => s.id === serviceId);
-  const selectedBuildApproach = buildApproaches.find((b) => b.id === buildApproachId);
-  const selectedProject = projectTypes.find((p) => p.id === projectTypeId);
-  const selectedPackage = packageTiers.find((p) => p.id === packageId);
+  const selectedPlan = plans.find((p) => p.id === planId);
 
-  const handleServiceSelect = useCallback((id: ServiceId) => {
-    setServiceId(id);
-    setBuildApproachId(null);
-    setProjectTypeId(null);
-    setPackageId(null);
-    setTypeSearch("");
-    if (isMobile) setMobileStep(2);
-  }, [isMobile]);
-
-  const handleBuildSelect = useCallback((id: BuildApproachId) => {
-    setBuildApproachId(id);
-    setProjectTypeId(null);
-    setPackageId(null);
-    if (isMobile) setMobileStep(3);
-  }, [isMobile]);
-
-  const handleTypeSelect = useCallback((id: string) => {
-    setProjectTypeId(id);
-    setPackageId(null);
-    if (isMobile) setMobileStep(packageStepNum);
-  }, [isMobile, packageStepNum]);
-
-  const estimates = useMemo(() => {
-    if (!serviceId || !projectTypeId) return null;
-    if (needsBuildApproach && !buildApproachId) return null;
-    return Object.fromEntries(
-      packageTiers.map((pkg) => [
-        pkg.id,
-        calculateEstimate(serviceId, projectTypeId, pkg.id, buildApproachId),
-      ]),
-    ) as Record<PackageTierId, ReturnType<typeof calculateEstimate>>;
-  }, [serviceId, projectTypeId, buildApproachId, needsBuildApproach]);
+  const handleServiceSelect = useCallback(
+    (id: ServiceId) => {
+      setServiceId(id);
+      setPlanId(null);
+      if (isMobile) setMobileStep(2);
+    },
+    [isMobile],
+  );
 
   const activeEstimate =
-    serviceId && projectTypeId && packageId
-      ? calculateEstimate(serviceId, projectTypeId, packageId, buildApproachId)
-      : null;
+    serviceId && planId ? calculateEstimate(serviceId, planId) : null;
 
-  const showSticky = !!(serviceId && projectTypeId && packageId && activeEstimate);
+  const showSticky = !!(serviceId && planId && activeEstimate);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -828,6 +607,10 @@ export function PackageConfigurator() {
   };
 
   const showStep = (step: number) => !isMobile || displayStep === step;
+  const planGridClass =
+    plans.length === 2
+      ? "grid items-start gap-6 sm:grid-cols-2 lg:max-w-3xl lg:mx-auto"
+      : "grid items-start gap-6 lg:grid-cols-3 lg:gap-5";
 
   return (
     <section
@@ -858,7 +641,6 @@ export function PackageConfigurator() {
           </motion.button>
         )}
 
-        {/* STEP 1 — Service */}
         <AnimatePresence mode="wait">
           {showStep(1) && (
             <motion.div
@@ -874,9 +656,7 @@ export function PackageConfigurator() {
                 title="Choose your service"
                 subtitle="Select the category that best matches your project vision."
               />
-              <motion.div
-                className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-              >
+              <motion.div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {services.map((service, i) => (
                   <ServiceCard
                     key={service.id}
@@ -891,172 +671,39 @@ export function PackageConfigurator() {
           )}
         </AnimatePresence>
 
-        {/* STEP 2 — Build approach (Web & E-Commerce only) */}
         <AnimatePresence>
-          {serviceId && needsBuildApproach && showStep(2) && (
+          {serviceId && showStep(2) && (
             <motion.div
-              key="step-build"
+              key="step-plan"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
-              className="mb-12"
             >
               <StepHeader
                 step={2}
-                title="Choose build approach"
-                subtitle="CMS platforms cost less and launch faster. Custom builds offer full flexibility."
-                selectedLabel={selectedService?.title}
-              />
-              <div className="grid gap-4 sm:grid-cols-2">
-                {buildApproaches.map((approach, i) => (
-                  <BuildApproachCard
-                    key={approach.id}
-                    approach={approach}
-                    serviceId={serviceId}
-                    selected={buildApproachId === approach.id}
-                    onSelect={() => handleBuildSelect(approach.id)}
-                    index={i}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* STEP — Project Type */}
-        <AnimatePresence>
-          {typeStepReady && showStep(typeStepNum) && (
-            <motion.div
-              key="step-type"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
-              className="mb-12"
-            >
-              <StepHeader
-                step={typeStepNum}
-                title="Choose project type"
-                subtitle={
-                  selectedService
-                    ? `What kind of ${selectedService.title.toLowerCase()} project are you building?`
-                    : ""
-                }
+                title="Choose your plan"
+                subtitle="Fixed packages with hosting and support included — pick the tier that fits your scope."
                 selectedLabel={selectedService?.title}
               />
 
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 }}
-                className="mb-5 flex items-center gap-3 rounded-2xl px-4 py-3"
-                style={{
-                  background: "rgba(18,18,18,0.8)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  backdropFilter: "blur(12px)",
-                }}
-              >
-                <MaterialIcon name="search" className="!text-[18px] text-[#9CA3AF]" />
-                <input
-                  type="text"
-                  placeholder="Search project types..."
-                  value={typeSearch}
-                  onChange={(e) => setTypeSearch(e.target.value)}
-                  className="flex-1 bg-transparent text-[14px] text-white outline-none placeholder:text-[#9CA3AF]/60"
-                />
-                {typeSearch && (
-                  <button
-                    type="button"
-                    onClick={() => setTypeSearch("")}
-                    className="text-[#9CA3AF] hover:text-white"
-                  >
-                    <MaterialIcon name="close" className="!text-[16px]" />
-                  </button>
-                )}
-              </motion.div>
-
-              <motion.div className="flex flex-wrap gap-2.5 sm:gap-3" layout>
-                {filteredTypes.map((type, i) => (
-                  <ProjectTypeChip
-                    key={type.id}
-                    label={type.label}
-                    selected={projectTypeId === type.id}
-                    onSelect={() => handleTypeSelect(type.id)}
-                    index={i}
-                  />
-                ))}
-                {filteredTypes.length === 0 && (
-                  <p className="py-8 text-center text-[14px] text-[#9CA3AF]">
-                    No project types match your search.
-                  </p>
-                )}
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* STEP — Packages */}
-        <AnimatePresence>
-          {projectTypeId && serviceId && typeStepReady && showStep(packageStepNum) && estimates && (
-            <motion.div
-              key="step-package"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
-            >
-              <StepHeader
-                step={packageStepNum}
-                title="Choose your package"
-                subtitle="Three tiers designed for every stage of growth."
-                selectedLabel={selectedProject?.label}
-              />
-
-              <div className="grid items-start gap-6 lg:grid-cols-3 lg:gap-5">
-                {packageTiers.map((pkg, i) => (
-                  <PackageCard
-                    key={pkg.id}
-                    pkg={pkg}
-                    selected={packageId === pkg.id}
-                    onSelect={() => setPackageId(pkg.id)}
-                    estimate={estimates[pkg.id]}
+              <div className={planGridClass}>
+                {plans.map((plan, i) => (
+                  <PlanCard
+                    key={plan.id}
+                    plan={plan}
+                    selected={planId === plan.id}
+                    onSelect={() => setPlanId(plan.id)}
                     index={i}
                   />
                 ))}
               </div>
 
-              <ComparisonSection
-                selectedPackage={packageId}
-                estimates={estimates}
-              />
-
-              {/* Live estimate preview before package selection */}
-              {!packageId && estimates && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="mt-8 rounded-[24px] p-5 text-center"
-                  style={{
-                    background: "rgba(255,122,0,0.06)",
-                    border: "1px solid rgba(255,122,0,0.15)",
-                  }}
-                >
-                  <p className="text-[13px] text-[#9CA3AF]">
-                    Professional estimate:{" "}
-                    <span className="font-semibold text-white">
-                      {estimates.professional.priceFormatted}
-                    </span>
-                    {" · "}
-                    <span className="text-white/70">{estimates.professional.timeline}</span>
-                  </p>
-                </motion.div>
-              )}
+              <ComparisonSection plans={plans} selectedPlan={planId} />
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Desktop: show collapsed step summaries */}
         {!isMobile && serviceId && activeStep > 1 && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -1067,31 +714,10 @@ export function PackageConfigurator() {
               label={selectedService?.title ?? ""}
               onEdit={() => {
                 setServiceId(null);
-                setBuildApproachId(null);
-                setProjectTypeId(null);
-                setPackageId(null);
+                setPlanId(null);
                 setMobileStep(1);
               }}
             />
-            {needsBuildApproach && buildApproachId && activeStep > 2 && (
-              <SelectedPill
-                label={selectedBuildApproach?.label ?? ""}
-                onEdit={() => {
-                  setBuildApproachId(null);
-                  setProjectTypeId(null);
-                  setPackageId(null);
-                }}
-              />
-            )}
-            {projectTypeId && activeStep > typeStepNum && (
-              <SelectedPill
-                label={selectedProject?.label ?? ""}
-                onEdit={() => {
-                  setProjectTypeId(null);
-                  setPackageId(null);
-                }}
-              />
-            )}
           </motion.div>
         )}
       </motion.div>
@@ -1101,21 +727,19 @@ export function PackageConfigurator() {
           <AnimatePresence>
             {showSticky &&
               serviceId &&
-              projectTypeId &&
-              packageId &&
+              planId &&
               activeEstimate &&
               selectedService &&
-              selectedProject &&
-              selectedPackage && (
+              selectedPlan && (
                 <StickySummary
                   serviceTitle={selectedService.title}
-                  buildLabel={selectedBuildApproach?.label}
-                  projectLabel={selectedProject.label}
-                  packageName={selectedPackage.name}
+                  packageName={selectedPlan.name}
                   priceFormatted={activeEstimate.priceFormatted}
                   timeline={activeEstimate.timeline}
-                  estimateUrl={buildEstimateUrl(serviceId, projectTypeId, packageId, buildApproachId)}
-                  contactUrl={buildContactUrl(serviceId, projectTypeId, packageId, buildApproachId)}
+                  hosting={activeEstimate.hosting}
+                  support={activeEstimate.support}
+                  estimateUrl={buildEstimateUrl(serviceId, planId)}
+                  contactUrl={buildContactUrl(serviceId, planId)}
                 />
               )}
           </AnimatePresence>,

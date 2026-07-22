@@ -50,8 +50,8 @@ export function PackagesHero() {
           </h1>
 
           <p className="mx-auto mt-4 max-w-lg text-[14px] leading-relaxed text-[#9CA3AF]">
-            A premium step-by-step configurator — choose your service, project type,
-            and package. Get an instant estimate tailored to your scope.
+            Choose your service category and plan — fixed prices with hosting and
+            support included. Instant estimates from our published rate card.
           </p>
 
           <motion.div
@@ -61,9 +61,9 @@ export function PackagesHero() {
             className="mt-6 flex flex-wrap items-center justify-center gap-2"
           >
             {[
-              { icon: "tune", label: "3-step flow" },
-              { icon: "payments", label: "Instant pricing" },
-              { icon: "schedule", label: "Live timelines" },
+              { icon: "tune", label: "2-step flow" },
+              { icon: "payments", label: "Fixed pricing" },
+              { icon: "schedule", label: "Clear timelines" },
             ].map((item) => (
               <motion.div
                 key={item.label}

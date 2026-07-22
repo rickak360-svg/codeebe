@@ -7,14 +7,12 @@ import { motion } from "framer-motion";
 import { MaterialIcon } from "@/components/home/MaterialIcon";
 import { api } from "@/lib/api";
 import {
+  SERVICE_IDS,
   calculateEstimate,
-  getBuildApproach,
-  getPackageTier,
-  getProjectType,
+  getPlan,
   getService,
-  serviceNeedsBuildApproach,
-  type BuildApproachId,
-  type PackageTierId,
+  isPlanIdForService,
+  type PlanId,
   type ServiceId,
 } from "@/data/configurator";
 
@@ -24,20 +22,7 @@ const INPUT_CLASS =
   "w-full rounded-2xl border border-white/[0.08] bg-black/40 px-4 py-3.5 text-[14px] text-white placeholder:text-white/25 outline-none transition-all duration-200 focus:border-[#FF7A00]/50 focus:bg-black/55 focus:shadow-[0_0_0_3px_rgba(255,122,0,0.12)]";
 
 function isServiceId(v: string | null): v is ServiceId {
-  return (
-    !!v &&
-    ["web-development", "ecommerce", "saas", "ai-solutions", "mobile-apps", "cloud-devops"].includes(
-      v,
-    )
-  );
-}
-
-function isPackageId(v: string | null): v is PackageTierId {
-  return !!v && ["basic", "professional", "enterprise"].includes(v);
-}
-
-function isBuildId(v: string | null): v is BuildApproachId {
-  return !!v && ["cms", "custom"].includes(v);
+  return !!v && (SERVICE_IDS as string[]).includes(v);
 }
 
 export function PackageInquiryForm() {
@@ -48,35 +33,25 @@ export function PackageInquiryForm() {
 
   const selection = useMemo(() => {
     const serviceId = searchParams.get("service");
-    const projectId = searchParams.get("project");
     const packageId = searchParams.get("package");
-    const buildId = searchParams.get("build");
 
-    if (!isServiceId(serviceId) || !projectId || !isPackageId(packageId)) {
+    if (!isServiceId(serviceId) || !packageId || !isPlanIdForService(serviceId, packageId)) {
       return null;
     }
 
-    const buildApproachId =
-      serviceNeedsBuildApproach(serviceId) && isBuildId(buildId) ? buildId : null;
-
+    const planId = packageId as PlanId;
     const service = getService(serviceId);
-    const project = getProjectType(serviceId, projectId);
-    const pkg = getPackageTier(packageId);
-    const build = buildApproachId ? getBuildApproach(serviceId, buildApproachId) : null;
+    const plan = getPlan(serviceId, planId);
 
-    if (!service || !project || !pkg) return null;
+    if (!service || !plan) return null;
 
-    const estimate = calculateEstimate(serviceId, projectId, packageId, buildApproachId);
+    const estimate = calculateEstimate(serviceId, planId);
 
     return {
       serviceId,
-      projectId,
-      packageId,
-      buildApproachId,
+      planId,
       service,
-      project,
-      pkg,
-      build,
+      plan,
       estimate,
     };
   }, [searchParams]);
@@ -92,17 +67,16 @@ export function PackageInquiryForm() {
     const summaryLines = [
       `Package configurator inquiry`,
       `Service: ${selection.service.title}`,
-      selection.build
-        ? `Build: ${selection.build.label} (${selection.build.platforms.join(", ")})`
-        : null,
-      `Project type: ${selection.project.label}`,
-      `Package: ${selection.pkg.name}`,
-      `Estimated price: ${selection.estimate.priceFormatted}`,
+      `Package: ${selection.plan.name}`,
+      `Deliverables: ${selection.plan.deliverables}`,
+      `Price: ${selection.estimate.priceFormatted}`,
       `Timeline: ${selection.estimate.timeline}`,
+      `Hosting: ${selection.estimate.hosting}`,
+      `Support: ${selection.estimate.support}`,
       "",
       `Message:`,
       String(fd.get("message") || ""),
-    ].filter(Boolean);
+    ];
 
     try {
       await api.createLead({
@@ -110,13 +84,9 @@ export function PackageInquiryForm() {
         email: String(fd.get("email")),
         phone: String(fd.get("phone")),
         companyName: String(fd.get("companyName") || "") || undefined,
-        projectType: selection.project.label,
+        projectType: selection.service.title,
         description: summaryLines.join("\n"),
-        features: [
-          selection.service.title,
-          selection.pkg.name,
-          ...(selection.build ? [selection.build.label] : []),
-        ],
+        features: [selection.service.title, selection.plan.name, selection.plan.deliverables],
         timeline: selection.estimate.timeline,
         budgetRange: selection.estimate.priceFormatted,
         source: "contact",
@@ -130,9 +100,7 @@ export function PackageInquiryForm() {
   }
 
   if (!selection) {
-    return (
-      <EmptyState />
-    );
+    return <EmptyState />;
   }
 
   if (success) {
@@ -146,16 +114,14 @@ export function PackageInquiryForm() {
 
   const chips = [
     { label: "Service", value: selection.service.title, icon: selection.service.icon },
-    ...(selection.build
-      ? [{ label: "Build", value: selection.build.label, icon: selection.build.icon }]
-      : []),
-    { label: "Project", value: selection.project.label, icon: "category" },
-    { label: "Package", value: selection.pkg.name, icon: "inventory_2" },
+    { label: "Package", value: selection.plan.name, icon: "inventory_2" },
+    { label: "Timeline", value: selection.estimate.timeline, icon: "schedule" },
+    { label: "Hosting", value: selection.estimate.hosting, icon: "cloud" },
+    { label: "Support", value: selection.estimate.support, icon: "support_agent" },
   ];
 
   return (
     <div className="relative mx-auto max-w-3xl">
-      {/* Atmosphere */}
       <div
         className="pointer-events-none absolute -top-32 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full opacity-60 blur-[100px]"
         style={{
@@ -170,7 +136,6 @@ export function PackageInquiryForm() {
         transition={{ duration: 0.45 }}
         className="relative"
       >
-        {/* Back + step */}
         <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/packages#plans"
@@ -185,7 +150,6 @@ export function PackageInquiryForm() {
           </span>
         </div>
 
-        {/* Price hero — one composition anchor */}
         <div className="mb-8 text-center sm:mb-10">
           <p className="mb-3 font-mono text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#FF7A00]/75">
             Your estimate
@@ -194,11 +158,10 @@ export function PackageInquiryForm() {
             {selection.estimate.priceFormatted}
           </h1>
           <p className="mt-3 text-[15px] text-[#9CA3AF]">
-            {selection.pkg.name} package · {selection.estimate.timeline} delivery
+            {selection.plan.name} · {selection.estimate.timeline} delivery
           </p>
         </div>
 
-        {/* Selection strip */}
         <div className="mb-8 flex flex-wrap justify-center gap-2 sm:gap-2.5">
           {chips.map((chip) => (
             <div
@@ -220,7 +183,6 @@ export function PackageInquiryForm() {
           ))}
         </div>
 
-        {/* Form panel */}
         <motion.form
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: 12 }}
@@ -310,7 +272,7 @@ export function PackageInquiryForm() {
                 rows={4}
                 placeholder="Goals, deadline, or anything we should know…"
                 className={`${INPUT_CLASS} resize-none`}
-                defaultValue={`I'd like to proceed with ${selection.service.title} — ${selection.project.label} (${selection.pkg.name}) at about ${selection.estimate.priceFormatted}.`}
+                defaultValue={`I'd like to proceed with ${selection.service.title} — ${selection.plan.name} at ${selection.estimate.priceFormatted}.`}
               />
             </Field>
           </div>
