@@ -6,9 +6,10 @@ export default defineConfig({
   envDir: __dirname,
   plugins: [react()],
   server: {
-    host: true,
-    port: parseInt(process.env.PORT || "5173"),
-    allowedHosts: ["codeebeadmin-dev.up.railway.app"],
+    host: "0.0.0.0",
+    port: parseInt(process.env.PORT || "8080"),
+    allowedHosts: ["codeebeadmin-dev.up.railway.app", "localhost"],
+    middlewareMode: false,
   },
   preview: {
     host: true,
@@ -20,3 +21,4 @@ export default defineConfig({
     },
   },
 });
+
