@@ -1,19 +1,15 @@
-import { PackagesHero } from "@/components/packages/PackagesHero";
-import { PackageConfigurator } from "@/components/packages/PackageConfigurator";
-import { PackagesCta } from "@/components/packages/PackagesCta";
+import { PackagesHub } from "@/components/packages/PackagesHub";
 
 export const metadata = {
-  title: "Packages — Codeebe | Configure Your Project",
+  title: "Packages — Codeebe | Fixed-Price Project Packages",
   description:
-    "Configure consulting sites, booking, eCommerce, car rental, or management systems. Choose a plan for fixed pricing with hosting and support included.",
+    "Explore our fixed-price packages for consulting sites, eCommerce, car rental, gym, clinic, event management and more. Hosting and support included.",
 };
 
 export default function PackagesPage() {
   return (
     <div className="min-h-screen bg-[#090909]">
-      <PackagesHero />
-      <PackageConfigurator />
-      <PackagesCta />
+      <PackagesHub />
     </div>
   );
 }

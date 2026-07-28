@@ -3,7 +3,10 @@ export type ServiceId =
   | "book-appointment"
   | "ecommerce"
   | "car-rental"
-  | "management-system";
+  | "management-system"
+  | "gym"
+  | "event-management"
+  | "clinic";
 
 export type PlanId =
   | "basics"
@@ -306,6 +309,210 @@ export const services: Service[] = [
           "1 year hosting · 90 days support",
         ],
         timeline: "50 – 65 Days",
+        hosting: "1 Year",
+        support: "90 Days",
+        price: 100000,
+      },
+    ],
+  },
+  {
+    id: "gym",
+    title: "Gym & Fitness Site",
+    description: "Membership plans, class schedules, trainer profiles, and online bookings.",
+    icon: "fitness_center",
+    emoji: "💪",
+    startingPrice: 15000,
+    plans: [
+      {
+        id: "basics",
+        name: "Basics",
+        badge: "Starter",
+        tagline: "Professional gym presence",
+        deliverables:
+          "5-page gym site, class schedule, trainer profiles, inquiry form",
+        highlights: [
+          "Up to 5 pages",
+          "Class schedule section",
+          "Trainer profiles",
+          "Contact / inquiry form",
+          "1 year hosting · 45 days support",
+        ],
+        timeline: "10 – 15 Days",
+        hosting: "1 Year",
+        support: "45 Days",
+        price: 15000,
+      },
+      {
+        id: "professional",
+        name: "Professional",
+        badge: "Most Popular",
+        tagline: "Memberships & class booking",
+        deliverables:
+          "Membership plans, online class booking, payment gateway, trainer scheduling",
+        highlights: [
+          "Membership management",
+          "Online class booking",
+          "Payment gateway",
+          "Trainer booking system",
+          "1 year hosting · 45 days support",
+        ],
+        timeline: "20 – 30 Days",
+        hosting: "1 Year",
+        support: "45 Days",
+        price: 35000,
+        popular: true,
+      },
+      {
+        id: "enterprise",
+        name: "Enterprise",
+        badge: "Full Suite",
+        tagline: "Multi-branch gym platform",
+        deliverables:
+          "Multi-branch management, mobile app integration, loyalty rewards, analytics dashboard",
+        highlights: [
+          "Multi-branch management",
+          "Mobile app integration",
+          "Loyalty rewards system",
+          "Analytics dashboard",
+          "1 year hosting · 60 days support",
+        ],
+        timeline: "35 – 45 Days",
+        hosting: "1 Year",
+        support: "60 Days",
+        price: 75000,
+      },
+    ],
+  },
+  {
+    id: "event-management",
+    title: "Event Management Site",
+    description: "Event listings, online ticketing, registrations, and attendee management.",
+    icon: "event",
+    emoji: "🎉",
+    startingPrice: 18000,
+    plans: [
+      {
+        id: "basics",
+        name: "Basics",
+        badge: "Starter",
+        tagline: "Showcase & capture registrations",
+        deliverables:
+          "Event listings, registration forms, photo gallery, contact form",
+        highlights: [
+          "Event listings page",
+          "Registration forms",
+          "Photo gallery",
+          "Contact form",
+          "1 year hosting · 45 days support",
+        ],
+        timeline: "10 – 15 Days",
+        hosting: "1 Year",
+        support: "45 Days",
+        price: 18000,
+      },
+      {
+        id: "professional",
+        name: "Professional",
+        badge: "Most Popular",
+        tagline: "Ticketing & payment ready",
+        deliverables:
+          "Online ticketing, seat selection, payment gateway, QR code check-in",
+        highlights: [
+          "Online ticketing system",
+          "Seat / slot selection",
+          "Payment gateway",
+          "QR code check-in",
+          "1 year hosting · 45 days support",
+        ],
+        timeline: "20 – 28 Days",
+        hosting: "1 Year",
+        support: "45 Days",
+        price: 45000,
+        popular: true,
+      },
+      {
+        id: "enterprise",
+        name: "Enterprise",
+        badge: "Full Platform",
+        tagline: "Multi-event platform & CRM",
+        deliverables:
+          "Multi-event management, sponsorship portal, attendee CRM, advanced analytics",
+        highlights: [
+          "Multi-event management",
+          "Sponsorship portal",
+          "Attendee CRM",
+          "Advanced analytics",
+          "1 year hosting · 60 days support",
+        ],
+        timeline: "35 – 50 Days",
+        hosting: "1 Year",
+        support: "60 Days",
+        price: 85000,
+      },
+    ],
+  },
+  {
+    id: "clinic",
+    title: "Clinic & Healthcare Site",
+    description: "Doctor profiles, appointment booking, patient management, and HMS.",
+    icon: "local_hospital",
+    emoji: "🏥",
+    startingPrice: 18000,
+    plans: [
+      {
+        id: "basics",
+        name: "Basics",
+        badge: "Starter",
+        tagline: "Professional clinic presence",
+        deliverables:
+          "Clinic info, doctor profiles, services list, appointment inquiry form",
+        highlights: [
+          "Doctor profiles",
+          "Services list",
+          "Appointment inquiry form",
+          "Location map",
+          "1 year hosting · 45 days support",
+        ],
+        timeline: "10 – 15 Days",
+        hosting: "1 Year",
+        support: "45 Days",
+        price: 18000,
+      },
+      {
+        id: "professional",
+        name: "Professional",
+        badge: "Most Popular",
+        tagline: "Online booking & patient portal",
+        deliverables:
+          "Online appointment booking, patient portal login, doctor schedule management, SMS reminders",
+        highlights: [
+          "Online appointment booking",
+          "Patient portal login",
+          "Doctor schedule management",
+          "SMS / email reminders",
+          "1 year hosting · 45 days support",
+        ],
+        timeline: "20 – 30 Days",
+        hosting: "1 Year",
+        support: "45 Days",
+        price: 40000,
+        popular: true,
+      },
+      {
+        id: "enterprise",
+        name: "Enterprise",
+        badge: "Full HMS",
+        tagline: "Complete Hospital Management",
+        deliverables:
+          "Full HMS with billing, pharmacy module, lab management, multi-department support",
+        highlights: [
+          "Hospital Management System",
+          "Billing & pharmacy module",
+          "Lab report management",
+          "Multi-department support",
+          "1 year hosting · 90 days support",
+        ],
+        timeline: "45 – 60 Days",
         hosting: "1 Year",
         support: "90 Days",
         price: 100000,

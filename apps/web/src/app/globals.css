@@ -24,6 +24,11 @@
   --header-ghost-fg: #e3e2e2;
   --header-theme-fg: #e3e2e2;
   --header-theme-bg-hover: rgba(255, 255, 255, 0.06);
+  /* Accent used for active nav item, chevrons & the "Get a Quote" button.
+     Overridden per industry landing page via inline vars on the header. */
+  --header-accent: #ff6b00;
+  --header-accent-bg: rgba(255, 107, 0, 0.14);
+  --header-accent-ring: rgba(255, 107, 0, 0.22);
 }
 
 @theme inline {
@@ -306,9 +311,9 @@ body {
 }
 
 .header-nav-link--active {
-  background: rgba(255, 107, 0, 0.14);
+  background: var(--header-accent-bg);
   color: var(--header-nav-fg-active);
-  box-shadow: inset 0 0 0 1px rgba(255, 107, 0, 0.22);
+  box-shadow: inset 0 0 0 1px var(--header-accent-ring);
 }
 
 .header-nav-chevron {
@@ -348,7 +353,7 @@ body {
 }
 
 .header-mobile-link--active {
-  background: rgba(255, 107, 0, 0.14);
+  background: var(--header-accent-bg);
   color: var(--header-nav-fg-active);
 }
 

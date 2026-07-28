@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { MaterialIcon } from "@/components/home/MaterialIcon";
@@ -34,15 +34,56 @@ const navItems: NavLink[] = [
     label: "Packages",
     href: "/packages",
     children: [
-      { label: "All Packages",      href: "/packages#plans", icon: "inventory_2",    desc: "Consulting to management systems" },
-      { label: "Consulting Sites",  href: "/packages#plans", icon: "business_center", desc: "From ₹10,000" },
-      { label: "eCommerce",         href: "/packages#plans", icon: "storefront",     desc: "CMS from ₹20,000" },
-      { label: "Management System", href: "/packages#plans", icon: "dashboard",      desc: "From ₹40,000" },
+      { label: "All Packages",        href: "/packages",                   icon: "inventory_2",      desc: "Browse all package categories"   },
+      { label: "Car Rental",          href: "/packages/car-rental",        icon: "directions_car",   desc: "From ₹20,000"                    },
+      { label: "eCommerce",           href: "/packages/ecommerce",         icon: "storefront",       desc: "CMS from ₹20,000"                },
+      { label: "Gym & Fitness",       href: "/packages/gym",               icon: "fitness_center",   desc: "From ₹15,000"                    },
+      { label: "Clinic & Healthcare", href: "/packages/clinic",            icon: "local_hospital",   desc: "From ₹18,000"                    },
+      { label: "Barber Shop",         href: "/packages/barber",            icon: "content_cut",      desc: "From ₹15,000"                    },
+      { label: "Event Management",    href: "/packages/event-management",  icon: "event",            desc: "From ₹18,000"                    },
+      { label: "Management System",   href: "/packages/management-system", icon: "dashboard",        desc: "From ₹40,000"                    },
+      { label: "Consulting Sites",    href: "/packages/consulting-sites",  icon: "business_center",  desc: "From ₹10,000"                    },
     ],
   },
   { label: "Portfolio", href: "/portfolio" },
   { label: "Contact",   href: "/contact"   },
 ];
+
+/* ── Per-industry header theming ──────────────────────────────────────────
+   The floating pill stays dark on every page (works with the logo and looks
+   premium even over the light clinic theme). Only the accent color, the pill's
+   border tint and the top scrim adapt to the package landing page in view. */
+type HeaderTheme = {
+  /** solid color the top scrim fades from — matches the page background */
+  scrim: string;
+  accent: string;
+  accentBg: string;
+  accentRing: string;
+  onAccent: string;
+  pillBorder: string;
+};
+
+const HEADER_THEMES: Record<string, HeaderTheme> = {
+  "/packages/car-rental": {
+    scrim: "#070707", accent: "#FF8A00", accentBg: "rgba(255,138,0,0.16)", accentRing: "rgba(255,138,0,0.34)", onAccent: "#0a0a0a", pillBorder: "rgba(255,138,0,0.22)",
+  },
+  "/packages/gym": {
+    scrim: "#070707", accent: "#A6FF00", accentBg: "rgba(166,255,0,0.16)", accentRing: "rgba(166,255,0,0.38)", onAccent: "#0a0a0a", pillBorder: "rgba(166,255,0,0.22)",
+  },
+  "/packages/clinic": {
+    scrim: "#EEF3FB", accent: "#2563EB", accentBg: "rgba(37,99,235,0.16)", accentRing: "rgba(37,99,235,0.36)", onAccent: "#ffffff", pillBorder: "rgba(37,99,235,0.30)",
+  },
+  "/packages/barber": {
+    scrim: "#0B0906", accent: "#D4AF37", accentBg: "rgba(212,175,55,0.18)", accentRing: "rgba(212,175,55,0.38)", onAccent: "#1a1206", pillBorder: "rgba(212,175,55,0.26)",
+  },
+  "/packages/event-management": {
+    scrim: "#0A0710", accent: "#A855F7", accentBg: "rgba(168,85,247,0.18)", accentRing: "rgba(168,85,247,0.40)", onAccent: "#ffffff", pillBorder: "rgba(168,85,247,0.26)",
+  },
+};
+
+function useHeaderTheme(pathname: string): HeaderTheme | null {
+  return HEADER_THEMES[pathname] ?? null;
+}
 
 /* Same-page nav clicks (no hash) should return to the top, since the App
    Router treats a click to the current URL as a no-op and won't scroll. */
@@ -272,6 +313,20 @@ export function Header() {
   const hash = useHash(pathname);
   const [mobileOpen, setMobileOpen] = useState(false);
   const reduced = useReducedMotion();
+  const ht = useHeaderTheme(pathname);
+
+  const accentVars = ht
+    ? ({
+        "--header-accent": ht.accent,
+        "--header-accent-bg": ht.accentBg,
+        "--header-accent-ring": ht.accentRing,
+      } as CSSProperties)
+    : undefined;
+  const scrimStyle: CSSProperties | undefined = ht
+    ? { background: `linear-gradient(to bottom, ${ht.scrim}, ${ht.scrim} 32%, transparent)` }
+    : undefined;
+  const pillStyle: CSSProperties | undefined = ht ? { borderColor: ht.pillBorder } : undefined;
+  const quoteStyle: CSSProperties | undefined = ht ? { background: ht.accent, color: ht.onAccent } : undefined;
 
   useEffect(() => { setMobileOpen(false); }, [pathname]);
 
@@ -292,11 +347,12 @@ export function Header() {
       {/* Top scrim — fades page content beneath the floating header */}
       <div
         className="pointer-events-none fixed inset-x-0 top-0 z-[90] h-28 bg-gradient-to-b from-[#0a0b0b] from-25% via-[#0a0b0b]/70 via-60% to-transparent sm:h-32 lg:h-36"
+        style={scrimStyle}
         aria-hidden
       />
 
       {/* ── Floating pill header ── */}
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-[100] bg-transparent pt-4 sm:pt-6 lg:pt-7">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-[100] bg-transparent pt-4 sm:pt-6 lg:pt-7" style={accentVars}>
         <motion.div
           className="floating-header-wrap pointer-events-auto"
           initial={reduced ? false : { opacity: 0, y: -12 }}
@@ -305,7 +361,7 @@ export function Header() {
         >
           <div className="floating-header-shell">
             <div className="floating-header-shadow" aria-hidden />
-            <div className="floating-header-pill px-1 py-2.5 sm:py-3">
+            <div className="floating-header-pill px-1 py-2.5 sm:py-3" style={pillStyle}>
               <div className="relative flex min-h-12 items-center px-3 sm:min-h-[3.25rem] sm:px-4 lg:min-h-[3.5rem] lg:px-5">
 
                 {/* Hamburger — left on mobile */}
@@ -347,6 +403,7 @@ export function Header() {
                   <Link
                     href="/estimate"
                     className="flex items-center gap-1 rounded-full bg-[#ff6b00] px-3 py-1.5 text-[12px] font-semibold text-[#1a0a00] transition-colors hover:bg-[#ff8533] xl:gap-1.5 xl:px-4 xl:py-2 xl:text-[13px]"
+                    style={quoteStyle}
                   >
                     <MaterialIcon name="edit_note" className="!text-[14px] xl:!text-[15px]" />
                     Get a Quote
@@ -364,6 +421,7 @@ export function Header() {
       {/* ── Mobile nav overlay — always in DOM, driven by CSS transition only ── */}
       <div
         aria-hidden={!mobileOpen}
+        style={accentVars}
         className={[
           "fixed inset-0 z-[45] flex flex-col bg-[#0a0b0b] lg:hidden",
           "transition-[opacity,transform] duration-[320ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
@@ -528,6 +586,7 @@ export function Header() {
             <Link
               href="/estimate"
               onClick={() => setMobileOpen(false)}
+              style={quoteStyle}
               className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#ff6b00] py-4 text-[15px] font-semibold text-[#1a0a00] shadow-[0_12px_40px_-10px_rgba(255,107,0,0.5)] transition-colors hover:bg-[#ff8533]"
             >
               <MaterialIcon name="edit_note" className="!text-[18px]" />
